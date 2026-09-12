@@ -46,6 +46,7 @@ Stage: [ ] Introduction (<15%)  [ ] Growth (15–40%)  [ ] Maturity (40–70%)  
 - [ ] UE model: is the smallest repeatable unit profitable (per store / per unit / per order / per subscriber)?
 - [ ] Obtain gross margin, net margin, operating expense ratios
 - [ ] Match valuation to stage: introduction → potential / growth → PEG / maturity → PE/PB / decline → beware the trap
+- [ ] Entry decisions: walk the ladder TAM → SAM → SOM (SOM ≤ SAM ≤ TAM); identify user vs. payer vs. purchase decision-maker
 
 ## 5. Screen external variables (PEST)
 

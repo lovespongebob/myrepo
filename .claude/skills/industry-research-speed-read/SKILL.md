@@ -62,13 +62,13 @@ Penetration rate = current users ÷ addressable customer base. No direct figure 
 
 | Stage | Core task | Key checks |
 |-------|-----------|------------|
-| Introduction | Validate the business model | Demand authenticity (benchmark vs. earlier periods or other markets); profit feasibility (high frequency or low price elasticity — at least one; standardizable costs) |
+| Introduction | Validate the business model | Demand authenticity (benchmark vs. earlier periods or other markets; separate the user from the payer — pain without a payer is not a market); profit feasibility (high frequency or low price elasticity — at least one; standardizable costs) |
 | Growth | Size the market + test expansion | TAM = target customers × penetration × average spend × frequency; is channel/capacity expansion matching demand or overshooting |
 | Maturity | Analyze moats + profit split | Resource control / network effects; CR3/CR8 concentration; margin distribution along the value chain |
 | Decline | Screen substitution risk | Substitute progress; do leaders have a second growth curve |
 
 ### Step 4: Verify unit economics and valuation fit
-Profit per unit = revenue − direct costs − allocated indirect costs, on the smallest repeatable unit (a store, a unit, an order, a subscriber). Match valuation to stage: introduction → potential | growth → PEG | maturity → PE/PB | decline → beware the low-multiple trap. **If the user's goal isn't stock investing, translate this step**: for a founder/entrant, "entry economics" (startup cost, time to unit break-even, what scale requires); for a supplier, which link of the chain holds budget and margin; for a career move, whether the stage supports hiring and wage growth.
+Profit per unit = revenue − direct costs − allocated indirect costs, on the smallest repeatable unit (a store, a unit, an order, a subscriber). Match valuation to stage: introduction → potential | growth → PEG | maturity → PE/PB | decline → beware the low-multiple trap. **If the user's goal isn't stock investing, translate this step**: for a founder/entrant, "entry economics" (startup cost, time to unit break-even, what scale requires) plus an honest market ladder — TAM (all defined demand) → SAM (what their product and footprint can actually serve) → SOM (what channels, win rates and delivery capacity let them capture; SOM ≤ SAM ≤ TAM, and industry-wide transaction volume is never their revenue opportunity); for a supplier, which link of the chain holds budget and margin; for a career move, whether the stage supports hiring and wage growth.
 
 ### Step 5: Screen external variables (PEST)
 Political (industry/trade policy) | Economic (cycle, rates, FX) | Social (demographics, consumption habits) | Technological (maturity, substitution). Converge to exactly **3 core drivers/risks** — more means the main forces haven't been found yet.
@@ -97,6 +97,8 @@ Goal I'm answering: <one line — the inferred decision and assumed geography>
 ## Focus: <topic>          (only when the user named focus topics in the intake or request)
 One short section per named topic, same evidence-and-tags discipline as the conclusions.
 
+When the goal is entering or selling to the industry, close the brief with the **smallest next verification action**: who to talk to or what to test, the signal that would confirm or kill the thesis, and how the result changes the decision — a recommendation that can't name its verification step isn't ready.
+
 ## What to watch
 1–2 indicators · where to find each free · current direction · "if these contradict this view for 3 straight months, revise it"
 
@@ -109,6 +111,9 @@ Keep the whole brief readable in under 3 minutes. Depth goes into the reasoning,
 ## Common pitfalls
 
 - **Mixed classification standards** → conflicting numbers; reconcile to one standard before quoting anything
+- **Averaged conflicts** → when sources still disagree after aligning definition, time, geography and unit, keep both figures side by side and state which you adopt and why — never split the difference
 - **Missing penetration data** → estimate "core product sales ÷ total potential demand", state the assumptions, tag [Estimated]
+- **TAM inflation** → quoting industry-wide transaction volume as one player's revenue opportunity; walk TAM → SAM → SOM for any entry decision
+- **Claims dressed as facts** → a company's statement about itself is evidence that the statement was made, never proof of the outcome; attribute it ("the company reports…") and tag accordingly
 - **Stage mismatch** → PE on a growth industry, or reading a declining industry's low multiple as cheap; the method follows the stage
 - **Cold-start overconfidence** → internal knowledge has a cutoff date; say so for fast-moving figures and tag them honestly rather than presenting recalled numbers as current

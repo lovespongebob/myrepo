@@ -40,6 +40,13 @@ Point the user to source *categories* and name the specific outlet only when you
 
 A brief that is 80% [Estimated] is fine — the tags are what keep it trustworthy. A brief that hides its estimates is worse than no brief.
 
+Four evidence rules that keep [Sourced] honest:
+
+1. **A claim is a fact about the claim.** A company stating it saves customers 30% verifies only that the statement was published; the outcome itself is a separate, unverified proposition. Attribute it — "the company reports…" — and never let the attribution slide into fact on a later mention.
+2. **Deduplicate to root sources.** Ten articles citing the same underlying report are one source, never ten; cite the root and note the coverage.
+3. **Carry both dates.** A source's publication date and the period its data covers are different things — "a 2026 article about 2023 shipments" is 2023 evidence. Never let the date you accessed something stand in for either.
+4. **Never average a conflict.** When figures disagree, first align definition, time period, geography and unit — most conflicts dissolve there. What still conflicts stays side by side with a stated reason for the figure you adopt; splitting the difference manufactures a number nobody published.
+
 ## The upgrade path (always include for cold starts)
 
 End with the 2–3 acquisitions that would raise confidence most, ranked by impact — typically:
