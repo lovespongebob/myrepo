@@ -5,7 +5,7 @@ description: >-
   Kevin M. Hoffman's "Meeting Design: For Managers, Makers, and Everyone."
   Use this skill whenever the user wants to plan, structure, run, improve, or
   evaluate any meeting or workshop: kickoffs, brainstorms, stand-ups/scrums,
-  weekly check-ins, retrospectives, postmortems, stakeholder interviews, sales
+  weekly check-ins, retrospectives, postmortems, stakeholder interviews, pitch
   meetings, design critiques, strategy/OKR sessions, deliverable presentations,
   or multi-day workshops. Also trigger when the user complains that meetings are
   too long, too frequent, or unproductive; asks for an agenda or facilitation
@@ -89,9 +89,10 @@ Match the stage of work to a template in `references/meeting-templates.md`,
 which contains the goal, outcome measure, and sample agenda for each meeting
 type in the book:
 
-- **Beginning**: sales meeting, stakeholder interview, quick kickoff
-  ("quickoff"), brainstorm (KJ method + dot voting), OKR/strategy session,
-  full project kickoff workshop (ARCI, hypothesis design, design studio).
+- **Beginning**: stakeholder interview, quick kickoff ("quickoff"), brainstorm
+  (KJ method + dot voting), OKR/strategy session, full project kickoff workshop
+  (ARCI, hypothesis design, design studio), and a pitch/proposal meeting for
+  any two parties assessing fit (team↔sponsor, vendor↔client, partners).
 - **Middle**: daily scrum, weekly project check-in, lean coffee, deliverable
   presentation, design critique, and a build-your-own workshop structure
   (including Adam Connor's "work backward from the actions the team must take

@@ -8,7 +8,7 @@ These are an à la carte menu — pick by stage of work and "sight distance"
 ## Contents
 
 **Beginning meetings** (reduce ambiguity, create direction)
-1. [Sales meeting](#sales-meeting-60-min)
+1. [Pitch / proposal meeting](#pitch--proposal-meeting-60-min)
 2. [Stakeholder interview](#stakeholder-interview-30-60-min)
 3. [Quickoff — quick kickoff](#quickoff--quick-kickoff-60-min)
 4. [Brainstorm — KJ method](#brainstorm--kj-method-10-60-min)
@@ -40,33 +40,37 @@ guidance, changes the conversation productively).
 
 ---
 
-## Sales meeting (60 min)
+## Pitch / proposal meeting (60 min)
 
-**Goal:** Assess fit between two parties — like a date, not a pitch. Jumping
-to budget/schedule prematurely fails; a good meeting leaves both sides wanting
-to continue.
+The book presents this as a sales meeting; the same structure fits any two
+parties assessing fit around a proposal — a team pitching its exec sponsor, a
+vendor and a client, two potential partners.
+
+**Goal:** Assess fit between the two parties — like a date, not a hard sell.
+Jumping to budget/schedule prematurely fails; a good meeting leaves both sides
+wanting to continue.
 **Measure:** The relationship deepens relative to before — from a returned
-email up to a requested statement of work. Decide in advance what the next
-logical step would look like.
+email up to a requested agreement or approved budget. Decide in advance what
+the next logical step would look like.
 
 **Agenda:**
 - **Introductions (10)** — each attendee: name, role, and one question they
   have about the effort. Capture visually.
-- **Positioning statement (15)** — ≤5 key points on the proposed solution,
-  focused on differentiators; simple statements, details on request.
+- **Positioning statement (15)** — ≤5 key points on the proposed approach,
+  focused on what sets it apart; simple statements, details on request.
 - **Positioning reflection (15)** — revisit each point, soliciting feedback
-  with designed questions: "This is based on assumptions about your business —
+  with designed questions: "This is based on assumptions about your situation —
   are they correct?" "What does the best possible outcome look like?" "What
-  happens after the engagement ends?"
-- **Related work review (10)** — previous work, each item explicitly tied to
-  the client's situation.
+  happens after this effort ends?"
+- **Related work review (10)** — comparable past work or results, each item
+  explicitly tied to the other party's situation.
 - **Final review of opening questions (10)** — answer ~5–6 of the collected
   questions; commit to answering the rest by email; name follow-ups for both
   sides.
 
 Posture (Giles Colborne): listen first; poke each pain point to confirm the
-client agrees it's worth solving ("What are the consequences of that?"); then
-ask permission to help. If you're not the right fit, say so and refer —
+other party agrees it's worth solving ("What are the consequences of that?");
+then ask permission to help. If you're not the right fit, say so and refer —
 honesty builds the longer relationship.
 
 ## Stakeholder interview (30–60 min)
