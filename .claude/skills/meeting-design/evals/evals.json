@@ -1,0 +1,23 @@
+{
+  "skill_name": "meeting-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm a product manager. We're kicking off a redesign of our mobile checkout flow next week. I'll have 10 people: me, 4 engineers, 2 designers, our VP of Product, a marketing lead, and a customer support lead. I can get everyone for 2 hours max. Last kickoff we did was a disaster — the VP dominated, we ran way over, and nobody knew what to do afterward. Help me plan this meeting.",
+      "expected_output": "A Meeting Design Brief with a measurable outcome, agenda math showing 10 people must be split into subgroups, timeboxed agenda within 2 hours with a break consideration, VP recast as group member or handled with golden-ticket-style input, named facilitator/recorder roles, and post-meeting capture with action items.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "our weekly team sync is 90 min with 12 people and honestly nobody knows why we still have it. half the room is on laptops. how do i fix it or should i just kill it?",
+      "expected_output": "A diagnosis applying the two-question test (why was it established / has the job been done), the points-of-agreement math for 12 people, and either a recommendation to delete it or a redesigned check-in (~30 min, question collection/resolution, rotating facilitator) with small iterative changes to test and measure.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need to run a retro after a rough 6-week project. The team is blaming each other in Slack already. 6 people, remote, 1 hour. Give me an agenda and tips for keeping it from turning into a fight.",
+      "expected_output": "A blameless retrospective/postmortem design: process-not-people framing, balanced positives/negatives (horizon line or start/continue/stop), remote capture via shared doc/board, humble-inquiry questions, NVC guidance for heated moments, and per-person actionable insights as the success measure.",
+      "files": []
+    }
+  ]
+}
