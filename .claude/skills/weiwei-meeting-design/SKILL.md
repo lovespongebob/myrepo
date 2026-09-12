@@ -201,6 +201,14 @@ review for a one-off interview):
 - [for recurring meetings: the condition under which this meeting gets deleted]
 ```
 
+Write the brief in plain, human language — short sentences, everyday words,
+imperatives the reader can act on. Keep the method's jargon out of the
+deliverable: never "divergence/convergence," "points of agreement," or "humble
+inquiry" in a brief. Translate each into what to actually do or say ("open up
+options before narrowing them," "with 10 people, agreement gets 45 times
+harder — split into two tables," a ready-to-ask question written out). The
+reader is preparing for a real meeting, not studying the method.
+
 For quick requests (e.g., "give me a 15-minute standup agenda"), compress the
 brief to the sections that matter — job, agenda, facilitation notes — but never
 omit the outcome and its measure: they are what make it a designed meeting
