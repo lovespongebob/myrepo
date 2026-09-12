@@ -1,6 +1,6 @@
 ---
 name: industry-research-speed-read
-description: Six-step industry analysis framework (define the boundary → identify the life-cycle stage → find the stage's core question → verify unit economics and valuation fit → screen external variables → track leading indicators) that produces a practical six-conclusion brief - industry boundary, life cycle, core logic, competitive landscape, risks, and valuation/economics. Works in two modes - with 3–5 uploaded research reports, OR cold start from a plain-English request with no documents or data at all. Use this skill whenever the user uploads industry or equity research reports for analysis, OR simply asks to understand, evaluate, size, or enter an industry, sector, or market in everyday language — "help me understand the coffee shop business", "is X industry worth investing in", "should I start a business in Y", "what stage is Z market in", questions about penetration rate, TAM, competitive landscape, moats, industry momentum, or valuation. No reports or data are required to trigger it.
+description: Six-step industry analysis framework (define the boundary → identify the life-cycle stage → find the stage's core question → verify unit economics and valuation fit → screen external variables → track leading indicators) that produces a practical six-conclusion brief - industry boundary, life cycle, core logic, competitive landscape, risks, and valuation/economics. Works in two modes - with 3–5 uploaded research reports, OR cold start from a plain-English request with no documents or data at all. Use this skill whenever the user uploads industry or equity research reports for analysis, OR simply asks to understand, evaluate, size, or enter an industry, sector, or market in everyday language — "help me understand the coffee shop business", "is X industry worth investing in", "should I start a business in Y", "what stage is Z market in", questions about penetration rate, TAM, competitive landscape, moats, industry momentum, or valuation. No reports or data are required to trigger it. Two depths - a 3-minute six-conclusion brief (default), or a deep structured report with value-chain map, recomputable sizing tables and an evidence register when the user asks for a full report, deep dive, or detailed market research.
 ---
 
 # Industry Research Speed Read
@@ -13,6 +13,7 @@ Supporting resources:
 - `references/checklist.md` — printable execution checklist for report-based runs
 - `references/report-mapping.md` — maps each step to the report sections where material usually lives (report mode)
 - `references/cold-start-playbook.md` — proxy estimation methods and free evidence sources when the user has nothing (cold-start mode)
+- `references/deep-report.md` — the full report structure for deep mode (read it before writing a deep report)
 
 ## Trigger
 
@@ -29,6 +30,15 @@ Out of scope: deep single-company financial modeling, macro strategy, pure tradi
 - **Cold-start mode** — the user provided only a request → same six steps, but evidence comes from web search (if available) and your own knowledge, with `references/cold-start-playbook.md` for estimating missing numbers. Never refuse or stall for lack of documents; the whole point is to deliver a useful first read from nothing.
 - Mixed (one report, a few data points) → run cold-start and fold in whatever they gave you as the highest-priority evidence.
 
+## Choose the depth
+
+Two output depths, orthogonal to the mode:
+
+- **Light (default)** — the six-conclusion brief below, readable in under 3 minutes. The right answer for "help me understand X", first passes, and most questions.
+- **Deep** — a full structured report (4–8 pages) that shows the work: value-chain map, sizing tables that recompute, barrier and opportunity tables, an evidence register. Read `references/deep-report.md` before writing one. Choose it when the user picks Deep in the intake, asks for a "full report", "deep dive", or "detailed analysis", or when the stated decision plainly commits real capital.
+
+When in doubt, deliver light and offer deep in one closing line ("want the full report version?") — a fast answer they can upgrade beats a slow answer they didn't order.
+
 ## Before analyzing: lock onto the user's decision
 
 The same industry brief looks different for different decisions. From the request, identify:
@@ -38,11 +48,12 @@ The same industry brief looks different for different decisions. From the reques
 
 ## Optional intake — invite steering, never require it
 
-When the session is interactive and the request is open-ended (e.g., "help me understand X"), offer one compact intake round before analyzing — a chance for the user to steer, presented so that skipping it is effortless. Cover at most three things in one message (use a structured question tool like AskUserQuestion when available, plain text otherwise):
+When the session is interactive and the request is open-ended (e.g., "help me understand X"), offer one compact intake round before analyzing — a chance for the user to steer, presented so that skipping it is effortless. Cover at most four things in one message (use a structured question tool like AskUserQuestion when available, plain text otherwise):
 
 1. **Goal** — what's behind the question: investing | starting or entering the business | selling to the industry | career move | just learning
 2. **Materials** — anything they'd like analyzed: reports, data files, links, even rough notes ("or nothing — I can start from scratch")
 3. **Focus** — specific topics to go deeper on: e.g., a particular segment, competitor, geography, technology, or risk
+4. **Depth** — light brief (3-minute read, the default) or deep report (full structured report with sizing tables and an evidence register)
 
 Always close the intake with an explicit escape hatch — "or just say **go ahead** and I'll proceed with sensible assumptions" — and treat a partial answer as complete: fill unanswered slots by inference, exactly as if the intake hadn't happened. One round only; never follow up an intake with more questions.
 
@@ -78,7 +89,7 @@ Pick 1–2 high-frequency indicators by value-chain position: upstream → price
 
 ## Output
 
-Plain English, minimal jargon — define any term you must use (TAM, PEG) in a short clause on first mention. Every conclusion carries a confidence tag: **[Sourced]** (from a provided report or verifiable data), **[Estimated]** (proxy or reasoned calculation — show the arithmetic), **[Low confidence]** (would change with better data). Structure:
+Plain English, minimal jargon — define any term you must use (TAM, PEG) in a short clause on first mention. Every conclusion carries a confidence tag: **[Sourced]** (from a provided report or verifiable data), **[Estimated]** (proxy or reasoned calculation — show the arithmetic), **[Low confidence]** (would change with better data). **Deep mode** replaces this template with the report structure in `references/deep-report.md` — same tags, same rules, evidence shown in full. Light mode structure:
 
 ```
 Goal I'm answering: <one line — the inferred decision and assumed geography>
