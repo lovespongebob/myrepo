@@ -36,7 +36,19 @@ The same industry brief looks different for different decisions. From the reques
 2. **Geography** (a market's stage differs by country — if unstated, use the user's likely home market or the global market, and say which you assumed)
 3. **The decision behind the question**: invest in stocks | start or enter the business | sell to the industry | career move | general learning. If unstated, infer it; state the inferred goal in one line at the top of the output so a wrong guess is instantly visible.
 
-Ask at most one short clarifying question, and only when the answer would materially change the conclusions (e.g., geography completely ambiguous). Otherwise proceed on stated assumptions — a good analysis with visible assumptions beats an interrogation.
+## Optional intake — invite steering, never require it
+
+When the session is interactive and the request is open-ended (e.g., "help me understand X"), offer one compact intake round before analyzing — a chance for the user to steer, presented so that skipping it is effortless. Cover at most three things in one message (use a structured question tool like AskUserQuestion when available, plain text otherwise):
+
+1. **Goal** — what's behind the question: investing | starting or entering the business | selling to the industry | career move | just learning
+2. **Materials** — anything they'd like analyzed: reports, data files, links, even rough notes ("or nothing — I can start from scratch")
+3. **Focus** — specific topics to go deeper on: e.g., a particular segment, competitor, geography, technology, or risk
+
+Always close the intake with an explicit escape hatch — "or just say **go ahead** and I'll proceed with sensible assumptions" — and treat a partial answer as complete: fill unanswered slots by inference, exactly as if the intake hadn't happened. One round only; never follow up an intake with more questions.
+
+Skip the intake entirely when: the request already specifies the goal or focus ("should I invest in X", "compare A and B segments"), the user asked for an immediate answer, the run is non-interactive/automated, or the user declined an intake earlier in the conversation. In those cases fall back to the default: infer everything, state assumptions, and ask at most one clarifying question — only when the answer would materially change the conclusions (e.g., geography completely ambiguous). A good analysis with visible assumptions beats an interrogation.
+
+**Honoring focus topics**: user-named topics get a dedicated **Focus** section in the output (after the six conclusions), each addressed with the same evidence-and-tags discipline. The six conclusions still always appear — the focus deepens the brief without replacing its structure.
 
 ## Agent workflow (both modes)
 
@@ -81,6 +93,9 @@ Goal I'm answering: <one line — the inferred decision and assumed geography>
 4. Competitive landscape — leaders' share, type of moat [tag]
 5. Risk flags — the 3 core external risks [tag]
 6. Valuation / economics — fitting method and rough read, translated to the user's goal [tag]
+
+## Focus: <topic>          (only when the user named focus topics in the intake or request)
+One short section per named topic, same evidence-and-tags discipline as the conclusions.
 
 ## What to watch
 1–2 indicators · where to find each free · current direction · "if these contradict this view for 3 straight months, revise it"
