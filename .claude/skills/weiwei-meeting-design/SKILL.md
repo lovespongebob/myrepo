@@ -56,9 +56,10 @@ Also useful when offered: remote vs. in person, organizational culture
 
 ### Step 1: Confirm a meeting is the right tool
 
-A meeting is a synchronous communication tool that costs everyone's combined
-paycheck for the allotted time. Before designing one, apply the two-question
-test:
+A meeting is a synchronous communication tool that spends everyone's attention
+at once — count it in person-hours (people × duration), and skip dollar
+figures unless the user asks for them. Before designing one, apply the
+two-question test:
 
 - What outcome will this meeting enable that can't be achieved without it?
 - How will that outcome be measured?
