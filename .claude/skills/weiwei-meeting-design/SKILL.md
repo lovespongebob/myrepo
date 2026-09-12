@@ -1,5 +1,5 @@
 ---
-name: meeting-design
+name: weiwei-meeting-design
 description: >-
   Design meetings that produce measurable outcomes, using the methodology from
   Kevin M. Hoffman's "Meeting Design: For Managers, Makers, and Everyone."
