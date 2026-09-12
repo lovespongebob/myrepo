@@ -3,18 +3,18 @@ name: weiwei-meeting-design
 description: >-
   Design meetings that produce measurable outcomes, using the methodology from
   Kevin M. Hoffman's "Meeting Design: For Managers, Makers, and Everyone." Use
-  this skill whenever the user wants to plan, run, improve, or evaluate any
-  meeting or workshop: kickoffs, brainstorms, stand-ups, check-ins, retros,
-  postmortems, stakeholder interviews, pitch meetings, critiques, strategy/OKR
-  sessions, presentations, workshops, and leadership meetings — 1:1s,
-  skip-levels, staff meetings, all-hands, business reviews (QBR/MBR), and
-  executive readouts. Also trigger when the user complains meetings are too
-  long, frequent, or unproductive; asks for an agenda or facilitation plan;
-  asks how many people to invite or how much time to book; asks how to handle
-  conflict, tangents, or a dominating stakeholder; or asks whether something
-  should be a meeting at all. Trigger even if "meeting" never appears — "plan
-  our kickoff," "our standups feel useless," "I need to run a retro," and
-  "prep me for my QBR" are all in scope.
+  it to plan, run, improve, or evaluate any meeting or workshop: kickoffs,
+  brainstorms, stand-ups, check-ins, retros, postmortems, stakeholder
+  interviews, pitches, critiques, strategy/OKR sessions, presentations,
+  decision meetings, problem-solving sessions, training, hiring interviews,
+  difficult feedback 1:1s, community or committee meetings, and leadership
+  meetings — 1:1s, skip-levels, staff meetings, all-hands, business reviews
+  (QBR/MBR), executive readouts. Also trigger when the user complains meetings
+  are too long, frequent, or unproductive; asks for an agenda or facilitation
+  plan; asks who to invite or how much time to book; asks how to handle
+  conflict or a dominating stakeholder; or asks whether something should be a
+  meeting at all. Trigger even if "meeting" never appears — "plan our
+  kickoff," "our standups feel useless," "prep me for my QBR" are in scope.
 ---
 
 # Meeting Design
@@ -44,7 +44,10 @@ answer would change the design significantly (e.g., headcount of 5 vs. 25).
    or end (closing/reflecting). This selects the template family. Recurring
    leadership meetings — 1:1s, skip-levels, staff meetings, business reviews,
    all-hands, executive readouts — are their own family regardless of project
-   stage; use `references/leadership-meetings.md` for those.
+   stage; use `references/leadership-meetings.md` for those. Meetings not
+   tied to a project at all — decisions, problem-solving, training, hiring,
+   difficult feedback, community/committee — live in
+   `references/general-meetings.md`.
 
 Also useful when offered: remote vs. in person, organizational culture
 (hierarchical vs. flat), and what has gone wrong in past meetings.
@@ -108,6 +111,12 @@ type in the book:
   executive contexts — status moves to writing, and past ~40 people the
   meeting becomes a broadcast where chunked content and upvoted Q&A replace
   discussion and dot voting.
+- **General** (cross-domain meetings anyone has, in
+  `references/general-meetings.md`): decision meeting, problem-solving
+  session, training session, hiring interview & debrief, difficult
+  conversation (NVC-based feedback 1:1), and community/committee meeting.
+  Built with the book's method for people far beyond design and software —
+  the book's own catalog is project-centric, so these fill the everyday gaps.
 
 Templates are starting points, not scripts. Adapt timings with the agenda math
 and tailor activities to the user's culture and outcome. When the user's time
@@ -164,7 +173,7 @@ review for a one-off interview):
 ## The job of this meeting
 - **Outcome:** [what exists/is decided afterward]
 - **Success measure:** [how to count/verify it]
-- **Cost check:** [n people × duration; why a meeting beats async here]
+- **Time check:** [n people × duration in person-hours; why a meeting beats async here]
 
 ## People ([n] total — [note if split into subgroups])
 - [Name/role] — [why they're needed / ARCI role]
