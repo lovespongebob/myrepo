@@ -2,7 +2,7 @@
 name: meeting-design
 description: >-
   Design meetings that produce measurable outcomes, using the methodology from
-  Kevin M. Hoffman's book "Meeting Design: For Managers, Makers, and Everyone."
+  Kevin M. Hoffman's "Meeting Design: For Managers, Makers, and Everyone."
   Use this skill whenever the user wants to plan, structure, run, improve, or
   evaluate any meeting or workshop: kickoffs, brainstorms, stand-ups/scrums,
   weekly check-ins, retrospectives, postmortems, stakeholder interviews, sales
