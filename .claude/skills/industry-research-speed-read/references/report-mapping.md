@@ -1,18 +1,18 @@
-# 研报章节映射表（Report Mapping)
+# Report Section Mapping
 
-拿到一篇行业研报后，不必从头读到尾。按下表把六步所需素材直接定位到研报的常见章节；不同券商的章节命名略有差异，表中给出常见叫法。
+There is no need to read a research report cover to cover. Use this table to jump straight to the sections that feed each of the six steps. Section names vary by publisher; common variants are listed.
 
-| 六步 | 去研报哪里找 | 常见章节名称 | 重点提取 |
-|------|--------------|--------------|----------|
-| ① 明确行业边界 | 开篇的行业介绍部分 | 行业定义与分类、行业概览、产业链分析 | 分类口径、产业链图谱、核心产品/服务、上下游关键企业 |
-| ② 判断生命周期 | 市场规模与增长部分 | 渗透率分析、市场规模测算、行业发展历程/复盘 | 近 3 年渗透率及预测、营收增速、可用作替代指标的销量/保有量数据 |
-| ③ 抓核心矛盾 | 按阶段选读 | 需求分析、TAM/空间测算、竞争格局、供需分析、产能统计 | 导入期→需求对标；成长期→TAM 四因子、渠道/产能数据；成熟期→CR3/CR8、毛利率分布；衰退期→替代技术、龙头新业务 |
-| ④ 验证盈利与估值 | 财务与估值部分 | 盈利能力分析、单店/单位模型、盈利预测与估值、可比公司估值表 | 毛利率、净利率、期间费用率、UE 拆分数据、券商采用的估值方法及倍数 |
-| ⑤ 排查外部变量 | 政策与风险部分 | 政策梳理、行业驱动因素、风险提示 | 产业政策时间线、宏观敏感性、人口/消费趋势、技术路线之争 |
-| ⑥ 动态跟踪景气度 | 数据附录与图表 | 高频数据跟踪、行业月报/周报数据、重点公司经营数据 | 可持续获取的 1–2 个高频指标（价格、库存、产销量、CPI、运营数据）及其数据来源 |
+| Step | Where to look in the report | Typical section names | What to extract |
+|------|-----------------------------|-----------------------|-----------------|
+| 1. Define the boundary | Opening industry overview | Industry definition & classification, Industry overview, Value chain analysis | Classification standard used, value-chain map, core products/services, key upstream and downstream players |
+| 2. Identify the life-cycle stage | Market size and growth sections | Penetration analysis, Market sizing, Industry history / retrospective | Last 3 years of penetration data plus forecasts, revenue growth rates, sales or installed-base data usable as a penetration proxy |
+| 3. Ask the stage's core question | Read selectively by stage | Demand analysis, TAM / market opportunity, Competitive landscape, Supply–demand analysis, Capacity statistics | Introduction → demand benchmarks; Growth → the four TAM factors, channel/capacity data; Maturity → CR3/CR8, margin distribution; Decline → substitute technologies, leaders' new businesses |
+| 4. Verify unit economics and valuation | Financial and valuation sections | Profitability analysis, Unit economics / per-unit model, Earnings forecast & valuation, Comparable-company tables | Gross margin, net margin, operating expense ratios, UE breakdowns, the valuation method and multiples the analyst applied |
+| 5. Screen external variables | Policy and risk sections | Policy review, Industry drivers, Risk factors | Policy timeline, macro sensitivities, demographic/consumption trends, competing technology routes |
+| 6. Track leading indicators | Data appendix and charts | High-frequency data tracker, Monthly/weekly industry data, Key company operating data | 1–2 high-frequency indicators you can keep collecting (prices, inventories, production/shipment volumes, operating metrics) and their data sources |
 
-使用提示：
+Usage tips:
 
-- **年度策略报告**对 ②⑤⑥ 最有用（阶段判断、政策、跟踪指标）；**行业深度报告**对 ①③④ 最有用（边界、矛盾、盈利模型）。两类搭配着读效率最高。
-- 多篇研报数据冲突时，回到 ① 检查分类口径是否一致，再决定采信哪个数字。
-- 研报"风险提示"章节往往写得模板化，⑤ 的三个核心风险要自己从正文推，不要直接照抄。
+- **Annual outlook / strategy reports** are most useful for Steps 2, 5, and 6 (stage judgment, policy, tracking indicators); **deep-dive reports** are most useful for Steps 1, 3, and 4 (boundary, core question, profit model). Reading one of each is the most efficient combination.
+- When data conflicts across reports, go back to Step 1 and check whether the classification standards match before deciding which number to trust.
+- "Risk factors" sections are often boilerplate. Derive the three core risks in Step 5 from the body of the reports yourself instead of copying that section.

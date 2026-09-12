@@ -1,71 +1,71 @@
-# 六步行业研究速读 Checklist（打印版）
+# Six-Step Industry Research Speed-Read Checklist (Printable)
 
-行业：__________　分析师/日期：__________
-阶段：□ 导入(<15%)　□ 成长(15–40%)　□ 成熟(40–70%)　□ 衰退(>70%)
+Industry: __________  Analyst / Date: __________
+Stage: [ ] Introduction (<15%)  [ ] Growth (15–40%)  [ ] Maturity (40–70%)  [ ] Decline (>70%)
 
-## ① 明确行业边界
+## 1. Define the industry boundary
 
-- ☐ 确定分类口径（国标 / 申万中信 / 证监会），全文统一
-- ☐ 画出产业链核心环节
-- ☐ 确认细分赛道，避免混为一谈
-- ☐ 圈出上下游关键企业
+- [ ] Pick one classification standard (e.g., GICS / ICB / NAICS / local regulatory standard) and use it consistently
+- [ ] Map the core links of the value chain
+- [ ] Confirm the exact segment under analysis; don't blend segments
+- [ ] Circle the key upstream and downstream players
 
-## ② 判断生命周期
+## 2. Identify the life-cycle stage
 
-- ☐ 获取近 3 年渗透率数据及预测
-- ☐ 无渗透率则用替代指标手动估算
-- ☐ 辅助验证：营收增速、竞争格局集中度
+- [ ] Obtain the last 3 years of penetration data plus forecasts
+- [ ] If no penetration figure exists, estimate manually with a proxy
+- [ ] Cross-check: revenue growth rate, competitive concentration
 
-## ③ 按阶段抓核心矛盾
+## 3. Ask the stage's core question
 
-### 导入期（渗透率 <15%）
+### Introduction (penetration <15%)
 
-- ☐ 需求真实性：时间对标 / 空间对标
-- ☐ 盈利可行性：高频或弹性小（至少占 1）
-- ☐ 成本是否可标准化
+- [ ] Demand authenticity: benchmark against earlier periods / other markets
+- [ ] Profit feasibility: high frequency or low price elasticity (at least one)
+- [ ] Can costs be standardized?
 
-### 成长期（15–40%）
+### Growth (15–40%)
 
-- ☐ TAM 测算：目标客群 × 渗透率 × 客单价 × 频次
-- ☐ 渠道扩张速度是否匹配需求
-- ☐ 产能扩张是否过剩
+- [ ] TAM estimate: target customers × penetration × average spend × frequency
+- [ ] Is channel expansion keeping pace with demand?
+- [ ] Is capacity expansion running into overcapacity?
 
-### 成熟期（40–70%）
+### Maturity (40–70%)
 
-- ☐ 护城河：资源垄断 / 网络效应
-- ☐ CR3/CR8 行业集中度
-- ☐ 产业链利润分配（高毛利环节更强势）
+- [ ] Moats: resource control / network effects
+- [ ] CR3/CR8 concentration ratios
+- [ ] Profit distribution along the value chain (high-margin links hold the power)
 
-### 衰退期（>70%）
+### Decline (>70%)
 
-- ☐ 替代品/替代技术进展
-- ☐ 龙头是否有第二增长曲线
+- [ ] Progress of substitute products / technologies
+- [ ] Do the leaders have a second growth curve?
 
-## ④ 验证盈利与估值
+## 4. Verify unit economics and valuation
 
-- ☐ UE 模型：最小单位是否盈利（单店/单品/单订单）
-- ☐ 获取毛利率、净利率、期间费用率
-- ☐ 估值与阶段匹配：导入看潜力 / 成长 PEG / 成熟 PE·PB / 衰退警惕陷阱
+- [ ] UE model: is the smallest repeatable unit profitable (per store / per unit / per order / per subscriber)?
+- [ ] Obtain gross margin, net margin, operating expense ratios
+- [ ] Match valuation to stage: introduction → potential / growth → PEG / maturity → PE/PB / decline → beware the trap
 
-## ⑤ 排查外部变量（PEST）
+## 5. Screen external variables (PEST)
 
-- ☐ 政治：产业政策、国际政策
-- ☐ 经济：经济周期、利率汇率
-- ☐ 社会：人口结构、消费习惯
-- ☐ 技术：技术成熟度、替代技术
-- ☐ 提炼 3 个核心驱动/风险因素
+- [ ] Political: industry policy, trade/international policy
+- [ ] Economic: business cycle, interest and exchange rates
+- [ ] Social: demographics, consumption habits
+- [ ] Technological: technology maturity, substitute technologies
+- [ ] Distill 3 core drivers / risk factors
 
-## ⑥ 动态跟踪景气度
+## 6. Track leading indicators
 
-- ☐ 选定 1–2 个高频指标
-- ☐ 记录当前趋势（上行/下行）
-- ☐ 连续 3 个月背离 → 修正观点
+- [ ] Select 1–2 high-frequency indicators
+- [ ] Record the current direction (up / down)
+- [ ] 3 consecutive months of divergence → revise the thesis
 
-## 最终输出：六条结论
+## Final output: six conclusions
 
-- 行业边界：__________
-- 生命周期：__________
-- 核心逻辑：__________
-- 竞争格局：__________
-- 风险提示：__________
-- 估值建议：__________
+- Industry boundary: __________
+- Life cycle: __________
+- Core logic: __________
+- Competitive landscape: __________
+- Risk flags: __________
+- Valuation approach: __________

@@ -1,86 +1,86 @@
 ---
 name: industry-research-speed-read
-description: 六步行业研究速读框架（定边界 → 分阶段 → 抓核心矛盾 → 验盈利逻辑 → 排外部变量 → 动态跟踪）。基于 3–5 篇行业研报快速产出六条结论：行业边界、生命周期、核心逻辑、竞争格局、风险提示、估值建议。Use this skill whenever the user uploads or references industry/equity research reports (行业研报、深度报告、年度策略、券商报告), asks to analyze an industry or sector (分析某个行业/赛道/板块), judge its life-cycle stage or penetration rate (生命周期、渗透率), assess market size (TAM、市场规模), competitive landscape (竞争格局、集中度、护城河), industry prosperity (景气度), pick a valuation method (估值), or asks "这个行业值得投资吗 / is this industry worth investing in" — even if they never mention the six-step method by name.
+description: Six-step industry research framework (define the boundary → identify the life-cycle stage → find the stage's core question → verify unit economics and valuation fit → screen external variables → track leading indicators). Rapidly distills 3–5 industry research reports into six conclusions - industry boundary, life cycle, core logic, competitive landscape, risks, and valuation approach. Use this skill whenever the user uploads or references industry or equity research reports, asks to analyze an industry, sector, or market, judge its life-cycle stage or penetration rate, size the market (TAM), assess competitive landscape, concentration, or moats, gauge industry momentum, pick a valuation method, or asks "is this industry worth investing in" — even if they never mention the six-step method by name.
 ---
 
-# 六步行业研究速读（Industry Research Speed Read）
+# Industry Research Speed Read
 
-核心逻辑：**定边界 → 分阶段 → 抓核心矛盾 → 验盈利逻辑 → 排外部变量 → 动态跟踪**。
+Core logic: **define the boundary → identify the life-cycle stage → find the stage's core question → verify unit economics and valuation fit → screen external variables → track leading indicators**.
 
-目的：把 3–5 篇行业研报压缩成一套可验证、可跟踪的判断，而不是复述研报观点。全程保持批判性：研报给的是素材，结论要自己推。
+Purpose: compress 3–5 industry research reports into a set of testable, trackable judgments rather than a summary of the reports' opinions. Stay critical throughout: the reports supply raw material; the conclusions must be your own.
 
-配套资源：
-- `references/checklist.md` — 可打印执行清单，逐项打勾，防止漏项
-- `references/report-mapping.md` — 研报章节映射表，告诉你每一步去研报的哪个章节找素材
+Supporting resources:
+- `references/checklist.md` — printable execution checklist; tick items off to avoid missing steps
+- `references/report-mapping.md` — maps each step to the report sections where the material usually lives
 
-## 触发条件（Trigger）
+## Trigger
 
-在以下情况使用本 skill：
-- 用户上传或引用行业研报、深度报告、年度策略，要求分析、总结或提炼观点
-- 用户问某个行业/赛道处于什么阶段、渗透率多少、天花板多高、值不值得投资
-- 用户要求判断竞争格局、护城河、景气度，或为某行业选择估值方法
+Use this skill when:
+- The user uploads or references industry research reports, deep-dive reports, or annual outlook/strategy reports and asks for analysis, a summary, or key takeaways
+- The user asks what stage an industry or market is in, its penetration rate, its ceiling or market size, or whether it is worth investing in
+- The user asks about competitive landscape, moats, industry momentum, or which valuation method fits a given industry
 
-不适用：个股基本面深度分析（个股财务建模）、宏观策略、纯交易层面的问题。
+Out of scope: deep single-company fundamental analysis (company financial modeling), macro strategy, and pure trading questions.
 
-## 输入（Input）
+## Input
 
-- **必需**：目标行业研报 3–5 篇（优先：行业深度报告 + 年度策略；来源分散更好，避免单一卖方观点）
-- **可选**：高频行业数据（月度销量、价格、渗透率、库存等）——有则第六步跟踪更扎实
-- 输入不足 3 篇时照常执行，但在输出中明确标注"依据有限，置信度较低"的结论
+- **Required**: 3–5 research reports on the target industry (prefer one deep-dive report plus one annual outlook; diverse sources are better than one firm's view)
+- **Optional**: high-frequency industry data (monthly sales, prices, penetration, inventory, etc.) — with it, Step 6 tracking is much stronger
+- With fewer than 3 reports, proceed anyway but explicitly flag conclusions as "limited evidence, lower confidence"
 
-## 执行步骤（Agent Workflow）
+## Agent Workflow
 
-### 第一步：明确行业边界（看研报"行业定义 + 分类"章节）
+### Step 1: Define the industry boundary (report section: industry definition and classification)
 
-- 选 1 个分类口径并全文统一：① 国标《国民经济行业分类》；② 申万/中信分类；③ 证监会《上市公司行业分类指引》。多篇研报口径不一致时，先换算到同一口径再比较数据
-- 画出产业链核心环节（上游—中游—下游），确认要分析的细分赛道，避免把不同环节混为一谈
-- 提取：核心产品/服务、上下游关键企业
+- Pick one classification standard and use it consistently throughout (e.g., GICS, ICB, NAICS, or the national/regulatory classification used in the target market). When reports use different standards, reconcile the data to one standard before comparing any numbers
+- Map the value chain (upstream — midstream — downstream), and confirm exactly which segment you are analyzing; don't blend different segments into one conclusion
+- Extract: core products/services and the key upstream and downstream players
 
-### 第二步：判断生命周期（看研报"渗透率"数据）
+### Step 2: Identify the life-cycle stage (report section: penetration data)
 
-- 渗透率 = 存量用户 ÷ 潜在客户群；无直接数据时用替代指标手动估算（如：新能源车销量 ÷ 汽车总销量）
-- 阶段划分：**<15% 导入期 | 15–40% 成长期 | 40–70% 成熟期 | >70% 衰退期**
-- 辅助验证（防止单指标误判）：营收增速（成长期 >20%，成熟期 <10%）、竞争格局集中度
+- Penetration rate = current users ÷ addressable customer base. When no direct figure exists, estimate with a proxy: core product sales ÷ total potential demand
+- Stage thresholds: **<15% introduction | 15–40% growth | 40–70% maturity | >70% decline**
+- Cross-check to avoid a single-metric misread: revenue growth (growth stage >20%, maturity <10%) and how concentrated the competitive landscape is
 
-### 第三步：按阶段抓核心矛盾
+### Step 3: Ask the stage's core question
 
-不同阶段该问的问题不同——用错阶段的问题会得出错误结论：
+Each stage has different questions that matter — asking a wrong-stage question produces a wrong conclusion:
 
-| 阶段 | 核心任务 | 关键检查 |
-|------|----------|----------|
-| 导入期 | 验证商业模式可行性 | 需求真实性（时间/空间对标）；盈利可行性（高频或弹性小，至少占一；成本可标准化） |
-| 成长期 | 测算市场规模 + 扩张能力 | TAM = 目标客群 × 渗透率 × 客单价 × 频次；渠道/产能扩张是否与需求匹配、是否过剩 |
-| 成熟期 | 分析护城河 + 利润分配 | 资源垄断/网络效应；CR3/CR8 集中度；产业链毛利率分布（高毛利环节更强势） |
-| 衰退期 | 排查替代风险 | 替代品/替代技术进展；龙头是否有第二增长曲线 |
+| Stage | Core task | Key checks |
+|-------|-----------|------------|
+| Introduction | Validate the business model | Demand authenticity (benchmark against earlier periods or other markets); profit feasibility (high purchase frequency or low price elasticity — at least one; costs can be standardized) |
+| Growth | Size the market + test expansion capacity | TAM = target customers × penetration × average spend × frequency; does channel/capacity expansion match demand, or is it running ahead into overcapacity |
+| Maturity | Analyze moats + profit distribution | Resource control / network effects; top-3 and top-8 concentration ratios (CR3/CR8); gross-margin distribution along the value chain (high-margin links hold the power) |
+| Decline | Screen substitution risk | Progress of substitute products/technologies; whether leaders have a second growth curve |
 
-### 第四步：验证盈利与估值
+### Step 4: Verify unit economics and valuation fit
 
-- **UE 模型**：单单位利润 = 收入 − 直接成本 − 间接成本摊销。最小单位按行业选（餐饮=单店、美妆=单品、平台=单订单）；同时核对毛利率、净利率、期间费用率
-- **估值与阶段匹配**：导入期看赛道潜力 | 成长期看 PEG | 成熟期看 PE/PB | 衰退期警惕低估值陷阱
+- **Unit economics (UE) model**: profit per unit = revenue − direct costs − allocated indirect costs. Choose the smallest repeatable economic unit for the business model (a store, a unit sold, an order, a subscriber); cross-check gross margin, net margin, and operating expense ratios
+- **Match valuation to stage**: introduction → market potential | growth → PEG | maturity → PE/PB | decline → beware the low-valuation trap
 
-### 第五步：排查外部变量（PEST）
+### Step 5: Screen external variables (PEST)
 
-- 政治：产业政策、国际政策 | 经济：经济周期、利率汇率 | 社会：人口结构、消费习惯 | 技术：技术成熟度、替代风险
-- 产出收敛为 **3 个核心驱动/风险因素**——超过 3 个说明还没抓住主要矛盾
+- Political: industry and trade/international policy | Economic: business cycle, interest and exchange rates | Social: demographics, consumption habits | Technological: technology maturity, substitution risk
+- Converge the output to **3 core drivers/risk factors** — more than 3 means the main forces haven't been identified yet
 
-### 第六步：动态跟踪景气度
+### Step 6: Track leading indicators
 
-- 按行业选 1–2 个高频指标：上游看价格+库存 / 中游看产销量 / 必选消费看 CPI / 可选消费看地产后周期 / 服务业看运营数据
-- 记录当前趋势（上行/下行）；**指标连续 3 个月与判断背离 → 修正观点**，而不是解释背离
+- Pick 1–2 high-frequency indicators suited to the industry's position in the value chain: upstream/commodity → prices + inventories | midstream/manufacturing → production and shipment volumes | consumer-facing → retail sales or relevant price indices | services → operating metrics (utilization, traffic, bookings)
+- Record the current direction (up/down); **if the indicators contradict your thesis for 3 consecutive months → revise the thesis** rather than explaining the divergence away
 
-## 输出模板（Output — 六条结论）
+## Output (six conclusions)
 
-最终交付必须收敛为以下六条，每条 1–3 句、有数据或逻辑支撑，标注出处研报：
+The final deliverable must converge to these six items, each 1–3 sentences, backed by data or explicit logic, with the source report cited:
 
-1. **行业边界**：核心产品、产业链关键环节
-2. **生命周期**：渗透率 → 阶段 → 该阶段的核心矛盾
-3. **核心逻辑**：需求真实性 / 单单位盈利 / 三大增长驱动
-4. **竞争格局**：龙头市占率、护城河类型
-5. **风险提示**：3 个核心外部风险
-6. **估值建议**：适配方法（PE/PEG/PB）及理由
+1. **Industry boundary**: core products, key value-chain links
+2. **Life cycle**: penetration rate → stage → that stage's core question
+3. **Core logic**: demand authenticity / unit-level profitability / three growth drivers
+4. **Competitive landscape**: leaders' market share, type of moat
+5. **Risk flags**: 3 core external risks
+6. **Valuation approach**: the fitting method (PE/PEG/PB) and why
 
-## 常见坑
+## Common pitfalls
 
-- **口径混乱**：多篇研报分类标准不统一 → 数据打架。先统一口径再引用任何数字
-- **渗透率缺失**：研报没给就手动估算"核心产品销量 ÷ 潜在需求总量"，并注明估算假设
-- **阶段错配**：给成长期行业用 PE 估值、把衰退期低估值当便宜——估值方法必须跟阶段走
+- **Mixed classification standards**: reports using different taxonomies → conflicting numbers. Reconcile to one standard before quoting any figure
+- **Missing penetration data**: estimate it manually as "core product sales ÷ total potential demand" and state the assumptions
+- **Stage mismatch**: applying PE to a growth-stage industry, or mistaking a declining industry's low multiple for cheapness — the valuation method must follow the stage
