@@ -7,7 +7,7 @@ description: >-
   brainstorms, stand-ups, check-ins, retros, postmortems, stakeholder
   interviews, pitches, critiques, strategy/OKR sessions, presentations,
   decision meetings, problem-solving sessions, training, hiring interviews,
-  difficult feedback 1:1s, community or committee meetings, and leadership
+  difficult feedback 1:1s, community/committee meetings, and leadership
   meetings — 1:1s, skip-levels, staff meetings, all-hands, business reviews
   (QBR/MBR), executive readouts. Also trigger when the user complains meetings
   are too long, frequent, or unproductive; asks for an agenda or facilitation
