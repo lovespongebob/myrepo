@@ -119,6 +119,13 @@ section { display: grid; gap: 20px; }
 .close h2 { color: var(--bg); }
 .close p { color: color-mix(in srgb, var(--bg) 78%, transparent); }
 .steps3 { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: color-mix(in srgb, var(--bg) 88%, transparent); }
+.access { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-top: 6px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; font-family: var(--display); font-weight: 600; font-size: 16px; text-decoration: none; padding: 12px 20px; border-radius: 999px; box-shadow: 0 8px 20px rgba(108, 92, 224, 0.35); transition: transform 0.15s ease, filter 0.15s ease; }
+.btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.btn:focus-visible { outline: 2px solid var(--bg); outline-offset: 3px; }
+.btn svg { width: 18px; height: 18px; }
+.access .note { font-size: 14px; color: color-mix(in srgb, var(--bg) 72%, transparent); max-width: 44ch; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 .sign { font-family: var(--mono); font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
 </style>
 
@@ -281,6 +288,13 @@ section { display: grid; gap: 20px; }
       <li>Test with fake data before anyone trusts it with real work.</li>
     </ol>
     <p>What's the sheet your team refills every week?</p>
+    <div class="access">
+      <a class="btn" href="https://claude.ai/artifact/LvS4kNr9qTpmuKs5GP6waH" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Request access
+      </a>
+      <p class="note">The planner is private and shared by invitation. If the link doesn't let you ask for access, message me on LinkedIn with the email you'd like invited.</p>
+    </div>
     <div class="sign">Weiwei</div>
   </section>
 </main>
