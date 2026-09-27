@@ -187,6 +187,49 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .menu-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 8px 10px 2px; }
 @media (max-width: 520px) { .exportmenu .menu { right: auto; left: 0; } }
 
+/* Task summary */
+.ts-wrap { border: 0; background: none; }
+.ts-table { min-width: 860px; }
+.ts-table th { font-size: 13px; letter-spacing: 0; color: var(--muted); border-bottom: 2px solid var(--ink); padding: 10px 12px; }
+.ts-table td { padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14.5px; }
+.ts-table .ts-c1 { width: 28%; } .ts-table .ts-c4 { width: 26%; } .ts-table .ts-c5 { width: 20%; }
+.ts-proj { font-size: 13px; font-weight: 600; color: var(--accent); }
+.ts-title { font-weight: 600; margin-top: 2px; overflow-wrap: break-word; }
+.ts-due { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.ts-none { color: var(--muted); }
+.ts-owners { overflow-wrap: break-word; }
+.editbtn { border: 1px solid transparent; background: none; cursor: pointer; color: var(--muted); border-radius: 8px; width: 32px; height: 32px; display: grid; place-items: center; }
+.editbtn:hover { color: var(--accent); border-color: var(--line); background: var(--surface-solid); }
+.editbtn svg { width: 16px; height: 16px; }
+.ts-table tr.ts-editing td { background: var(--accent-soft); }
+.ts-table textarea, .ts-table input, .ts-table select { width: 100%; border: 1px solid var(--line); background: var(--surface-solid); border-radius: 10px; padding: 8px 10px; font-size: 14px; }
+.ts-table textarea { min-height: 72px; resize: vertical; }
+.ts-actions { display: flex; gap: 6px; margin-top: 8px; }
+.savebtn { border: 0; border-radius: 999px; padding: 6px 14px; background: var(--accent); color: var(--accent-ink); font-weight: 600; cursor: pointer; font-size: 13px; }
+
+/* Milestones of the week */
+.mweek { list-style: none; margin: 0; padding: 0; display: grid; }
+.mweek li.day { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+.mweek li.day:first-child { border-top: 0; }
+.dlabel { text-align: center; font-size: 12px; color: var(--muted); line-height: 1.2; padding-top: 2px; }
+.dlabel b { display: block; font-family: var(--display); font-size: 22px; color: var(--ink); }
+.day.today .dlabel { color: var(--accent); } .day.today .dlabel b { color: var(--accent); }
+.ditems { display: grid; gap: 8px; min-width: 0; }
+.mitem { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 14.5px; }
+.mitem .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; align-self: center; }
+.mitem .dot.done { background: var(--done); } .mitem .dot.in_progress { background: var(--blue); } .mitem .dot.waiting { background: var(--wait); } .mitem .dot.not_started { background: var(--todo); }
+.mitem .who { font-size: 13px; color: var(--muted); }
+.mitem.is-ms { background: var(--accent-soft); border-radius: 12px; padding: 10px 12px; }
+.mitem.is-ms .t { font-family: var(--display); font-weight: 600; color: var(--ink); }
+.mitem.is-ms .t::before { content: "◆ "; color: var(--accent); }
+.mitem .when { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--accent); }
+.mitem.is-done .t { text-decoration: line-through; color: var(--muted); }
+.mempty { color: var(--muted); font-size: 14px; padding: 8px 0; }
+.reportbox > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; font-family: var(--display); font-weight: 600; list-style: none; }
+.reportbox > summary::-webkit-details-marker { display: none; }
+.reportbox > summary > span::before { content: "▸ "; color: var(--muted); }
+.reportbox[open] > summary > span::before { content: "▾ "; }
+
 /* Sections */
 .wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
 .tablewrap { position: relative; }
@@ -516,6 +559,10 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
           <label for="f-notes">Notes</label>
           <textarea id="f-notes" name="notes" placeholder="Progress, blockers, links…"></textarea>
         </div>
+        <div class="field">
+          <label for="f-next">Next step</label>
+          <input id="f-next" name="nextStep" placeholder="What happens next" autocomplete="off">
+        </div>
       </form>
       <div class="bigbtns">
         <button class="bigbtn b-fill" id="btnFill" type="button">
@@ -613,20 +660,39 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
         </div>
         <div class="people" id="people" aria-label="Tasks by owner"></div>
       </section>
-      <section class="panel" aria-labelledby="repTitle">
+      <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
-          <h2 id="repTitle">Weekly report</h2>
-          <button class="chipbtn" id="btnCopyReport" type="button">Copy report</button>
+          <h2 id="msTitle">Milestones of the week</h2>
+          <span class="hint mono" id="msCount"></span>
         </div>
+        <ol class="mweek" id="mweek"></ol>
+      </section>
+    </div>
+    <section class="panel" aria-labelledby="tsTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="tsTitle">Task summary</h2>
+          <div class="hint">Status is current. Highlights are for the selected week.</div>
+        </div>
+        <span class="hint mono" id="tsCount"></span>
+      </div>
+      <div class="tablewrap ts-wrap">
+        <table class="ts-table">
+          <thead><tr><th class="ts-c1">Project / Task</th><th>Owner</th><th>Status</th><th class="ts-c4">Highlights of the week</th><th class="ts-c5">Next step</th><th><span class="sr">Edit</span></th></tr></thead>
+          <tbody id="tsRows"></tbody>
+        </table>
+      </div>
+    </section>
+    <details class="panel reportbox">
+      <summary><span>Report text and your progress note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy report</button></summary>
         <div class="field">
           <label for="weekNote">Your progress this week</label>
           <textarea id="weekNote" class="note-area" placeholder="One or two lines on how your week went. Saved when you click away. Each person has their own note."></textarea>
         </div>
         <label class="sr" for="reportOut">Weekly report text</label>
         <textarea id="reportOut" class="report-out" readonly></textarea>
-        <div class="hint">The report updates as tasks change. Copy it straight into email or chat.</div>
-      </section>
-    </div>
+        <div class="hint">The report text updates as tasks change. Copy it straight into email or chat.</div>
+    </details>
   </section>
 
   <!-- 3. Checklist -->
@@ -725,7 +791,8 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     person: "all",     // assignee filter from the overview: "all" or a person key
     who: "all",        // "all", "mine" (owned by me) or "added" (created by me)
     view: "week",      // "week" or "timeline"
-    project: "all"     // project shown in the timeline
+    project: "all",    // project shown in the timeline
+    sumEdit: null      // task being updated in the Task summary
   };
   var store = null; // set by initStore
   var userCap = null;
@@ -838,6 +905,14 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     if (ons.length) t.ownerNames = ons;
     if (raw.milestone === true || raw.milestone === "true") t.milestone = true;
     if (raw.createdByName) t.createdByName = String(raw.createdByName).trim().slice(0, 60);
+    if (raw.nextStep) t.nextStep = String(raw.nextStep).trim().slice(0, 300);
+    var hl = raw.highlights;
+    if (typeof hl === "string" && hl.trim()) { try { hl = JSON.parse(hl); } catch (e) { hl = null; } }
+    if (hl && typeof hl === "object") {
+      var keep = {};
+      Object.keys(hl).filter(function (k) { return /^\d{4}-\d{2}-\d{2}$/.test(k) && hl[k]; }).slice(-60).forEach(function (k) { keep[k] = String(hl[k]).slice(0, 1000); });
+      if (Object.keys(keep).length) t.highlights = keep;
+    }
     if (raw.example === true || raw.example === "true") t.example = true;
     return t;
   }
@@ -1001,6 +1076,8 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     renderCarry();
     renderRows(tableList);
     state.reportList = list; state.reportCounts = c;
+    renderTaskSummary(list);
+    renderMilestones(whoFilter, projectFilter);
     renderReport(list, c);
 
     var note = $("weekNote");
@@ -1200,7 +1277,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
       tr.append(
         el("td", null, [chk]),
         el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
-        el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, meta,
+        el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, t.nextStep ? el("div", { class: "t-notes hint", text: "Next: " + t.nextStep }) : null, meta,
           createdName(t) ? el("div", { class: "t-added", text: "Created by " + createdName(t) }) : null]),
         el("td", null, [el("div", { class: "owners" }, personKeys(t).map(personChip))]),
         el("td", null, [pill]),
@@ -1218,7 +1295,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     if (t.related) bits.push(t.related);
     if (t.due) bits.push("due " + t.due);
     if (createdName(t) && personKeys(t).indexOf(keyForName(createdName(t))) < 0) bits.push("created by " + createdName(t));
-    return "- " + (t.milestone ? "◆ " : "") + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : "");
+    return "- " + (t.milestone ? "◆ " : "") + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (highlightOf(t) ? " — This week: " + highlightOf(t) : "") + (t.nextStep ? " — Next: " + t.nextStep : "") + (t.notes ? " — " + t.notes : "");
   }
   function reportText(list, c) {
     var lines = [];
@@ -1250,6 +1327,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     var names = ownerNamesOf(t).map(function (n) { return isMeKey(keyForName(n)) ? "Me" : n; });
     $("f-person").value = names.length ? names.join(", ") : (t.owner === state.me ? "Me" : "");
     $("f-milestone").checked = !!t.milestone;
+    $("f-next").value = t.nextStep || "";
     $("f-project").value = t.project || ""; $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
     render();
@@ -1289,6 +1367,8 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
       assigneeName: who.assigneeName || "",
       ownerNames: who.ownerNames,
       milestone: $("f-milestone").checked,
+      nextStep: $("f-next").value.trim(),
+      highlights: existing ? existing.highlights : undefined,
       createdBy: existing ? existing.createdBy : state.me,
       createdByName: creator,
       id: existing ? existing.id : newId(),
@@ -1309,7 +1389,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   });
 
   // ---------- Week nav + note ----------
-  function goWeek(w) { state.week = w; pendingDelete = null; clearForm(); render(); }
+  function goWeek(w) { state.week = w; state.sumEdit = null; pendingDelete = null; clearForm(); render(); }
   $("prevWeek").addEventListener("click", function () { goWeek(addDays(state.week, -7)); });
   $("nextWeek").addEventListener("click", function () { goWeek(addDays(state.week, 7)); });
   $("thisWeek").addEventListener("click", function () { goWeek(THIS_WEEK); });
@@ -1350,10 +1430,10 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
 
   // ---------- Export / import ----------
   function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
-  var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "milestone", "project", "title", "status", "due", "related", "notes", "example"];
+  var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "milestone", "project", "title", "status", "due", "related", "notes", "nextStep", "highlights", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
-      return CSV_COLS.map(function (k) { return csvCell(k === "milestone" ? (t.milestone ? "true" : "") : k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personKeys(t).map(personName).join(", ") : k === "createdByName" ? createdName(t) : k === "assigneeName" ? (t.assigneeName || t.sampleOwner || "") : t[k]); }).join(",");
+      return CSV_COLS.map(function (k) { return csvCell(k === "milestone" ? (t.milestone ? "true" : "") : k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personKeys(t).map(personName).join(", ") : k === "createdByName" ? createdName(t) : k === "assigneeName" ? (t.assigneeName || t.sampleOwner || "") : k === "highlights" ? (t.highlights ? JSON.stringify(t.highlights) : "") : t[k]); }).join(",");
     })).join("\r\n");
   }
   function parseCsv(text) {
@@ -1405,6 +1485,101 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     offerFile("the-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
   });
 
+
+  // ---------- Weekly summary: task table and milestones ----------
+  function highlightOf(t, week) { return (t.highlights && t.highlights[week || state.week]) || ""; }
+  function fmtDay(ymdStr) { var d = parseYmd(ymdStr); return shortDate(d); }
+  var PENCIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+  function renderTaskSummary(list) {
+    var body = $("tsRows");
+    // keep what someone is typing if the table redraws while they edit
+    var keepHl = $("se-hl") ? $("se-hl").value : null, keepNs = $("se-ns") ? $("se-ns").value : null, keepSt = $("se-st") ? $("se-st").value : null;
+    var focusId = document.activeElement && /^se-/.test(document.activeElement.id) ? document.activeElement.id : null;
+    body.replaceChildren();
+    var rows = sorted(list);
+    $("tsCount").textContent = rows.length + (rows.length === 1 ? " task" : " tasks");
+    if (!rows.length) { body.appendChild(el("tr", null, [el("td", { colspan: "6", class: "ts-none", text: "No tasks for this week." })])); return; }
+    rows.forEach(function (t) {
+      var editing = state.sumEdit === t.id && !state.readOnly;
+      var tr = el("tr", { class: editing ? "ts-editing" : "" });
+      var c1 = el("td", null, [
+        el("div", { class: "ts-proj", text: t.project || "No project" }),
+        el("div", { class: "ts-title", text: (t.milestone ? "◆ " : "") + t.title }),
+        el("div", { class: "ts-due", text: t.due ? fmtDay(t.due) : "No date" })
+      ]);
+      var c2 = el("td", { class: "ts-owners", text: personKeys(t).map(personName).join(", ") });
+      var c3, c4, c5, c6;
+      if (editing) {
+        var sel = el("select", { id: "se-st", "aria-label": "Status" });
+        ORDER.forEach(function (st) { sel.appendChild(el("option", { value: st, text: STATUS[st].en })); });
+        sel.value = keepSt || t.status;
+        c3 = el("td", null, [sel]);
+        var ta = el("textarea", { id: "se-hl", "aria-label": "Highlights of the week", placeholder: "What happened this week?" });
+        ta.value = keepHl !== null ? keepHl : highlightOf(t);
+        c4 = el("td", null, [ta]);
+        var ns = el("input", { id: "se-ns", "aria-label": "Next step", placeholder: "What happens next" });
+        ns.value = keepNs !== null ? keepNs : (t.nextStep || "");
+        c5 = el("td", null, [ns, el("div", { class: "ts-actions" }, [
+          el("button", { type: "button", class: "savebtn", text: "Save", onclick: function () { saveSummaryEdit(t); } }),
+          el("button", { type: "button", class: "linkbtn", text: "Cancel", onclick: function () { state.sumEdit = null; render(); } })
+        ])]);
+        c6 = el("td");
+      } else {
+        c3 = el("td", null, [el("span", { class: "pill " + t.status, text: STATUS[t.status].en })]);
+        var h = highlightOf(t);
+        c4 = el("td", { class: h ? "" : "ts-none", text: h || "No update this week" });
+        c5 = el("td", { class: t.nextStep ? "" : "ts-none", text: t.nextStep || "—" });
+        var btn = el("button", { type: "button", class: "editbtn", "aria-label": "Update " + t.title, title: "Update highlights, next step and status" });
+        btn.innerHTML = PENCIL;
+        btn.addEventListener("click", function () { state.sumEdit = t.id; render(); var f = $("se-hl"); if (f) f.focus(); });
+        c6 = el("td", null, state.readOnly ? [] : [btn]);
+      }
+      tr.append(c1, c2, c3, c4, c5, c6);
+      body.appendChild(tr);
+    });
+    if (focusId && $(focusId)) { var f = $(focusId); f.focus(); if (f.setSelectionRange && f.value) f.setSelectionRange(f.value.length, f.value.length); }
+  }
+  function saveSummaryEdit(t) {
+    var hl = $("se-hl").value.trim(), ns = $("se-ns").value.trim(), st = $("se-st").value;
+    var highlights = Object.assign({}, t.highlights || {});
+    if (hl) highlights[state.week] = hl; else delete highlights[state.week];
+    var next = Object.assign({}, t, { status: st, nextStep: ns, highlights: highlights, updated: Date.now() });
+    if (!ns) delete next.nextStep;
+    if (!Object.keys(highlights).length) delete next.highlights;
+    state.sumEdit = null;
+    store.putTask(next).then(function () { toast("Updated “" + t.title + "”."); }, function () {});
+  }
+  function renderMilestones(whoFilter, projectFilter) {
+    var box = $("mweek"), end = addDays(state.week, 6);
+    var inWeek = state.tasks.filter(whoFilter).filter(projectFilter).filter(function (t) { return t.due && t.due >= state.week && t.due <= end; });
+    var ms = inWeek.filter(function (t) { return t.milestone; }).length;
+    $("msCount").textContent = ms + (ms === 1 ? " milestone" : " milestones") + " · " + inWeek.length + " due";
+    box.replaceChildren();
+    if (!inWeek.length) { box.appendChild(el("li", { class: "mempty", text: "No milestones or due dates this week." })); return; }
+    var names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    for (var i = 0; i < 7; i++) {
+      var day = addDays(state.week, i);
+      var items = inWeek.filter(function (t) { return t.due === day; }).sort(function (a, b) {
+        if (!!a.milestone !== !!b.milestone) return a.milestone ? -1 : 1;
+        return ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || a.title.localeCompare(b.title);
+      });
+      if (!items.length) continue;
+      var label = el("div", { class: "dlabel" }, [names[i], el("b", { text: String(parseYmd(day).getDate()) }), MONTHS[parseYmd(day).getMonth()]]);
+      var list = el("div", { class: "ditems" }, items.map(function (t) {
+        var who = personKeys(t).filter(function (k) { return k !== "none"; }).map(personName).join(", ");
+        var kids = [
+          t.milestone ? null : el("span", { class: "dot " + t.status, title: STATUS[t.status].en }),
+          el("span", { class: "t", text: t.title }),
+          who ? el("span", { class: "who", text: who }) : null
+        ];
+        if (t.milestone && t.status !== "done") kids.push(el("span", { class: "when", text: countdownText(daysFromToday(t.due)) }));
+        if (t.milestone && t.status === "done") kids.push(el("span", { class: "when", text: "Done" }));
+        return el("div", { class: "mitem" + (t.milestone ? " is-ms" : "") + (t.status === "done" ? " is-done" : "") }, kids);
+      }));
+      box.appendChild(el("li", { class: "day" + (day === TODAY ? " today" : "") }, [label, list]));
+    }
+  }
+
   // ---------- Word, PowerPoint and PDF reports ----------
   var LIBS = {
     docx: ["https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"],
@@ -1448,8 +1623,8 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     var slug = state.project !== "all" ? "-" + state.project.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
     return "weekly-report-" + state.week + slug + "." + ext;
   }
-  var HEAD = ["Project", "Task", "With", "Status", "Due date", "Notes"];
-  function rowCells(t, k) { return [t.project || "", taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), notesText(t)]; }
+  var HEAD = ["Project", "Task", "With", "Status", "Due date", "Highlights of the week", "Next step"];
+  function rowCells(t, k) { return [t.project || "", taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), highlightOf(t) || "No update this week", t.nextStep || ""]; }
 
   function makeDocx(m) {
     var D = window.docx;
@@ -1503,7 +1678,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
       if (p.notes.length) { sl.addText("Progress: " + p.notes.join(" "), { x: 0.5, y: y, w: 12.3, h: 0.5, fontSize: 12, color: ink, fontFace: font, italic: true }); y += 0.55; }
       var rows = [HEAD.map(function (h) { return { text: h, options: { bold: true, fill: { color: "EDEBFB" }, color: ink } }; })]
         .concat(p.tasks.map(function (t) { return rowCells(t, p.key).map(function (v) { return { text: v, options: { color: ink } }; }); }));
-      sl.addTable(rows, { x: 0.5, y: y, w: 12.3, colW: [1.8, 3.4, 1.7, 1.3, 1.2, 2.9], fontSize: 11, fontFace: font, border: { type: "solid", pt: 0.5, color: "DADCF0" }, valign: "top", autoPage: true, autoPageRepeatHeader: true, autoPageSlideStartY: 0.5 });
+      sl.addTable(rows, { x: 0.5, y: y, w: 12.3, colW: [1.5, 2.9, 1.4, 1.1, 1.1, 2.5, 1.8], fontSize: 11, fontFace: font, border: { type: "solid", pt: 0.5, color: "DADCF0" }, valign: "top", autoPage: true, autoPageRepeatHeader: true, autoPageSlideStartY: 0.5 });
     });
     return pptx.write({ outputType: "blob" });
   }
@@ -1536,7 +1711,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
         body: p.tasks.map(function (t) { return rowCells(t, p.key).map(plain); }),
         styles: { fontSize: 9, cellPadding: 4, textColor: [31, 35, 84], lineColor: [218, 220, 240], lineWidth: 0.5 },
         headStyles: { fillColor: [237, 235, 251], textColor: [31, 35, 84], fontStyle: "bold" },
-        columnStyles: { 0: { cellWidth: 90 }, 1: { cellWidth: 190 }, 2: { cellWidth: 90 }, 3: { cellWidth: 70 }, 4: { cellWidth: 65 } }
+        columnStyles: { 0: { cellWidth: 80 }, 1: { cellWidth: 165 }, 2: { cellWidth: 75 }, 3: { cellWidth: 62 }, 4: { cellWidth: 60 } }
       });
       y = doc.lastAutoTable.finalY + 26;
     });
