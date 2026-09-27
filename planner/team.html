@@ -964,6 +964,14 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #homeView .tilegrid { background: transparent; } :root:not([data-theme="light"]) #homeView .navtile { border-color: #3a4548; } }
 :root[data-theme="dark"] #homeView .tilegrid { background: transparent; }
 :root[data-theme="dark"] #homeView .navtile { border-color: #3a4548; }
+
+/* Lighter page background */
+body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F2F2; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background: var(--bg); } }
+:root[data-theme="dark"] body { background: var(--bg); }
+.intro .story, .feat li { background: #FFFFFF; border: 1px solid #DDE2E1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .intro .story, :root:not([data-theme="light"]) .feat li { background: var(--surface); border-color: var(--line); } }
+:root[data-theme="dark"] .intro .story, :root[data-theme="dark"] .feat li { background: var(--surface); border-color: var(--line); }
 </style>
 
 <div class="wrap">
