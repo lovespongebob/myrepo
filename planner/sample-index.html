@@ -1213,18 +1213,16 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </div>
     </div>
     <div class="grid-summary">
-      <section class="panel" aria-labelledby="ovTitle">
-        <div class="panel-head">
-          <h2 id="ovTitle">Status</h2>
-          <span class="hint mono" id="ovTotal"></span>
-        </div>
-        <div class="summary">
-          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
-          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
-          <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
-          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
-        </div>
-      </section>
+      <details class="panel reportbox" open>
+        <summary><span>Summary text and your note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button></summary>
+          <div class="field">
+            <label for="weekNote">Your note for the week</label>
+            <textarea id="weekNote" class="note-area" placeholder="One or two lines on how your week went. Saved when you click away. Each person has their own note."></textarea>
+          </div>
+          <label class="sr" for="reportOut">Weekly summary text</label>
+          <textarea id="reportOut" class="report-out" readonly></textarea>
+          <div class="hint">The summary text updates as tasks change. Copy it straight into a message or email.</div>
+      </details>
       <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
           <div>
@@ -1244,6 +1242,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         <div class="ms-suggest" id="msSuggest" hidden></div>
       </section>
     </div>
+    <section class="panel" aria-labelledby="ovTitle">
+        <div class="panel-head">
+          <h2 id="ovTitle">Status</h2>
+          <span class="hint mono" id="ovTotal"></span>
+        </div>
+        <div class="summary">
+          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
+          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
+          <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
+          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
+        </div>
+      </section>
     <section class="panel" aria-labelledby="tsTitle">
       <div class="panel-head">
         <div>
@@ -1259,16 +1269,6 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         </table>
       </div>
     </section>
-    <details class="panel reportbox">
-      <summary><span>Summary text and your note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button></summary>
-        <div class="field">
-          <label for="weekNote">Your note for the week</label>
-          <textarea id="weekNote" class="note-area" placeholder="One or two lines on how your week went. Saved when you click away. Each person has their own note."></textarea>
-        </div>
-        <label class="sr" for="reportOut">Weekly summary text</label>
-        <textarea id="reportOut" class="report-out" readonly></textarea>
-        <div class="hint">The summary text updates as tasks change. Copy it straight into a message or email.</div>
-    </details>
   </section>
 
   </div>
