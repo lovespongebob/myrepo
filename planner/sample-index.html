@@ -1028,6 +1028,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .next-list { counter-reset: nx; }
 .next-list li { counter-increment: nx; padding-left: 26px; }
 .next-list li::before { content: counter(nx); background: none; width: auto; height: auto; top: 0; left: 2px; border-radius: 0; font-family: var(--display); font-weight: 700; color: var(--accent); }
+
+/* Takeaways inform what's next: equal panels and a connecting arrow */
+.tk-head { min-height: 32px; }
+@media (min-width: 981px) {
+  #panesummary .grid-summary { align-items: stretch; }
+  #panesummary .grid-summary > .panel { overflow: visible; align-content: start; }
+  #panesummary .grid-summary > .panel > .panel-head:first-child { border-radius: 4px 4px 0 0; }
+  .whatsnext { position: relative; }
+  .tk-arrow { position: absolute; left: -48px; top: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--band); color: var(--lime); display: grid; place-items: center; z-index: 2; }
+  .tk-arrow svg { width: 18px; height: 18px; }
+}
+@media (max-width: 980px) { .tk-arrow { display: none; } }
 </style>
 
 <div class="wrap">
@@ -1310,6 +1322,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           <li><input type="checkbox" id="goal-done-2" aria-label="Goal 3 achieved"><label class="sr" for="goal-2">Goal 3</label><input id="goal-2" maxlength="160" autocomplete="off" placeholder="e.g. Book the family trip"></li>
         </ol>
         <div class="takeaways whatsnext">
+          <span class="tk-arrow" role="img" aria-label="Key takeaways inform what’s next" title="Key takeaways inform what’s next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           <div class="tk-head"><h3>What’s next</h3></div>
           <ol class="tk-list next-list" id="whatsNext"></ol>
           <div class="hint" id="nextSource"></div>
