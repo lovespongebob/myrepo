@@ -889,6 +889,8 @@ tr.is-milestone td { background: var(--accent-soft); }
 .home-cover .eyebrow { justify-self: start; }
 
 .panel th, .panel .ts-table th { background: var(--accent-soft); color: var(--ink); }
+
+.intro-sub { margin: 6px 0 0; color: var(--muted); font-size: 15.5px; }
 </style>
 
 <div class="wrap">
@@ -901,11 +903,11 @@ tr.is-milestone td { background: var(--accent-soft); }
     </header>
     <div class="tilegrid" id="pageTabs">
       <button type="button" class="navtile" data-tab="intro" aria-pressed="false">
-        <span class="nt-head">Introduction</span>
+        <span class="nt-head">Overview</span>
         <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="1.6" fill="currentColor"/><path d="M24 4v4M24 40v4"/></svg><span class="nt-desc">Why the planner exists and what you can do with it.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="planner" aria-pressed="true">
-        <span class="nt-head">The Weekly Planner</span>
+        <span class="nt-head">Plan Your Week</span>
         <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add tasks, set owners and dates, and plan the week.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
@@ -918,15 +920,16 @@ tr.is-milestone td { background: var(--accent-soft); }
   <div class="backbar" id="backbar" hidden>
     <button type="button" class="backbtn" data-go="home">← All sections</button>
     <div class="crumbs" role="group" aria-label="Go to section">
-      <button type="button" data-go="intro">Introduction</button>
-      <button type="button" data-go="planner">The Weekly Planner</button>
+      <button type="button" data-go="intro">Overview</button>
+      <button type="button" data-go="planner">Plan Your Week</button>
       <button type="button" data-go="summary">Weekly Summary</button>
     </div>
   </div>
 
   <div id="viewIntro" class="intro" hidden>
     <header>
-      <h1>The Weekly Planner Overview</h1>
+      <h1>Overview</h1>
+      <p class="intro-sub">Why the planner exists and what you can do with it.</p>
     </header>
     <section class="story" aria-label="Why I made it">
       <p><span class="lead">Copy last week’s tasks, remove the old projects, and update the progress.</span> If you keep your weekly plan in a notebook, spreadsheet, or PPT, this probably sounds familiar. Then there’s the back-and-forth to collect updates and make sure everyone has the latest version.</p>
@@ -956,7 +959,7 @@ tr.is-milestone td { background: var(--accent-soft); }
   <div id="viewPlanner">
   <header class="top">
     <div>
-      <h1 id="secTitle">The Weekly Planner</h1>
+      <h1 id="secTitle">Plan Your Week</h1>
       <p id="secDesc">Add tasks, set owners and dates, and plan the week.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
@@ -2372,7 +2375,7 @@ tr.is-milestone td { background: var(--accent-soft); }
       if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     var SECTIONS = {
-      planner: ["The Weekly Planner", "Add tasks, set owners and dates, and plan the week."],
+      planner: ["Plan Your Week", "Add tasks, set owners and dates, and plan the week."],
       summary: ["Weekly Summary", "Status, key milestones and highlights for the selected week."]
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
