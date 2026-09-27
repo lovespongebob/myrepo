@@ -223,7 +223,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .reportbox > summary > span::before { content: "▸ "; color: var(--muted); }
 .reportbox[open] > summary > span::before { content: "▾ "; }
 
-/* Key milestones of the week */
+/* Key milestones */
 .kms-list { list-style: none; margin: 0; padding: 0; display: grid; }
 .kms { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
 .kms:first-child { border-top: 0; }
@@ -869,8 +869,8 @@ tr.is-milestone td { background: var(--gold-soft); }
       <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
           <div>
-            <h2 id="msTitle">Key milestones of the week</h2>
-            <div class="hint">The few results that matter most this week. Tick them off as they land.</div>
+            <h2 id="msTitle">Key milestones</h2>
+            <div class="hint">The few results that matter most this week. Edit them any time and tick them off as they land.</div>
           </div>
           <span class="hint mono" id="msCount"></span>
         </div>
@@ -1523,7 +1523,7 @@ tr.is-milestone td { background: var(--gold-soft); }
     lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started);
     var kms = visibleMilestones(state.week);
     if (kms.length) {
-      lines.push(""); lines.push("Key milestones of the week:");
+      lines.push(""); lines.push("Key milestones:");
       kms.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text + (m.date ? " (" + fmtDay(m.date) + ")" : "")); });
     }
     peopleKeys(list).forEach(function (k) {
@@ -1773,7 +1773,7 @@ tr.is-milestone td { background: var(--gold-soft); }
     state.sumEdit = null;
     store.putTask(next).then(function () { toast("Updated “" + t.title + "”."); }, function () {});
   }
-  // ---------- Key milestones of the week (entered by people) ----------
+  // ---------- Key milestones (entered by people) ----------
   function msKey(week) { return week + "~key-milestones"; }
   function keyMilestones(week) { var d = state.weeks[msKey(week)]; return d && Array.isArray(d.items) ? d.items : []; }
   function visibleMilestones(week) {
@@ -1925,7 +1925,7 @@ tr.is-milestone td { background: var(--gold-soft); }
       new D.Paragraph({ spacing: { before: 200, after: 200 }, children: [new D.TextRun({ text: "Together: " + countsLine(m.counts) + " (" + m.total + " tasks)", bold: true })] })
     ];
     if (m.milestones.length) {
-      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: "Key milestones of the week" })] }));
+      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: "Key milestones" })] }));
       m.milestones.forEach(function (km) {
         kids.push(new D.Paragraph({ children: [new D.TextRun({ text: (km.done ? "✓  " : "○  ") + km.text, bold: true }), new D.TextRun({ text: km.date ? "  ·  " + fmtDay(km.date) : "", color: "62678F" })] }));
       });
@@ -1959,7 +1959,7 @@ tr.is-milestone td { background: var(--gold-soft); }
       s.addText(st[0], { x: x + 0.25, y: 3.5, w: 2.3, h: 0.5, fontSize: 16, color: ink, fontFace: font });
     });
     var owners = m.milestones.length
-      ? ["Key milestones of the week"].concat(m.milestones.map(function (km) { return (km.done ? "✓ " : "○ ") + km.text + (km.date ? "  ·  " + fmtDay(km.date) : ""); }))
+      ? ["Key milestones"].concat(m.milestones.map(function (km) { return (km.done ? "✓ " : "○ ") + km.text + (km.date ? "  ·  " + fmtDay(km.date) : ""); }))
       : m.people.map(function (p) { return p.name + ": " + countsLine(p.counts); });
     if (owners.length) s.addText(owners.join("\n"), { x: 0.6, y: 4.7, w: 12, h: 2.4, fontSize: 13, color: muted, fontFace: font, valign: "top" });
     m.people.forEach(function (p) {
@@ -1989,7 +1989,7 @@ tr.is-milestone td { background: var(--gold-soft); }
     var y = 118;
     if (m.milestones.length) {
       doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(31, 35, 84);
-      doc.text("Key milestones of the week", 40, y); y += 18;
+      doc.text("Key milestones", 40, y); y += 18;
       doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
       m.milestones.forEach(function (km) {
         var lines = doc.splitTextToSize(plain((km.done ? "[x] " : "[ ] ") + km.text + (km.date ? "  -  " + fmtDay(km.date) : "")), W - 80);
