@@ -1669,7 +1669,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var code = err && err.code;
     if (code === "invalid_argument" || code === "not_granted") {
       state.readOnly = true;
-      toast("You can view this planner but not change it. Ask for Contributor access to make changes.");
+      toast("You can view this planner but not change it. Ask to be invited as an Editor to make changes.");
       render();
     } else if (code === "quota_exceeded") {
       toast("The planner is full. Delete some old tasks, then try again.");
@@ -1692,8 +1692,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       return ready.then(function (r) {
         if (r[0]) state.me = r[0];
         if (r[1] === false) { state.readOnly = true; state.locked = true; }
-        // Visitors by link from outside the organization get no answer from can(),
-        // so also check a marker document only invited members can read.
+        // can("data.write") is true only for you and invited Editors (the data rules require Editor).
+        // Visitors who get no answer from can() are checked against a marker only Editors can read.
         var check = r[1] === true ? Promise.resolve(true)
           : db.collection("access").doc("members").get().then(function (d) { return d.exists; }, function () { return false; });
         return check.then(function (member) {
