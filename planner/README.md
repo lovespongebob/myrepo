@@ -25,6 +25,8 @@ Run `./build.sh` after editing `app.html` to regenerate `index.html`.
 - **Created by and Owner are separate:** both are names people type, and the planner never shows claude.ai account names. "Created by" is remembered on each device. "Owner" can be "Me" or anyone's name, even for people who never open the planner.
 - **Several owners per task:** type names separated by commas (slashes work too), and the task counts for each person in their row, the "Owned by me" filter and the report.
 - **Four statuses and milestones:** Not started, In progress, Waiting and Done. Tick "Milestone" for launches, event days and key deadlines; the next one shows as a countdown.
+- **Three tabs:** Introduction (the one-pager), The Weekly Planner (The Plan, the task list and the checklist) and Weekly Summary (status and the weekly report). Add `#intro`, `#planner` or `#summary` to the link to open a tab directly.
+- **Report exports:** the Export menu and the Weekly Summary's "Download report" save the current week's report as Word (.docx), PowerPoint (.pptx) or PDF, following the project and owner filters. The libraries (docx, PptxGenJS, jsPDF) load from jsDelivr only when a format is chosen.
 - **Project timeline:** a second view that lists every task in a project across weeks, grouped by week, with "in N days" countdowns.
 - **Form order:** Created by, Project, Task, Owner, Status, Due date, Related item, Notes.
 - **Who filters:** Everyone, Owned by me, and Created by me.

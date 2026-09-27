@@ -140,6 +140,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Page switch: Introduction | The Weekly Planner */
 .tabs { display: flex; justify-content: center; }
 .tabs .seg { background: var(--surface); box-shadow: var(--shadow); }
+.tabs .seg { flex-wrap: wrap; justify-content: center; border-radius: 22px; }
 .tabs .seg button { padding: 8px 18px; font-size: 14px; font-weight: 500; }
 #viewPlanner { display: grid; gap: 20px; min-width: 0; }
 
@@ -174,6 +175,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .exportbtn:hover { filter: brightness(1.05); }
 .exportbtn:disabled { opacity: 0.5; cursor: default; }
 .exportbtn svg { width: 16px; height: 16px; }
+
+/* Export menus */
+.exportmenu { position: relative; }
+.exportmenu > summary { list-style: none; }
+.exportmenu > summary::-webkit-details-marker { display: none; }
+.exportmenu .menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; min-width: 250px; background: var(--surface-solid); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 6px; display: grid; gap: 2px; }
+.exportmenu .menu button { display: flex; justify-content: space-between; gap: 12px; width: 100%; border: 0; background: none; text-align: left; padding: 8px 10px; border-radius: 9px; cursor: pointer; font-size: 14px; }
+.exportmenu .menu button:hover, .exportmenu .menu button:focus-visible { background: var(--accent-soft); color: var(--accent); }
+.exportmenu .menu button span { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+.menu-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 8px 10px 2px; }
+@media (max-width: 520px) { .exportmenu .menu { right: auto; left: 0; } }
 
 /* Sections */
 .wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
@@ -380,6 +392,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     <div class="seg" role="group" id="pageTabs">
       <button type="button" data-tab="intro" aria-pressed="false">Introduction</button>
       <button type="button" data-tab="planner" aria-pressed="true">The Weekly Planner</button>
+      <button type="button" data-tab="summary" aria-pressed="false">Weekly Summary</button>
     </div>
   </nav>
 
@@ -429,12 +442,22 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
   <!-- 1. Planning -->
-  <section class="block" aria-labelledby="secPlan">
+  <section class="block" id="paneplanner" aria-labelledby="secPlan">
     <div class="block-head block-head-row">
       <div><span class="eyebrow">Planning</span><h2 id="secPlan" class="block-title">Plan the work</h2></div>
       <div class="export-bar" role="group" aria-label="Export and reopen">
-        <button class="exportbtn" id="btnExport" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Export</button>
-        <button class="chipbtn" id="btnCsv" type="button">Export CSV</button>
+        <details class="exportmenu">
+          <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Export <span aria-hidden="true">▾</span></summary>
+          <div class="menu" role="group" aria-label="Export formats">
+            <div class="menu-label">Weekly report</div>
+            <button type="button" data-export="docx">Word <span>.docx</span></button>
+            <button type="button" data-export="pptx">PowerPoint <span>.pptx</span></button>
+            <button type="button" data-export="pdf">PDF <span>.pdf</span></button>
+            <div class="menu-label">All tasks</div>
+            <button type="button" id="btnCsv">Spreadsheet <span>.csv</span></button>
+            <button type="button" id="btnExport">Planner file, can be reopened <span>.json</span></button>
+          </div>
+        </details>
         <button class="chipbtn" id="btnImport" type="button">Reopen an export…</button>
         <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="sr" tabindex="-1">
       </div>
@@ -560,8 +583,22 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   </section>
 
   <!-- 2. Weekly summary -->
-  <section class="block" aria-labelledby="secSum">
-    <div class="block-head"><span class="eyebrow">Weekly summary</span><h2 id="secSum" class="block-title">See where the week stands</h2></div>
+  <section class="block" id="panesummary" aria-labelledby="secSum">
+    <div class="block-head block-head-row">
+      <div><span class="eyebrow">Weekly summary</span><h2 id="secSum" class="block-title">See where the week stands</h2></div>
+      <div class="export-bar">
+        <label class="filter-label" for="projectPick2">Project</label>
+        <select id="projectPick2" class="selectpill"></select>
+        <details class="exportmenu">
+          <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Download report <span aria-hidden="true">▾</span></summary>
+          <div class="menu" role="group" aria-label="Report formats">
+            <button type="button" data-export="docx">Word <span>.docx</span></button>
+            <button type="button" data-export="pptx">PowerPoint <span>.pptx</span></button>
+            <button type="button" data-export="pdf">PDF <span>.pdf</span></button>
+          </div>
+        </details>
+      </div>
+    </div>
     <div class="grid-summary">
       <section class="panel" aria-labelledby="ovTitle">
         <div class="panel-head">
@@ -593,7 +630,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   </section>
 
   <!-- 3. Checklist -->
-  <section class="block" aria-labelledby="secCheck">
+  <section class="block" id="panecheck" aria-labelledby="secCheck">
     <div class="block-head"><span class="eyebrow">Checklist</span><h2 id="secCheck" class="block-title">Check it before you rely on it</h2></div>
   <section class="panel" aria-labelledby="chkTitle">
     <div class="panel-head">
@@ -963,6 +1000,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     renderProjects();
     renderCarry();
     renderRows(tableList);
+    state.reportList = list; state.reportCounts = c;
     renderReport(list, c);
 
     var note = $("weekNote");
@@ -1012,6 +1050,9 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     pick.replaceChildren(el("option", { value: "all", text: "All projects" }));
     names.forEach(function (n) { pick.appendChild(el("option", { value: n, text: n })); });
     pick.value = state.project;
+    var pick2 = $("projectPick2");
+    pick2.replaceChildren.apply(pick2, Array.prototype.map.call(pick.options, function (o) { return el("option", { value: o.value, text: o.textContent }); }));
+    pick2.value = state.project;
   }
   function daysFromToday(ymdStr) { return Math.round((parseYmd(ymdStr) - parseYmd(TODAY)) / 864e5); }
   function countdownText(d) {
@@ -1228,6 +1269,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     state.view = b.getAttribute("data-v"); pendingDelete = null; render();
   });
   $("projectPick").addEventListener("change", function () { state.project = $("projectPick").value; render(); });
+  $("projectPick2").addEventListener("change", function () { state.project = $("projectPick2").value; render(); });
   $("whoSeg").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
     state.who = b.getAttribute("data-w"); state.person = "all"; pendingDelete = null; render();
@@ -1344,6 +1386,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
       if (dl) {
         return dl.save({ filename: filename, data: text }).then(function () { toast("Exported " + filename + "."); }, function (e) {
           if (e && e.code === "declined") return;
+          if (e && (e.code === "extension_not_enabled" || e.code === "rejected_extension")) { toast("This file type can’t be saved here. Try PDF or CSV instead."); return; }
           toast("Export isn't available here. Copy the weekly report instead.");
         });
       }
@@ -1360,6 +1403,164 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   });
   $("btnCsv").addEventListener("click", function () {
     offerFile("the-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
+  });
+
+  // ---------- Word, PowerPoint and PDF reports ----------
+  var LIBS = {
+    docx: ["https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"],
+    pptx: ["https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"],
+    pdf: ["https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js", "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"]
+  };
+  var loaded = {};
+  function loadScript(src) {
+    if (loaded[src]) return loaded[src];
+    loaded[src] = new Promise(function (resolve, reject) {
+      var sc = document.createElement("script");
+      sc.src = src; sc.onload = resolve;
+      sc.onerror = function () { delete loaded[src]; reject(new Error("Could not load " + src)); };
+      document.head.appendChild(sc);
+    });
+    return loaded[src];
+  }
+  function loadLibs(kind) { return LIBS[kind].reduce(function (pr, src) { return pr.then(function () { return loadScript(src); }); }, Promise.resolve()); }
+
+  // Everything the report shows, as plain data.
+  function reportModel() {
+    var list = state.reportList || [], c = state.reportCounts || counts(list);
+    var people = peopleKeys(list).map(function (k) {
+      var mine = list.filter(function (t) { return ownsKey(t, k); });
+      var rows = [];
+      ["done", "in_progress", "waiting", "not_started"].forEach(function (st) {
+        sorted(mine.filter(function (t) { return t.status === st; })).forEach(function (t) { rows.push(t); });
+      });
+      return { name: personName(k), key: k, counts: counts(mine), notes: notesForKey(state.week, k), tasks: rows };
+    });
+    var scope = state.project !== "all" ? state.project : "All projects";
+    var who = state.person !== "all" ? personName(state.person) : state.who === "mine" ? "Owned by me" : state.who === "added" ? "Created by me" : "Everyone";
+    return { title: "Weekly report", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people };
+  }
+  function dueText(t) { return t.due ? t.due.replace(/-/g, "/") : "No date"; }
+  function taskText(t) { return (t.milestone ? "◆ " : "") + t.title; }
+  function withText(t, k) { return personKeys(t).filter(function (x) { return x !== k && x !== "none"; }).map(personName).join(", "); }
+  function notesText(t) { return [t.notes, t.related ? "Related: " + t.related : ""].filter(Boolean).join(" · "); }
+  function countsLine(c) { return "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started; }
+  function reportFileName(ext) {
+    var slug = state.project !== "all" ? "-" + state.project.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
+    return "weekly-report-" + state.week + slug + "." + ext;
+  }
+  var HEAD = ["Project", "Task", "With", "Status", "Due date", "Notes"];
+  function rowCells(t, k) { return [t.project || "", taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), notesText(t)]; }
+
+  function makeDocx(m) {
+    var D = window.docx;
+    var cell = function (text, head) {
+      return new D.TableCell({
+        shading: head ? { fill: "EDEBFB" } : undefined,
+        margins: { top: 60, bottom: 60, left: 80, right: 80 },
+        children: [new D.Paragraph({ children: [new D.TextRun({ text: String(text || ""), bold: !!head, size: 18 })] })]
+      });
+    };
+    var kids = [
+      new D.Paragraph({ heading: D.HeadingLevel.TITLE, children: [new D.TextRun({ text: m.title })] }),
+      new D.Paragraph({ children: [new D.TextRun({ text: m.range + "  ·  " + m.scope, color: "62678F" })] }),
+      new D.Paragraph({ spacing: { before: 200, after: 200 }, children: [new D.TextRun({ text: "Together: " + countsLine(m.counts) + " (" + m.total + " tasks)", bold: true })] })
+    ];
+    m.people.forEach(function (p) {
+      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: p.name })] }));
+      kids.push(new D.Paragraph({ children: [new D.TextRun({ text: countsLine(p.counts), color: "62678F" })] }));
+      p.notes.forEach(function (n) { kids.push(new D.Paragraph({ children: [new D.TextRun({ text: "Progress: ", bold: true }), new D.TextRun({ text: n })] })); });
+      kids.push(new D.Table({
+        width: { size: 100, type: D.WidthType.PERCENTAGE },
+        rows: [new D.TableRow({ tableHeader: true, children: HEAD.map(function (h) { return cell(h, true); }) })]
+          .concat(p.tasks.map(function (t) { return new D.TableRow({ children: rowCells(t, p.key).map(function (v) { return cell(v); }) }); }))
+      }));
+      kids.push(new D.Paragraph({ text: "" }));
+    });
+    return D.Packer.toBlob(new D.Document({ creator: "The Weekly Planner", title: m.title + " " + m.range, sections: [{ children: kids }] }));
+  }
+
+  function makePptx(m) {
+    var pptx = new window.PptxGenJS();
+    pptx.layout = "LAYOUT_WIDE";
+    var ink = "1F2354", muted = "62678F", font = "Arial";
+    var s = pptx.addSlide();
+    s.background = { color: "F4F5FC" };
+    s.addText(m.title, { x: 0.6, y: 0.6, w: 12, h: 0.9, fontSize: 36, bold: true, color: ink, fontFace: font });
+    s.addText(m.range + "  ·  " + m.scope, { x: 0.6, y: 1.45, w: 12, h: 0.5, fontSize: 16, color: muted, fontFace: font });
+    [["Done", m.counts.done, "2FA878"], ["In progress", m.counts.in_progress, "4A7BE8"], ["Waiting", m.counts.waiting, "B86E0A"], ["Not started", m.counts.not_started, "9A9EC2"]].forEach(function (st, i) {
+      var x = 0.6 + i * 3.05;
+      s.addShape(pptx.ShapeType.roundRect, { x: x, y: 2.5, w: 2.8, h: 1.8, fill: { color: "FFFFFF" }, line: { color: "DADCF0", width: 1 }, rectRadius: 0.12 });
+      s.addText(String(st[1]), { x: x + 0.25, y: 2.65, w: 2.3, h: 0.9, fontSize: 40, bold: true, color: st[2], fontFace: font });
+      s.addText(st[0], { x: x + 0.25, y: 3.5, w: 2.3, h: 0.5, fontSize: 16, color: ink, fontFace: font });
+    });
+    var owners = m.people.map(function (p) { return p.name + ": " + countsLine(p.counts); });
+    if (owners.length) s.addText(owners.join("\n"), { x: 0.6, y: 4.7, w: 12, h: 2.4, fontSize: 13, color: muted, fontFace: font, valign: "top" });
+    m.people.forEach(function (p) {
+      var sl = pptx.addSlide();
+      sl.addText(p.name, { x: 0.5, y: 0.35, w: 9, h: 0.7, fontSize: 26, bold: true, color: ink, fontFace: font });
+      sl.addText(countsLine(p.counts), { x: 0.5, y: 0.95, w: 12, h: 0.4, fontSize: 13, color: muted, fontFace: font });
+      var y = 1.45;
+      if (p.notes.length) { sl.addText("Progress: " + p.notes.join(" "), { x: 0.5, y: y, w: 12.3, h: 0.5, fontSize: 12, color: ink, fontFace: font, italic: true }); y += 0.55; }
+      var rows = [HEAD.map(function (h) { return { text: h, options: { bold: true, fill: { color: "EDEBFB" }, color: ink } }; })]
+        .concat(p.tasks.map(function (t) { return rowCells(t, p.key).map(function (v) { return { text: v, options: { color: ink } }; }); }));
+      sl.addTable(rows, { x: 0.5, y: y, w: 12.3, colW: [1.8, 3.4, 1.7, 1.3, 1.2, 2.9], fontSize: 11, fontFace: font, border: { type: "solid", pt: 0.5, color: "DADCF0" }, valign: "top", autoPage: true, autoPageRepeatHeader: true, autoPageSlideStartY: 0.5 });
+    });
+    return pptx.write({ outputType: "blob" });
+  }
+
+  function makePdf(m) {
+    // The built-in PDF fonts only cover basic Latin characters.
+    var plain = function (v) { return String(v || "").replace(/[–—]/g, "-").replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/◆/g, "*").replace(/[^\x00-\xFF]/g, ""); };
+    var doc = new window.jspdf.jsPDF({ unit: "pt", format: "a4", orientation: "landscape" });
+    var W = doc.internal.pageSize.getWidth();
+    doc.setTextColor(31, 35, 84); doc.setFont("helvetica", "bold"); doc.setFontSize(22);
+    doc.text(plain(m.title), 40, 54);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(98, 103, 143);
+    doc.text(plain(m.range + "  ·  " + m.scope), 40, 74);
+    doc.setTextColor(31, 35, 84); doc.setFont("helvetica", "bold");
+    doc.text(plain("Together: " + countsLine(m.counts) + " (" + m.total + " tasks)"), 40, 96);
+    var y = 118;
+    m.people.forEach(function (p) {
+      if (y > doc.internal.pageSize.getHeight() - 120) { doc.addPage(); y = 50; }
+      doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(31, 35, 84);
+      doc.text(plain(p.name), 40, y);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(98, 103, 143);
+      doc.text(plain(countsLine(p.counts)), 40, y + 15);
+      y += 22;
+      p.notes.forEach(function (n) {
+        var lines = doc.splitTextToSize(plain("Progress: " + n), W - 80);
+        doc.setTextColor(31, 35, 84); doc.text(lines, 40, y + 10); y += lines.length * 12 + 4;
+      });
+      doc.autoTable({
+        startY: y + 4, margin: { left: 40, right: 40 }, head: [HEAD],
+        body: p.tasks.map(function (t) { return rowCells(t, p.key).map(plain); }),
+        styles: { fontSize: 9, cellPadding: 4, textColor: [31, 35, 84], lineColor: [218, 220, 240], lineWidth: 0.5 },
+        headStyles: { fillColor: [237, 235, 251], textColor: [31, 35, 84], fontStyle: "bold" },
+        columnStyles: { 0: { cellWidth: 90 }, 1: { cellWidth: 190 }, 2: { cellWidth: 90 }, 3: { cellWidth: 70 }, 4: { cellWidth: 65 } }
+      });
+      y = doc.lastAutoTable.finalY + 26;
+    });
+    return Promise.resolve(doc.output("blob"));
+  }
+
+  var MIME = { docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation", pdf: "application/pdf" };
+  var MAKERS = { docx: makeDocx, pptx: makePptx, pdf: makePdf };
+  var NAMES = { docx: "Word", pptx: "PowerPoint", pdf: "PDF" };
+  function exportReport(kind) {
+    var m = reportModel();
+    if (!m.total) { toast("There are no tasks in this week’s report to export."); return; }
+    toast("Preparing the " + NAMES[kind] + " report…");
+    loadLibs(kind).then(function () { return MAKERS[kind](m); }).then(function (blob) {
+      offerFile(reportFileName(kind), blob, MIME[kind]);
+    }, function () { toast("The " + NAMES[kind] + " export couldn’t load. Check your connection and try again."); });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-export]");
+    if (b) exportReport(b.getAttribute("data-export"));
+    // close any open export menu after a choice or a click elsewhere
+    document.querySelectorAll("details.exportmenu[open]").forEach(function (d) {
+      if (b || e.target.closest("#btnExport, #btnCsv") || !d.contains(e.target)) d.open = false;
+    });
   });
   $("btnImport").addEventListener("click", function () { $("importFile").click(); });
   $("importFile").addEventListener("change", function (e) {
@@ -1401,7 +1602,10 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   // ---------- Page switch ----------
   function setTab(tab) {
     $("viewIntro").hidden = tab !== "intro";
-    $("viewPlanner").hidden = tab !== "planner";
+    $("viewPlanner").hidden = tab === "intro";
+    $("paneplanner").hidden = tab !== "planner";
+    $("panecheck").hidden = tab !== "planner";
+    $("panesummary").hidden = tab !== "summary";
     Array.prototype.forEach.call($("pageTabs").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-tab") === tab)); });
     try { history.replaceState(null, "", "#" + tab); } catch (e) { /* not allowed here */ }
   }
@@ -1413,7 +1617,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     var go = e.target.closest("[data-go]"); if (!go) return;
     setTab(go.getAttribute("data-go")); window.scrollTo(0, 0);
   });
-  setTab(location.hash === "#intro" || location.hash === "#planner" ? location.hash.slice(1) : "planner");
+  setTab(/^#(intro|planner|summary)$/.test(location.hash) ? location.hash.slice(1) : "planner");
 
   render();
   initStore();
