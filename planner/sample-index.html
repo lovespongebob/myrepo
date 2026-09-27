@@ -932,6 +932,18 @@ tr.is-milestone td { background: var(--accent-soft); }
   #homeView .nt-body svg { width: 36px; height: 36px; }
   #homeView .nt-desc { max-width: none; }
 }
+
+/* Home tiles: white cells with grey dividing lines so they stand out from the grey page */
+#homeView .tilegrid { background: #CDD2D2; border: 1px solid #CDD2D2; gap: 1px; box-shadow: 0 2px 4px rgba(17, 20, 20, 0.06), 0 22px 44px rgba(17, 20, 20, 0.16); }
+#homeView .navtile { background: linear-gradient(180deg, #FFFFFF 0%, #F6F7F7 100%); }
+#homeView .nt-head, #homeView .navtile:hover .nt-head, #homeView .navtile[aria-pressed] .nt-head { border-bottom: 1px solid #CDD2D2; }
+#homeView .navtile:hover { filter: none; background: linear-gradient(180deg, #FFFFFF 0%, #EEF7E3 100%); }
+
+/* A slightly deeper page so white cells and cards stand out */
+body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE1E1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background: var(--bg); } }
+:root[data-theme="dark"] body { background: var(--bg); }
+#homeView .navtile { background: #FFFFFF; }
 </style>
 
 <div class="wrap">
