@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 </head>
 <body>
-<title>Team Weekly Planner</title>
+<title>Our Weekly Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -288,9 +288,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">One plan for the whole team</div>
-      <h1>Team Weekly Planner</h1>
-      <p>Everyone adds their own tasks in one shared place instead of sending separate sheets. Each task shows who it belongs to, unfinished work carries forward, and the weekly report counts each person and the whole team.</p>
+      <div class="eyebrow">One plan we share</div>
+      <h1>Our Weekly Planner</h1>
+      <p>Each of us adds our own tasks in one shared place instead of keeping separate lists. Every task shows whose it is, unfinished work carries forward, and the weekly report shows each person's week and our combined totals.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
@@ -452,7 +452,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       </div>
       <div class="check" data-check="report">
         <div class="check-head"><span class="check-num">2</span><h3>Mark one as done</h3></div>
-        <p>Tick a task's checkbox or click its status pill. The team counts, that person's row, and the weekly report should all change right away.</p>
+        <p>Tick a task's checkbox or click its status pill. The combined counts, that person's row, and the weekly report should all change right away.</p>
         <label><input type="checkbox" id="chk-report"> Counts are correct</label>
       </div>
       <div class="check" data-check="export">
@@ -537,7 +537,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     if (key === "none") return "Unassigned";
     if (key.slice(0, 7) === "sample:") return key.slice(7);
     if (key === "local") return "You";
-    return (state.profiles[key] && state.profiles[key].name) || "Teammate";
+    return (state.profiles[key] && state.profiles[key].name) || "Someone";
   }
   function peopleKeys(list) {
     var seen = {}, keys = [];
@@ -716,12 +716,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     if (store.mode === "db") {
       bar.classList.remove("local");
       $("modeText").textContent = state.readOnly
-        ? "You can view the team plan. Ask the owner for Contributor access to add your own tasks."
-        : "Shared with your team and saved automatically. New tasks are added under your name.";
+        ? "You can view this plan. Ask the owner for edit access to add your own tasks."
+        : "Shared and saved automatically. New tasks are added under your name.";
       render();
     } else {
       bar.classList.add("local");
-      $("modeText").textContent = "Offline copy: saved in this browser only, so only you can see it. Open the shared link to plan with your team.";
+      $("modeText").textContent = "Offline copy: saved in this browser only, so only you can see it. Open the shared link to plan together.";
     }
   }
 
@@ -756,7 +756,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var list = state.person === "all" ? all : all.filter(function (t) { return personKey(t) === state.person; });
     var c = counts(list);
     var total = list.length;
-    $("ovTotal").textContent = (state.person === "all" ? "Team · " : personName(state.person) + " · ") + total + (total === 1 ? " task" : " tasks");
+    $("ovTotal").textContent = (state.person === "all" ? "Everyone · " : personName(state.person) + " · ") + total + (total === 1 ? " task" : " tasks");
     [["Done", "done"], ["Prog", "in_progress"], ["Todo", "not_started"]].forEach(function (p) {
       $("n" + p[0]).textContent = c[p[1]];
       $("b" + p[0]).style.width = total ? (c[p[1]] / total * 100) + "%" : "0";
@@ -833,7 +833,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     if (!open.length || state.readOnly) { box.hidden = true; return; }
     box.hidden = false;
     box.append(
-      el("span", { text: open.length + (open.length === 1 ? " unfinished task" : " unfinished tasks") + " from last week across the team. Bring them into this week instead of retyping them." }),
+      el("span", { text: open.length + (open.length === 1 ? " unfinished task" : " unfinished tasks") + " from last week. Bring them into this week instead of retyping them." }),
       el("button", { class: "chipbtn", type: "button", text: "Carry over " + open.length, onclick: function () {
         Promise.all(open.map(function (t) { return store.putTask(Object.assign({}, t, { week: state.week, updated: Date.now() })); }))
           .then(function () { toast("Carried over " + open.length + " task" + (open.length === 1 ? "" : "s") + "."); }, function () {});
@@ -913,9 +913,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   }
   function reportText(list, c) {
     var lines = [];
-    var who = state.person === "all" ? "Team" : personName(state.person) + "’s";
+    var who = state.person === "all" ? "Our" : personName(state.person) + "’s";
     lines.push(who + " weekly report, " + weekRangeText(state.week));
-    lines.push((state.person === "all" ? "Team total: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
+    lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
     peopleKeys(list).forEach(function (k) {
       var mine = list.filter(function (t) { return personKey(t) === k; });
       var pc = counts(mine);
@@ -1067,11 +1067,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
   }
   $("btnExport").addEventListener("click", function () {
-    var payload = { app: "team-weekly-planner", version: 1, exportedAt: new Date().toISOString(), tasks: state.tasks, weeks: state.weeks };
-    offerFile("team-weekly-planner-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
+    var payload = { app: "our-weekly-planner", version: 1, exportedAt: new Date().toISOString(), tasks: state.tasks, weeks: state.weeks };
+    offerFile("our-weekly-planner-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
   });
   $("btnCsv").addEventListener("click", function () {
-    offerFile("team-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
+    offerFile("our-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
   });
   $("btnImport").addEventListener("click", function () { $("importFile").click(); });
   $("importFile").addEventListener("change", function (e) {
