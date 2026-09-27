@@ -734,6 +734,9 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
 .footlink:hover { border-color: var(--ink); }
 .footlink svg { width: 14px; height: 14px; color: #0A66C2; }
 .footlink[hidden] { display: none !important; }
+
+.cta-link { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.cta-link:hover { color: #fff; }
 </style>
 
 <div class="wrap">
@@ -794,7 +797,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
       <h2 id="introHow">See how it works</h2>
       <p>Try three things: leave a date blank, mark a task done, then export your plan and reopen it.</p>
       <button type="button" class="cta-btn" data-go="planner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> Explore the sample</button>
-      <p class="note">The sample is filled with example projects and tasks, so you can try the workflow without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own planning process, message me on LinkedIn.</p>
+      <p class="note">The sample is filled with example projects and tasks, so you can try the workflow without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own planning process, message me on <a class="cta-link" href="https://www.linkedin.com/in/weiweihu/" target="_blank" rel="noopener">LinkedIn</a>.</p>
     </section>
   </div>
 
@@ -1063,7 +1066,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   </div>
   <footer class="sitefoot">
     <span>Designed by <strong>Weiwei Hu</strong></span>
-    <a class="footlink" id="footLinkedIn" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.8 3.76-1.8 4 0 4.88 2.4 4.88 5.6v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.95 1.3-1.95 2.66v5.14h-4v-11Z"/></svg> LinkedIn</a>
+    <a class="footlink" id="footLinkedIn" href="https://www.linkedin.com/in/weiweihu/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.8 3.76-1.8 4 0 4.88 2.4 4.88 5.6v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.95 1.3-1.95 2.66v5.14h-4v-11Z"/></svg> LinkedIn</a>
   </footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
