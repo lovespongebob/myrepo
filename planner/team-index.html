@@ -105,7 +105,7 @@ body {
   min-height: 100vh;
 }
 .wrap {
-  max-width: 1160px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 28px 20px 56px;
   display: grid;
@@ -135,6 +135,27 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .modebar .dot { flex: none; transform: translateY(-1px); }
 .modebar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--done); display: inline-block; }
 .modebar.local .dot { background: var(--blue); }
+
+/* Sections */
+.wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
+.tablewrap { position: relative; }
+.block { display: grid; gap: 14px; }
+.grid-summary .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-summary .prow { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+.prow { overflow: hidden; }
+.grid-summary .report-out { min-height: 360px; }
+.prow .person { min-width: 0; max-width: 100%; }
+.prow .person .nm { overflow: hidden; text-overflow: ellipsis; }
+.grid-summary .prow .stackbar { grid-column: 1 / -1; grid-row: 2; }
+.prow .cnt { white-space: normal; text-align: right; overflow-wrap: anywhere; min-width: 0; }
+.block-head { display: grid; gap: 2px; padding-top: 8px; }
+.block-title { font-size: 22px; font-weight: 600; }
+.grid-summary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 980px) { .grid-summary { grid-template-columns: minmax(0, 1fr); } }
+.filters { display: grid; gap: 8px; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filter-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+#projectPick { min-width: 170px; }
 
 /* Layout */
 .grid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; align-items: start; }
@@ -330,8 +351,10 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   </header>
   <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
-  <div class="grid">
-    <!-- The Plan -->
+  <!-- 1. Planning -->
+  <section class="block" aria-labelledby="secPlan">
+    <div class="block-head"><span class="eyebrow">Planning</span><h2 id="secPlan" class="block-title">Plan the work</h2></div>
+    <div class="grid">
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -406,35 +429,21 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
         <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="sr" tabindex="-1">
       </div>
     </section>
-
-    <div class="stack">
-      <!-- Weekly overview -->
-      <section class="panel" aria-labelledby="ovTitle">
-        <div class="panel-head">
-          <h2 id="ovTitle">This week's overview</h2>
-          <span class="hint mono" id="ovTotal"></span>
-        </div>
-        <div class="summary">
-          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
-          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
-          <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
-          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
-        </div>
-        <div class="people" id="people" aria-label="Tasks by owner"></div>
-        <div class="carry" id="carry" hidden></div>
-      </section>
-
-      <!-- Task list -->
-      <section class="panel" aria-labelledby="listTitle">
+    <section class="panel" aria-labelledby="listTitle">
         <div class="panel-head">
           <h2 id="listTitle">Tasks</h2>
-          <div class="toolbar">
+          <span class="hint mono" id="listCount"></span>
+        </div>
+        <div class="filters">
+          <div class="filter-row">
+            <label class="filter-label" for="projectPick">Project</label>
+            <select id="projectPick" class="selectpill"></select>
             <div class="seg" role="group" aria-label="Choose a view" id="viewSeg">
-              <button type="button" data-v="week" aria-pressed="true">This week</button>
               <button type="button" data-v="timeline" aria-pressed="false">Project timeline</button>
+              <button type="button" data-v="week" aria-pressed="true">This week</button>
             </div>
-            <label class="sr" for="projectPick">Project</label>
-            <select id="projectPick" class="selectpill" hidden></select>
+          </div>
+          <div class="filter-row">
             <span id="personFilterChip" hidden></span>
             <div class="seg" role="group" aria-label="Whose tasks to show" id="whoSeg">
               <button type="button" data-w="all" aria-pressed="true">Everyone</button>
@@ -452,6 +461,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
             </div>
           </div>
         </div>
+        <div class="carry" id="carry" hidden></div>
         <div class="next-ms" id="nextMs" hidden></div>
         <div class="tablewrap">
           <table>
@@ -469,9 +479,27 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
             <tbody id="rows"></tbody>
           </table>
         </div>
-      </section>
+    </section>
+    </div>
+  </section>
 
-      <!-- Week note + report -->
+  <!-- 2. Weekly summary -->
+  <section class="block" aria-labelledby="secSum">
+    <div class="block-head"><span class="eyebrow">Weekly summary</span><h2 id="secSum" class="block-title">See where the week stands</h2></div>
+    <div class="grid-summary">
+      <section class="panel" aria-labelledby="ovTitle">
+        <div class="panel-head">
+          <h2 id="ovTitle">Status</h2>
+          <span class="hint mono" id="ovTotal"></span>
+        </div>
+        <div class="summary">
+          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
+          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
+          <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
+          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
+        </div>
+        <div class="people" id="people" aria-label="Tasks by owner"></div>
+      </section>
       <section class="panel" aria-labelledby="repTitle">
         <div class="panel-head">
           <h2 id="repTitle">Weekly report</h2>
@@ -486,9 +514,11 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
         <div class="hint">The report updates as tasks change. Copy it straight into email or chat.</div>
       </section>
     </div>
-  </div>
+  </section>
 
-  <!-- Three checks -->
+  <!-- 3. Checklist -->
+  <section class="block" aria-labelledby="secCheck">
+    <div class="block-head"><span class="eyebrow">Checklist</span><h2 id="secCheck" class="block-title">Check it before you rely on it</h2></div>
   <section class="panel" aria-labelledby="chkTitle">
     <div class="panel-head">
       <h2 id="chkTitle">Try these three checks first</h2>
@@ -511,6 +541,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
         <label><input type="checkbox" id="chk-export"> Content is complete</label>
       </div>
     </div>
+  </section>
   </section>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -824,7 +855,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     $("weekTitle").textContent = weekRangeText(state.week);
     $("weekRange").textContent = relativeWeekText(state.week);
     $("thisWeek").hidden = state.week === THIS_WEEK;
-    $("ovTitle").textContent = (state.week === THIS_WEEK ? "This week's overview" : "Week overview");
+    $("ovTitle").textContent = "Status" + (state.project !== "all" ? " · " + state.project : "");
 
     learnNames();
     var all = weekTasks(state.week);
@@ -836,12 +867,14 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
       if (state.who === "added") return t.createdBy === state.me || (!!myName() && norm(createdName(t)) === norm(myName()));
       return true;
     };
-    var list = all.filter(whoFilter);
+    var projectFilter = function (t) { return state.project === "all" || (t.project || "") === state.project; };
+    var list = all.filter(whoFilter).filter(projectFilter);
     renderViewControls();
     var tableList = state.view === "timeline"
-      ? state.tasks.filter(whoFilter).filter(function (t) { return state.project === "all" || (t.project || "") === state.project; })
+      ? state.tasks.filter(whoFilter).filter(projectFilter)
       : list;
-    renderNextMilestone(state.view === "timeline" ? tableList : state.tasks);
+    $("listCount").textContent = tableList.length + (tableList.length === 1 ? " task" : " tasks") + (state.view === "timeline" ? " across weeks" : " this week");
+    renderNextMilestone(state.tasks.filter(projectFilter));
     var c = counts(list);
     var total = list.length;
     $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Owned by me · " : state.who === "added" ? "Created by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
@@ -895,9 +928,8 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
   function renderViewControls() {
     Array.prototype.forEach.call($("viewSeg").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === state.view)); });
     var timeline = state.view === "timeline";
-    $("listTitle").textContent = timeline ? "Project timeline" : "Tasks";
+    $("listTitle").textContent = timeline ? "Project timeline" : "Tasks this week";
     var pick = $("projectPick");
-    pick.hidden = !timeline;
     var names = projectsList();
     if (state.project !== "all" && names.indexOf(state.project) < 0) state.project = "all";
     pick.replaceChildren(el("option", { value: "all", text: "All projects" }));
