@@ -219,7 +219,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .t-check { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; margin-top: 2px; }
 .t-title { font-weight: 500; overflow-wrap: anywhere; }
 .person { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; min-width: 0; }
-.person .av { width: 22px; height: 22px; border-radius: 50%; flex: none; object-fit: cover; background: var(--todo-soft); }
+.person .av { width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-soft); }
+.person .av.none { color: var(--muted); background: var(--todo-soft); }
 .person .nm { overflow-wrap: break-word; min-width: 0; }
 .person .you { color: var(--muted); font-size: 12px; }
 .people { display: grid; gap: 8px; }
@@ -312,12 +313,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       </div>
       <div class="editing-note" id="editingNote" hidden>Editing a saved task. Save to update it, or press Fill to start a new one.</div>
       <form id="taskForm" class="stack" style="gap:12px" novalidate>
-        <div class="added-as" id="addedAs"></div>
         <div class="field">
-          <label for="f-person">Owner</label>
-          <input id="f-person" name="assignee" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
-          <datalist id="assigneeList"></datalist>
-          <div class="hint">Keep “Me” for your own tasks, pick someone from the list, or type any name.</div>
+          <label for="f-creator">Created by</label>
+          <input id="f-creator" name="creator" list="creatorList" placeholder="Your name" autocomplete="off">
+          <datalist id="creatorList"></datalist>
+          <div class="hint">Your name as others should see it. This device remembers it for next time.</div>
         </div>
         <div class="field">
           <label for="f-project">Project</label>
@@ -328,19 +328,23 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
           <label for="f-title">Task</label>
           <input id="f-title" name="title" placeholder="e.g. Draft the Q4 budget summary" autocomplete="off" required>
         </div>
-        <div class="row2">
-          <div class="field">
-            <label for="f-status">Status</label>
-            <select id="f-status" name="status">
-              <option value="not_started">Not started</option>
-              <option value="in_progress">In progress</option>
-              <option value="done">Done</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-due">Due date</label>
-            <input id="f-due" name="due" type="date">
-          </div>
+        <div class="field">
+          <label for="f-person">Owner</label>
+          <input id="f-person" name="owner" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
+          <datalist id="assigneeList"></datalist>
+          <div class="hint">Keep “Me” for your own tasks, pick someone from the list, or type any name.</div>
+        </div>
+        <div class="field">
+          <label for="f-status">Status</label>
+          <select id="f-status" name="status">
+            <option value="not_started">Not started</option>
+            <option value="in_progress">In progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-due">Due date</label>
+          <input id="f-due" name="due" type="date">
         </div>
         <div class="field">
           <label for="f-related">Related item</label>
@@ -415,11 +419,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             <thead>
               <tr>
                 <th style="width:36px"><span class="sr">Done</span></th>
-                <th class="col-person">Owner</th>
                 <th class="col-project">Project</th>
                 <th class="col-task">Task</th>
-                <th><button type="button" id="sortDue" aria-label="Sort by due date">Due<span id="sortArrow">▲</span></button></th>
+                <th class="col-person">Owner</th>
                 <th>Status</th>
+                <th><button type="button" id="sortDue" aria-label="Sort by due date">Due date<span id="sortArrow">▲</span></button></th>
                 <th><span class="sr">Actions</span></th>
               </tr>
             </thead>
@@ -531,61 +535,54 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     sortDir: prefs.sortDir === "desc" ? "desc" : "asc",
     readOnly: false,
     me: "local",       // viewer's id in the shared planner; "local" when offline
-    profiles: {},      // id -> {name, avatarUrl}, resolved on each render, never stored
+    myName: lsGet("teamPlanner.myName", "") || "",   // the name this person types in "Created by"
+    nameCase: {},      // lower-cased name -> name as first written
     person: "all",     // assignee filter from the overview: "all" or a person key
     who: "all"         // "all", "mine" (owned by me) or "added" (created by me)
   };
   var store = null; // set by initStore
   var userCap = null;
 
-  // Two separate people per task:
-  //   createdBy – the signed-in account that added it (set automatically, never edited)
-  //   assignee  – who the task is for: an account id (owner) or any typed name (assigneeName)
-  function assigneeName(t) { return t.assigneeName || t.sampleOwner || ""; }
-  function personKey(t) { return t.owner ? t.owner : (assigneeName(t) ? "name:" + assigneeName(t) : "none"); }
+  // People appear only by the names people type, never by claude.ai account names.
+  //   createdByName – typed in "Created by"; createdBy keeps the account id so "Created by me" works
+  //   assigneeName  – the owner's name; owner keeps the account id when the owner is "Me"
+  function norm(n) { return String(n || "").trim().toLowerCase(); }
+  function myName() { return state.myName || ""; }
+  function ownerName(t) { return t.assigneeName || t.sampleOwner || (t.owner && t.owner === state.me ? myName() : ""); }
+  function createdName(t) { return t.createdByName || ""; }
+  function personKey(t) {
+    var n = ownerName(t);
+    if (n) return "name:" + norm(n);
+    return t.owner && t.owner === state.me ? "me" : "none";
+  }
+  function isMeKey(k) { return k === "me" || (!!myName() && k === "name:" + norm(myName())); }
   function personName(key) {
-    if (key === state.me) return (state.profiles[key] && state.profiles[key].name) || "You";
     if (key === "none") return "No owner";
-    if (key.slice(0, 5) === "name:") return key.slice(5);
-    if (key === "local") return "You";
-    return (state.profiles[key] && state.profiles[key].name) || "Someone";
+    if (key === "me") return myName() || "Me";
+    if (key.slice(0, 5) === "name:") return state.nameCase[key.slice(5)] || key.slice(5);
+    return "Someone";
+  }
+  function learnNames() {
+    var m = {};
+    var add = function (n) { n = String(n || "").trim(); if (n && !m[norm(n)]) m[norm(n)] = n; };
+    add(myName());
+    state.tasks.forEach(function (t) { add(ownerName(t)); add(createdName(t)); });
+    state.nameCase = m;
   }
   function peopleKeys(list) {
     var seen = {}, keys = [];
     list.forEach(function (t) { var k = personKey(t); if (!seen[k]) { seen[k] = true; keys.push(k); } });
     keys.sort(function (a, b) {
-      if (a === state.me) return -1; if (b === state.me) return 1;
+      if (isMeKey(a)) return -1; if (isMeKey(b)) return 1;
       if (a === "none") return 1; if (b === "none") return -1;
       return personName(a).localeCompare(personName(b));
     });
     return keys;
   }
   function personChip(key) {
-    var p = state.profiles[key];
-    var img = el("img", { class: "av", alt: "" });
-    if (p && p.avatarUrl) img.src = p.avatarUrl; else img.style.background = key === "none" ? "var(--todo-soft)" : "var(--accent-soft)";
-    return el("span", { class: "person" }, [img, el("span", { class: "nm", text: personName(key) }), key === state.me && personName(key) !== "You" ? el("span", { class: "you", text: "(you)" }) : null]);
-  }
-  function resolveProfiles() {
-    if (!userCap) return;
-    var ids = {};
-    state.tasks.forEach(function (t) {
-      if (t.owner && t.owner !== "local") ids[t.owner] = true;
-      if (t.createdBy && t.createdBy !== "local") ids[t.createdBy] = true;
-    });
-    if (state.me !== "local") ids[state.me] = true;
-    var list = Object.keys(ids);
-    if (!list.length) return;
-    userCap.profiles(list).then(function (ps) {
-      var changed = false;
-      list.forEach(function (id) {
-        var p = ps[id] || {}, cur = state.profiles[id];
-        if (!cur || cur.name !== (p.name || "") || cur.avatarUrl !== (p.avatarUrl || "")) {
-          state.profiles[id] = { name: p.name || "", avatarUrl: p.avatarUrl || "" }; changed = true;
-        }
-      });
-      if (changed) render();
-    });
+    var name = personName(key);
+    var bubble = el("span", { class: "av" + (key === "none" ? " none" : ""), "aria-hidden": "true", text: key === "none" ? "–" : name.charAt(0).toUpperCase() });
+    return el("span", { class: "person" }, [bubble, el("span", { class: "nm", text: name }), isMeKey(key) && myName() ? el("span", { class: "you", text: "(you)" }) : null]);
   }
 
   var $ = function (id) { return document.getElementById(id); };
@@ -613,11 +610,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   function exampleTasks(week) {
     return [
-      { owner: state.me, createdBy: state.me, project: "Example project", title: "Example task A", status: "not_started", due: "", related: "Example client", notes: "This is example data. No due date on purpose." },
-      { owner: state.me, createdBy: state.me, project: "Example project", title: "Example task B", status: "in_progress", due: addDays(week, 2), related: "Example client", notes: "Mark this as done to test the weekly report." },
-      { assigneeName: "Alex (example)", createdBy: state.me, project: "Team operations", title: "Example task C", status: "in_progress", due: addDays(week, 4), related: "Team sync", notes: "" },
-      { assigneeName: "Alex (example)", createdBy: state.me, project: "Team operations", title: "Example task D", status: "done", due: addDays(week, 1), related: "Team sync", notes: "Already finished." },
-      { assigneeName: "Sam (example)", createdBy: state.me, project: "Example project", title: "Example task E", status: "not_started", due: addDays(week, 3), related: "", notes: "" }
+      { owner: state.me, assigneeName: myName(), createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task A", status: "not_started", due: "", related: "Example client", notes: "This is example data. No due date on purpose." },
+      { owner: state.me, assigneeName: myName(), createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task B", status: "in_progress", due: addDays(week, 2), related: "Example client", notes: "Mark this as done to test the weekly report." },
+      { assigneeName: "Alex (example)", createdBy: state.me, createdByName: myName(), project: "Team operations", title: "Example task C", status: "in_progress", due: addDays(week, 4), related: "Team sync", notes: "" },
+      { assigneeName: "Alex (example)", createdBy: state.me, createdByName: myName(), project: "Team operations", title: "Example task D", status: "done", due: addDays(week, 1), related: "Team sync", notes: "Already finished." },
+      { assigneeName: "Sam (example)", createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task E", status: "not_started", due: addDays(week, 3), related: "", notes: "" }
     ].map(function (t, i) {
       return Object.assign(t, { id: "example-" + week + "-" + i, week: week, example: true, updated: Date.now() });
     });
@@ -639,8 +636,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     };
     var idRe = /^[A-Za-z0-9_\-]{1,80}$/;
     if (idRe.test(raw.owner || "")) t.owner = raw.owner;
-    else if (raw.assigneeName || raw.sampleOwner) t.assigneeName = String(raw.assigneeName || raw.sampleOwner).trim().slice(0, 60);
+    if (raw.assigneeName || raw.sampleOwner) t.assigneeName = String(raw.assigneeName || raw.sampleOwner).trim().slice(0, 60);
     if (idRe.test(raw.createdBy || "")) t.createdBy = raw.createdBy;
+    if (raw.createdByName) t.createdByName = String(raw.createdByName).trim().slice(0, 60);
     if (raw.example === true || raw.example === "true") t.example = true;
     return t;
   }
@@ -696,6 +694,14 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   function noteKey(week, person) { return week + "~" + person; }
   function noteFor(week, person) { var n = state.weeks[noteKey(week, person)]; return (n && n.progress) || ""; }
+  // Progress notes written this week by whoever a person key names.
+  function notesForKey(week, key) {
+    return Object.keys(state.weeks).map(function (k) { return state.weeks[k]; }).filter(function (n) {
+      if (!n || n.week !== week || !n.progress) return false;
+      if (n.name && "name:" + norm(n.name) === key) return true;
+      return isMeKey(key) && n.owner === state.me && !n.name;
+    }).map(function (n) { return n.progress; });
+  }
 
   function writeFailed(err) {
     var code = err && err.code;
@@ -766,13 +772,14 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     $("thisWeek").hidden = state.week === THIS_WEEK;
     $("ovTitle").textContent = (state.week === THIS_WEEK ? "This week's overview" : "Week overview");
 
+    learnNames();
     var all = weekTasks(state.week);
     renderPeople(all);
     renderWhoFilter();
     var list = all.filter(function (t) {
       if (state.person !== "all") return personKey(t) === state.person;
-      if (state.who === "mine") return personKey(t) === state.me;
-      if (state.who === "added") return t.createdBy === state.me;
+      if (state.who === "mine") return isMeKey(personKey(t));
+      if (state.who === "added") return t.createdBy === state.me || (!!myName() && norm(createdName(t)) === norm(myName()));
       return true;
     });
     var c = counts(list);
@@ -794,9 +801,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
     ["btnFill", "btnSave", "btnImport"].forEach(function (id) { $(id).disabled = state.readOnly; });
     $("sortArrow").textContent = state.sortDir === "asc" ? "▲" : "▼";
-    fillAssigneeList();
-    renderAddedAs();
-    resolveProfiles();
+    fillNameLists();
   }
 
   function renderPeople(all) {
@@ -834,45 +839,22 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     chip.append("Owner: " + personName(state.person),
       el("button", { type: "button", "aria-label": "Show everyone again", text: "×", onclick: function () { setPerson("all"); } }));
   }
-  // Suggestions for "Owner": me, anyone with an account seen here, and any name typed before.
-  function assigneeOptions() {
-    var seen = {}, out = ["Me"];
-    seen["me"] = true;
-    var add = function (n) { if (n && !seen[n.toLowerCase()]) { seen[n.toLowerCase()] = true; out.push(n); } };
-    state.tasks.forEach(function (t) {
-      [t.owner, t.createdBy].forEach(function (id) { if (id && id !== state.me && id !== "local") add(state.profiles[id] && state.profiles[id].name); });
-    });
-    state.tasks.forEach(function (t) { add(assigneeName(t)); });
-    return out;
+  // Suggestions come only from names people have typed.
+  function fillNameLists() {
+    var names = Object.keys(state.nameCase).map(function (k) { return state.nameCase[k]; }).sort();
+    var others = names.filter(function (n) { return norm(n) !== norm(myName()); });
+    $("assigneeList").replaceChildren.apply($("assigneeList"), ["Me"].concat(others).map(function (n) { return el("option", { value: n }); }));
+    var creators = {};
+    state.tasks.forEach(function (t) { if (createdName(t)) creators[norm(createdName(t))] = createdName(t); });
+    if (myName()) creators[norm(myName())] = myName();
+    $("creatorList").replaceChildren.apply($("creatorList"), Object.keys(creators).map(function (k) { return el("option", { value: creators[k] }); }));
   }
-  function fillAssigneeList() {
-    $("assigneeList").replaceChildren.apply($("assigneeList"), assigneeOptions().map(function (n) { return el("option", { value: n }); }));
-  }
-  function assigneeInputValue(key) {
-    if (key === state.me) return "Me";
-    if (key === "none") return "";
-    return personName(key);
-  }
-  // Turn what was typed into {owner} for an account, or {assigneeName} for anyone else.
-  function resolveAssignee(v) {
-    v = (v || "").trim();
-    var lower = v.toLowerCase();
-    var myName = state.profiles[state.me] && state.profiles[state.me].name;
-    if (!v || lower === "me" || (myName && lower === myName.toLowerCase())) return { owner: state.me };
-    var match = Object.keys(state.profiles).filter(function (id) {
-      var n = state.profiles[id].name; return n && n.toLowerCase() === lower;
-    });
-    if (match.length === 1) return { owner: match[0] };
-    return { assigneeName: v };
-  }
-  function renderAddedAs() {
-    var box = $("addedAs");
-    var existing = state.editingId && state.tasks.find(function (x) { return x.id === state.editingId; });
-    var by = existing ? existing.createdBy : state.me;
-    box.replaceChildren();
-    if (existing && !by) { box.hidden = true; return; }
-    box.hidden = false;
-    box.append(el("span", { text: "Created by" }), personChip(by));
+  // "Me" (or your own name) links the task to you; any other name is kept as typed.
+  function resolveAssignee(v, creator) {
+    v = String(v || "").trim();
+    var mine = creator || myName();
+    if (!v || norm(v) === "me" || (mine && norm(v) === norm(mine))) return { owner: state.me, assigneeName: mine };
+    return { owner: "", assigneeName: state.nameCase[norm(v)] || v };
   }
 
   function renderProjects() {
@@ -950,12 +932,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       }
       tr.append(
         el("td", null, [chk]),
-        el("td", null, [personChip(personKey(t))]),
         el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
         el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, meta,
-          t.createdBy ? el("div", { class: "t-added", text: "Created by " + (t.createdBy === state.me ? "you" : personName(t.createdBy)) }) : null]),
-        el("td", null, [due]),
+          createdName(t) ? el("div", { class: "t-added", text: "Created by " + createdName(t) }) : null]),
+        el("td", null, [personChip(personKey(t))]),
         el("td", null, [pill]),
+        el("td", null, [due]),
         el("td", null, [actions])
       );
       body.appendChild(tr);
@@ -966,7 +948,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var bits = [];
     if (t.related) bits.push(t.related);
     if (t.due) bits.push("due " + t.due);
-    if (t.createdBy && t.createdBy !== personKey(t)) bits.push("created by " + (t.createdBy === state.me ? personName(state.me) : personName(t.createdBy)));
+    if (createdName(t) && norm(createdName(t)) !== norm(ownerName(t))) bits.push("created by " + createdName(t));
     return "- " + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : "");
   }
   function reportText(list, c) {
@@ -978,8 +960,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       var mine = list.filter(function (t) { return personKey(t) === k; });
       var pc = counts(mine);
       lines.push(""); lines.push("== " + personName(k) + " — Done " + pc.done + " · In progress " + pc.in_progress + " · Not started " + pc.not_started);
-      var note = noteFor(state.week, k);
-      if (note) lines.push("Progress: " + note);
+      notesForKey(state.week, k).forEach(function (note) { lines.push("Progress: " + note); });
       [["done", "Done"], ["in_progress", "In progress"], ["not_started", "Not started"]].forEach(function (g) {
         var items = sorted(mine.filter(function (t) { return t.status === g[0]; }));
         if (!items.length) return;
@@ -996,7 +977,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   function loadIntoForm(t) {
     state.editingId = t.id;
     $("f-title").value = t.title; $("f-status").value = t.status; $("f-due").value = t.due || "";
-    $("f-person").value = assigneeInputValue(personKey(t));
+    $("f-creator").value = createdName(t);
+    $("f-person").value = isMeKey(personKey(t)) ? "Me" : ownerName(t);
     $("f-project").value = t.project || ""; $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
     render();
@@ -1006,10 +988,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     state.editingId = null;
     form.reset();
     $("f-person").value = "Me";
+    $("f-creator").value = myName();
     $("editingNote").hidden = true;
   }
 
-  $("btnFill").addEventListener("click", function () { clearForm(); render(); $("f-project").focus(); });
+  $("btnFill").addEventListener("click", function () { clearForm(); render(); ($("f-creator").value ? $("f-project") : $("f-creator")).focus(); });
   $("whoSeg").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
     state.who = b.getAttribute("data-w"); state.person = "all"; pendingDelete = null; render();
@@ -1019,11 +1002,16 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var title = $("f-title").value.trim();
     if (!title) { toast("Give the task a title first."); $("f-title").focus(); return; }
     var existing = state.editingId && state.tasks.find(function (x) { return x.id === state.editingId; });
-    var who = resolveAssignee($("f-person").value);
+    var creator = $("f-creator").value.trim();
+    if (!creator) { toast("Add your name in Created by."); $("f-creator").focus(); return; }
+    creator = state.nameCase[norm(creator)] || creator;
+    if (!existing) { state.myName = creator; lsSet("teamPlanner.myName", creator); }
+    var who = resolveAssignee($("f-person").value, existing ? myName() : creator);
     var t = cleanTask({
       owner: who.owner || "",
       assigneeName: who.assigneeName || "",
       createdBy: existing ? existing.createdBy : state.me,
+      createdByName: creator,
       id: existing ? existing.id : newId(),
       week: existing ? existing.week : state.week,
       title: title, status: $("f-status").value, due: $("f-due").value,
@@ -1050,7 +1038,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var v = $("weekNote").value.trim();
     var cur = noteFor(state.week, state.me);
     if (v === cur || state.readOnly) return;
-    store.putWeek(noteKey(state.week, state.me), { week: state.week, owner: state.me, progress: v, updated: Date.now() }).then(function () { toast("Progress note saved."); }, function () {});
+    store.putWeek(noteKey(state.week, state.me), { week: state.week, owner: state.me, name: myName(), progress: v, updated: Date.now() }).then(function () { toast("Progress note saved."); }, function () {});
   });
 
   // ---------- Filters & sort ----------
@@ -1086,7 +1074,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "project", "title", "status", "due", "related", "notes", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
-      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? (t.createdBy ? personName(t.createdBy) : "") : k === "assigneeName" ? assigneeName(t) : t[k]); }).join(",");
+      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? createdName(t) : k === "assigneeName" ? assigneeName(t) : t[k]); }).join(",");
     })).join("\r\n");
   }
   function parseCsv(text) {
@@ -1172,6 +1160,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
   });
 
+  $("f-creator").value = myName();
   render();
   initStore();
 })();

@@ -22,7 +22,8 @@ Run `./build.sh` after editing `app.html` to regenerate `index.html`.
 
 `team.html` is a shared planner for two or more people, such as you and a partner. It is published as a separate Artifact and keeps the personal planner untouched.
 
-- **Created by and Owner are separate:** "Created by" is filled in automatically from whoever is signed in. "Owner" can be anyone: yourself, someone who uses the planner, or any name you type, even for people who never open it.
+- **Created by and Owner are separate:** both are names people type, and the planner never shows claude.ai account names. "Created by" is remembered on each device. "Owner" can be "Me" or anyone's name, even for people who never open the planner.
+- **Form order:** Created by, Project, Task, Owner, Status, Due date, Related item, Notes.
 - **Who filters:** Everyone, Owned by me, and Created by me.
 - **By-person overview:** every owner gets a row with their own done, in-progress and not-started counts. Click a row to see only their tasks.
 - **Your own progress note:** each person writes their own weekly note, so nobody overwrites anyone else.
