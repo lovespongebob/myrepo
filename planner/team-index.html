@@ -1041,6 +1041,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
 .goals3 input[type="checkbox"] { padding: 0; border: 0; box-shadow: none; min-width: 30px; flex: none; display: block; }
 .goals3 input[type="checkbox"]::after { display: block; width: 30px; height: 30px; line-height: 30px; text-align: center; }
+
+/* What's next: numbered actions under the goals */
+.next-list { counter-reset: nx; }
+.next-list li { counter-increment: nx; padding-left: 26px; }
+.next-list li::before { content: counter(nx); background: none; width: auto; height: auto; top: 0; left: 2px; border-radius: 0; font-family: var(--display); font-weight: 700; color: var(--accent); }
 </style>
 
 <div class="wrap">
@@ -1295,7 +1300,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <section class="panel top3-panel" aria-labelledby="top3Title">
         <div class="panel-head">
           <div>
-            <h2 id="top3Title">Highlights</h2>
+            <h2 id="top3Title">Highlights of the week</h2>
             <div class="hint">Your three best moments or wins, in your own words.</div>
           </div>
           <button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button>
@@ -1331,6 +1336,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           <li><input type="checkbox" id="goal-done-1" aria-label="Goal 2 achieved"><label class="sr" for="goal-1">Goal 2</label><input id="goal-1" maxlength="160" autocomplete="off" placeholder="e.g. Meal plan done by Sunday"></li>
           <li><input type="checkbox" id="goal-done-2" aria-label="Goal 3 achieved"><label class="sr" for="goal-2">Goal 3</label><input id="goal-2" maxlength="160" autocomplete="off" placeholder="e.g. Book the family trip"></li>
         </ol>
+        <div class="takeaways whatsnext">
+          <div class="tk-head"><h3>What’s next</h3></div>
+          <ol class="tk-list next-list" id="whatsNext"></ol>
+          <div class="hint" id="nextSource"></div>
+        </div>
       </section>
     </div>
     <section class="panel" aria-labelledby="ovTitle">
@@ -2271,7 +2281,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("goal-done-" + i).addEventListener("change", function () { saveGoals(i); });
   });
 
-  // ---------- Highlights and key takeaways ----------
+  // ---------- Highlights, key takeaways and what's next ----------
   var AI_TAKEAWAYS = true;
   var sampleFn = null;
   var tk = { ai: null, busy: false, requested: null };
@@ -2296,58 +2306,74 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   [0, 1, 2].forEach(function (i) {
     var f = $("top3-" + i);
     f.addEventListener("blur", saveTop3);
-    f.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); (i < 2 ? $("top3-" + (i + 1)) : f).focus(); if (i === 2) f.blur(); } });
+    f.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (i < 2) $("top3-" + (i + 1)).focus(); else f.blur(); } });
   });
 
   function lc(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
+  function dayName(ymdStr) { var d = parseYmd(ymdStr); return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()] + " " + shortDate(d); }
+  // Insights from highlights, goals and how the tasks went.
   function ruleTakeaways(list) {
-    if (!list.length) return ["No plans for this week yet. Add a few in Plan Your Week to see takeaways here."];
-    var out = [], open = list.filter(function (t) { return t.status !== "done"; });
-    if (!open.length) out.push("Everything on this week’s list is done. Time to enjoy it.");
-    var big = list.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY; })
-      .sort(function (a, b) { return a.due < b.due ? -1 : 1; })[0];
-    if (big) out.push(big.title + " is " + lc(countdownText(daysFromToday(big.due))) + (big.nextStep ? ". Still to do: " + lc(big.nextStep.replace(/\.$/, "")) + "." : ". Leave a little room around it."));
+    var highlights = top3Of(state.week).filter(Boolean), goals = visibleMilestones(state.week);
+    if (!list.length && !highlights.length && !goals.length) return ["Nothing planned for this week yet. Add a few plans, goals or highlights to see takeaways here."];
+    var out = [], done = list.filter(function (t) { return t.status === "done"; }), open = list.filter(function (t) { return t.status !== "done"; });
+    var goalsDone = goals.filter(function (m) { return m.done; });
+    if (goals.length) out.push(goalsDone.length === goals.length ? "You reached every goal you set for the week." : goalsDone.length ? "You reached " + goalsDone.length + " of your " + goals.length + " goals, a steady week." : "None of the week’s goals are ticked off yet, so they may need more room.");
+    if (highlights.length) out.push("“" + highlights[0] + "” stood out as a highlight" + (highlights.length > 1 ? ", along with " + (highlights.length - 1) + " more." : "."));
     var byCat = {};
     list.forEach(function (t) { var k = t.project || ""; if (!k) return; byCat[k] = byCat[k] || { n: 0, done: 0 }; byCat[k].n++; if (t.status === "done") byCat[k].done++; });
     var top = Object.keys(byCat).sort(function (a, b) { return byCat[b].n - byCat[a].n; })[0];
     if (top && byCat[top].n >= 2) out.push(top + " took up most of your week" + (byCat[top].done ? ", and " + byCat[top].done + " of those " + byCat[top].n + " plans " + (byCat[top].done === 1 ? "is" : "are") + " done." : "."));
-    var goals = visibleMilestones(state.week), left = goals.filter(function (m) { return !m.done; });
-    if (goals.length) out.push(left.length ? "“" + left[0].text + "” is the goal to focus on next." : "Every goal for the week is done. Worth celebrating.");
-    var waiting = list.filter(function (t) { return t.status === "waiting"; })[0];
-    if (waiting) out.push(waiting.title + " is waiting on someone else. A quick nudge could move it along.");
-    var late = open.filter(function (t) { return t.due && t.due < TODAY; });
-    if (late.length) out.push(late.length === 1 ? late[0].title + " slipped past its date. Pick a new day or let it go." : late.length + " plans slipped past their dates. Pick new days or let some go.");
-    var noDate = open.filter(function (t) { return !t.due; });
-    if (noDate.length) out.push(noDate.length === 1 ? noDate[0].title + " has no date yet. Giving it a day makes it more likely to happen." : noDate.length + " plans have no date yet. Giving each a day makes them more likely to happen.");
+    if (list.length && !open.length) out.push("Everything on this week’s list got done.");
+    else if (done.length && open.length) out.push(done.length + " of " + list.length + " plans are finished; the rest can roll into next week.");
     return out.slice(0, 3);
+  }
+  // The top things to deal with next week.
+  function ruleNext(list) {
+    var out = [], nextEnd = addDays(state.week, 13);
+    visibleMilestones(state.week).filter(function (m) { return !m.done; }).forEach(function (m) { out.push("Carry the goal “" + m.text + "” into next week."); });
+    state.tasks.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY && t.due <= nextEnd; })
+      .sort(function (a, b) { return a.due < b.due ? -1 : 1; })
+      .forEach(function (t) { out.push("Get ready for " + t.title + " on " + dayName(t.due) + (t.nextStep ? ": " + lc(t.nextStep.replace(/\.$/, "")) + "." : ".")); });
+    var open = list.filter(function (t) { return t.status !== "done" && !t.milestone; });
+    open.filter(function (t) { return t.due && t.due < TODAY; }).forEach(function (t) { out.push("Pick a new day for " + t.title + ", or let it go."); });
+    open.filter(function (t) { return t.status === "waiting"; }).forEach(function (t) { out.push("Follow up on " + t.title + "."); });
+    open.filter(function (t) { return t.nextStep; }).forEach(function (t) { out.push(t.nextStep.replace(/\.$/, "") + " (" + t.title + ")."); });
+    open.filter(function (t) { return !t.due; }).forEach(function (t) { out.push("Give " + t.title + " a day so it happens."); });
+    var seen = {};
+    out = out.filter(function (s) { if (seen[s]) return false; seen[s] = true; return true; });
+    return out.length ? out.slice(0, 3) : ["Nothing is left over. Set three new goals for next week."];
   }
   function tkKey() { return [state.week, state.project, state.person, state.who].join("|"); }
   function takeawayPrompt(list) {
     var data = {
       week: weekRangeText(state.week), today: TODAY,
+      highlights: top3Of(state.week).filter(Boolean),
+      goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
       tasks: list.slice(0, 60).map(function (t) {
         return { category: t.project || "", title: t.title, status: STATUS[t.status].en, due: t.due || "no date", bigDay: !!t.milestone,
           who: personKeys(t).map(personName).join(", "), highlight: highlightOf(t), next: t.nextStep || "" };
       }),
-      goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
-      highlights: top3Of(state.week).filter(Boolean)
+      upcomingBigDays: state.tasks.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY && t.due <= addDays(state.week, 13); })
+        .map(function (t) { return { title: t.title, due: t.due, next: t.nextStep || "" }; })
     };
-    return "You write the \"Key takeaways\" box of a personal weekly planner (family, errands, classes, home). " +
-      "Read this week's data and reply with ONLY a JSON array of exactly 3 short strings, each at most 18 words. " +
-      "Each string is an insight or a helpful nudge: a pattern in the week, what went well, what needs attention next, or what to plan ahead for. " +
-      "Do not restate status counts and do not list tasks one by one. Warm, plain, personal tone, no work jargon, no emoji.\n" +
-      'Example shape: ["Kids\' activities filled most of the week, and the recital prep is nearly done.", "...", "..."]\n\n' +
+    return "You help with a personal weekly planner (family, errands, classes, home). Read this week's highlights, goals and tasks with their status. " +
+      "Reply with ONLY a JSON object with two arrays of exactly 3 short strings each, every string at most 18 words:\n" +
+      '"takeaways": key insights about the week, drawn from the highlights, which goals were reached, and which tasks got done or stalled. Patterns and meaning, not a status update: do not restate counts or list tasks one by one.\n' +
+      '"next": the three most important things to deal with next week, most important first, as short actions (unfinished goals, upcoming big days, overdue or waiting tasks, open next steps).\n' +
+      "Warm, plain, personal tone, no work jargon, no emoji.\n" +
+      'Example shape: {"takeaways": ["Kids\' activities filled most of the week, and recital prep is nearly done.", "...", "..."], "next": ["Buy flowers before Friday\'s recital.", "...", "..."]}\n\n' +
       "Data:\n" + JSON.stringify(data);
   }
+  function cleanList(a) { return Array.isArray(a) ? a.map(function (s) { return String(s || "").trim(); }).filter(Boolean).slice(0, 3) : []; }
   function requestTakeaways(refresh) {
     var list = state.reportList || [];
     if (!sampleFn || tk.busy || !list.length) return;
     var key = tkKey();
     tk.requested = key; tk.busy = true; renderTakeaways();
     var cache = refresh ? { gcTime: 864e5, refresh: true } : { gcTime: 864e5 };
-    sampleFn.json(takeawayPrompt(list), { cache: cache }).then(function (arr) {
-      var items = Array.isArray(arr) ? arr.map(function (s) { return String(s || "").trim(); }).filter(Boolean).slice(0, 3) : [];
-      if (items.length) tk.ai = { key: key, items: items };
+    sampleFn.json(takeawayPrompt(list), { cache: cache }).then(function (res) {
+      var take = cleanList(res && res.takeaways), next = cleanList(res && res.next);
+      if (take.length || next.length) tk.ai = { key: key, takeaways: take, next: next };
     }, function (e) {
       var code = e && e.code;
       if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].indexOf(code) >= 0) { sampleFn = null; }
@@ -2355,34 +2381,35 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       else if (code !== "cancelled") toast("The takeaways couldn’t be written just now. Try Refresh.");
     }).then(function () { tk.busy = false; renderTakeaways(); });
   }
+  function aiFor(part) { var a = tk.ai && tk.ai.key === tkKey() ? tk.ai[part] : null; return a && a.length ? a : null; }
+  function currentTakeaways() { return aiFor("takeaways") || ruleTakeaways(state.reportList || []); }
+  function currentNext() { return aiFor("next") || ruleNext(state.reportList || []); }
   function renderTakeaways() {
     var list = state.reportList || [], key = tkKey();
     var onSummary = !$("panesummary").hidden && !$("viewPlanner").hidden;
     if (onSummary && sampleFn && !tk.busy && tk.requested !== key && list.length) { requestTakeaways(false); return; }
-    var ai = tk.ai && tk.ai.key === key ? tk.ai.items : null;
-    var items = ai || ruleTakeaways(list);
-    var box = $("takeaways");
-    box.replaceChildren.apply(box, items.map(function (t) { return el("li", { text: t }); }));
-    box.classList.toggle("busy", tk.busy && !ai);
+    var aiT = aiFor("takeaways"), aiN = aiFor("next");
+    [["takeaways", currentTakeaways(), aiT, "tkSource", "highlights, goals and tasks"], ["whatsNext", currentNext(), aiN, "nextSource", "highlights, goals and tasks"]].forEach(function (p) {
+      var box = $(p[0]);
+      box.replaceChildren.apply(box, p[1].map(function (t) { return el("li", { text: t }); }));
+      box.classList.toggle("busy", tk.busy && !p[2]);
+      $(p[3]).textContent = tk.busy ? "Claude is reading your week…" : p[2] ? "Written by Claude from this week’s " + p[4] + "." : "Based on this week’s " + p[4] + ".";
+    });
     $("btnTakeaways").hidden = !sampleFn || !list.length;
     $("btnTakeaways").disabled = tk.busy;
-    $("tkSource").textContent = tk.busy ? "Claude is reading your week…" : ai ? "Written by Claude from this week’s tasks, goals and highlights." : "Based on this week’s tasks.";
   }
   $("btnTakeaways").addEventListener("click", function () { requestTakeaways(true); });
   if (AI_TAKEAWAYS && window.claude && typeof window.claude.use === "function") {
     window.claude.use("sample").then(function (s) { sampleFn = s || null; renderTakeaways(); }, function () {});
   }
-  function currentTakeaways() {
-    var key = tkKey();
-    return tk.ai && tk.ai.key === key ? tk.ai.items : ruleTakeaways(state.reportList || []);
-  }
   function summaryText() {
     var lines = ["Weekly summary, " + weekRangeText(state.week)];
     var top = top3Of(state.week).filter(Boolean);
-    if (top.length) { lines.push("", "Highlights:"); top.forEach(function (t, i) { lines.push((i + 1) + ". " + t); }); }
-    lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
+    if (top.length) { lines.push("", "Highlights of the week:"); top.forEach(function (t, i) { lines.push((i + 1) + ". " + t); }); }
     var goals = visibleMilestones(state.week);
     if (goals.length) { lines.push("", "Goals for the week:"); goals.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text); }); }
+    lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
+    lines.push("", "What’s next:"); currentNext().forEach(function (t, i) { lines.push((i + 1) + ". " + t); });
     return lines.join("\n");
   }
 
