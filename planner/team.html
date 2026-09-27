@@ -1559,8 +1559,15 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
       return ready.then(function (r) {
         if (r[0]) state.me = r[0];
         if (r[1] === false) { state.readOnly = true; state.locked = true; }
-        applyLock();
-        store = dbStore(db); store.start(); setMode();
+        // Visitors by link from outside the organization get no answer from can(),
+        // so also check a marker document only invited members can read.
+        var check = r[1] === true ? Promise.resolve(true)
+          : db.collection("access").doc("members").get().then(function (d) { return d.exists; }, function () { return false; });
+        return check.then(function (member) {
+          if (!member) { state.readOnly = true; state.locked = true; }
+          applyLock();
+          store = dbStore(db); store.start(); setMode();
+        });
       });
     }).catch(function () { applyLock(); store = localStore(); store.start(); setMode(); });
   }
