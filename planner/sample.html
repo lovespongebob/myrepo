@@ -129,6 +129,37 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .modebar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--done); display: inline-block; }
 .modebar.local .dot { background: var(--blue); }
 
+
+/* Page switch: Introduction | The Weekly Planner */
+.tabs { display: flex; justify-content: center; }
+.tabs .seg { background: var(--surface); box-shadow: var(--shadow); }
+.tabs .seg button { padding: 8px 18px; font-size: 14px; font-weight: 500; }
+#viewPlanner { display: grid; gap: 20px; min-width: 0; }
+
+/* Introduction */
+.intro { max-width: 760px; width: 100%; margin: 0 auto; display: grid; gap: 40px; padding-block: 16px 24px; min-width: 0; }
+.intro h1 { font-size: clamp(32px, 5.5vw, 48px); line-height: 1.08; }
+.intro .byline { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--muted); margin: 8px 0 0; }
+.intro p { margin: 0; max-width: 65ch; font-size: 17px; line-height: 1.65; }
+.intro .story { display: grid; gap: 16px; }
+.intro .lead { font-family: var(--display); font-weight: 600; font-size: 20px; line-height: 1.4; }
+.intro .story strong { color: var(--accent); font-weight: 600; }
+.intro h2 { font-size: clamp(22px, 3vw, 26px); margin-bottom: 16px; }
+.feat { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 600px) { .feat { grid-template-columns: minmax(0, 1fr); } }
+.feat li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; background: var(--surface-solid); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; font-size: 16px; line-height: 1.45; }
+.feat .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.feat .ic svg { width: 16px; height: 16px; }
+.feat .pills { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-left: 4px; vertical-align: middle; }
+.feat .pill { font-size: 11px; padding: 1px 8px; cursor: default; }
+.cta { background: var(--ink); color: var(--bg); border-radius: 24px; padding: 32px; display: grid; gap: 16px; justify-items: start; }
+.cta h2 { color: var(--bg); margin: 0; }
+.cta p { color: color-mix(in srgb, var(--bg) 88%, transparent); }
+.cta .note { font-size: 15px; color: color-mix(in srgb, var(--bg) 76%, transparent); }
+.cta-btn { display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; background: var(--accent); color: var(--accent-ink); font-family: var(--display); font-weight: 600; font-size: 16px; text-decoration: none; padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 20px rgba(108, 92, 224, 0.35); }
+.cta-btn:hover { filter: brightness(1.08); }
+.cta-btn svg { width: 18px; height: 18px; }
+
 /* Sections */
 .wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
 .tablewrap { position: relative; }
@@ -330,6 +361,44 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
 </style>
 
 <div class="wrap">
+  <nav class="tabs" aria-label="Page">
+    <div class="seg" role="group" id="pageTabs">
+      <button type="button" data-tab="intro" aria-pressed="false">Introduction</button>
+      <button type="button" data-tab="planner" aria-pressed="true">The Weekly Planner</button>
+    </div>
+  </nav>
+
+  <div id="viewIntro" class="intro" hidden>
+    <header>
+      <h1>The Weekly Planner Overview</h1>
+      <p class="byline">by Weiwei Hu</p>
+    </header>
+    <section class="story" aria-label="Why I made it">
+      <p><span class="lead">Copy last week’s tasks, remove the old projects, and update the progress.</span> If you keep your weekly plan in a notebook, spreadsheet, or PPT, this probably sounds familiar. Then there’s the back-and-forth to collect updates and make sure everyone has the latest version.</p>
+      <p>I wanted to make this a little easier, so I created the Weekly Planner. <strong>Set it up once, then come back to the same place each week</strong> to plan work, update progress, and prepare your weekly report. Anyone you share it with can contribute whenever it works for them, and everyone can see the latest updates without needing to be there at the same time.</p>
+    </section>
+    <section aria-labelledby="introCan">
+      <h2 id="introCan">What can you do with it?</h2>
+      <ul class="feat">
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Create and update plans with anyone you share the planner with</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Organize tasks by project and owner</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>See what’s not started, in progress, and done<span class="pills" aria-hidden="true"><span class="pill not_started">Not started</span><span class="pill in_progress">In progress</span><span class="pill done">Done</span></span></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Sort tasks by due date, or leave the date open</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Carry unfinished tasks into the next week</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Generate weekly reports</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Look back at previous weeks</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Export and reopen your plan</span></li>
+      </ul>
+    </section>
+    <section class="cta" aria-labelledby="introHow">
+      <h2 id="introHow">See how it works</h2>
+      <p>Try three things: leave a date blank, mark a task done, then export your plan and reopen it.</p>
+      <button type="button" class="cta-btn" data-go="planner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> Explore the sample</button>
+      <p class="note">The sample is filled with example projects and tasks, so you can try the workflow without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own planning process, message me on LinkedIn.</p>
+    </section>
+  </div>
+
+  <div id="viewPlanner">
   <header class="top">
     <div>
       <div class="eyebrow">Sample · example data only</div>
@@ -536,6 +605,7 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     </div>
   </section>
   </section>
+  </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1331,6 +1401,23 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
     store.start(); toast("The sample is back to its starting data.");
   });
   $("f-creator").value = myName();
+  // ---------- Page switch ----------
+  function setTab(tab) {
+    $("viewIntro").hidden = tab !== "intro";
+    $("viewPlanner").hidden = tab !== "planner";
+    Array.prototype.forEach.call($("pageTabs").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-tab") === tab)); });
+    try { history.replaceState(null, "", "#" + tab); } catch (e) { /* not allowed here */ }
+  }
+  $("pageTabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    setTab(b.getAttribute("data-tab")); window.scrollTo(0, 0);
+  });
+  document.addEventListener("click", function (e) {
+    var go = e.target.closest("[data-go]"); if (!go) return;
+    setTab(go.getAttribute("data-go")); window.scrollTo(0, 0);
+  });
+  setTab(location.hash === "#intro" || location.hash === "#planner" ? location.hash.slice(1) : "intro");
+
   render();
   initStore();
 })();
