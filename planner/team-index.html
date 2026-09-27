@@ -670,10 +670,45 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   .nt-body svg { width: 28px; height: 28px; }
 }
 @media (prefers-reduced-motion: reduce) { .navtile { transition: none; } .navtile:hover { transform: none; } }
+
+/* ================= Home: title and three tiles only ================= */
+#homeView { display: grid; gap: 28px; padding-block: 28px 12px; }
+#homeView[hidden] { display: none !important; }
+.home-head { display: grid; gap: 10px; }
+.home-head h1 { font-size: clamp(40px, 6.5vw, 76px); letter-spacing: -0.045em; line-height: 1; }
+.home-head p { margin: 0; color: var(--muted); font-size: 16px; }
+#homeView .navtile { min-height: 250px; }
+#homeView .nt-head { font-size: 17px; padding: 14px 16px; }
+#homeView .nt-body { gap: 16px; padding: 34px 26px 32px; align-content: center; }
+#homeView .nt-body svg { width: 64px; height: 64px; }
+#homeView .nt-desc { font-size: 15px; }
+#homeView .navtile[aria-pressed] .nt-head { background: var(--tile); color: var(--tile-ink); }
+#homeView .navtile .nt-body { background: var(--surface-sunk); }
+#homeView .navtile:hover .nt-head { background: var(--ink); color: var(--tile); }
+#homeView .navtile { border-color: var(--line); box-shadow: var(--shadow); }
+.backbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.backbar[hidden] { display: none !important; }
+.backbtn { border: 1px solid var(--line-strong, var(--line)); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 7px 14px; font: inherit; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+.backbtn:hover { background: var(--surface-sunk); }
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px; }
+.crumbs button { border: 0; background: none; color: var(--muted); font: inherit; font-size: 13.5px; font-weight: 500; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
+.crumbs button:hover { color: var(--ink); background: var(--surface-sunk); }
+.crumbs button[aria-current="page"] { color: var(--tile-ink); background: var(--tile); font-weight: 700; }
+@media (max-width: 640px) {
+  #homeView .navtile { min-height: 0; }
+  #homeView .nt-body { padding: 14px 16px 16px; }
+  #homeView .nt-body svg { width: 36px; height: 36px; }
+  .crumbs { display: none; }
+}
 </style>
 
 <div class="wrap">
-  <nav class="tiles-nav" aria-label="Sections">
+  <nav class="tiles-nav" id="homeView" aria-label="Sections">
+    <header class="home-head">
+      <div class="eyebrow">One plan we share</div>
+      <h1>The Weekly Planner</h1>
+      <p>by Weiwei Hu · Choose where to start.</p>
+    </header>
     <div class="tilegrid" id="pageTabs">
       <button type="button" class="navtile" data-tab="intro" aria-pressed="false">
         <span class="nt-head">Introduction</span>
@@ -689,6 +724,15 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
       </button>
     </div>
   </nav>
+
+  <div class="backbar" id="backbar" hidden>
+    <button type="button" class="backbtn" data-go="home">← All sections</button>
+    <div class="crumbs" role="group" aria-label="Go to section">
+      <button type="button" data-go="intro">Introduction</button>
+      <button type="button" data-go="planner">The Weekly Planner</button>
+      <button type="button" data-go="summary">Weekly Summary</button>
+    </div>
+  </div>
 
   <div id="viewIntro" class="intro" hidden>
     <header>
@@ -2129,8 +2173,14 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   $("f-creator").value = myName();
   // ---------- Page switch ----------
   function setTab(tab) {
+    var home = tab === "home";
+    $("homeView").hidden = !home;
+    $("backbar").hidden = home;
+    Array.prototype.forEach.call(document.querySelectorAll(".crumbs button"), function (b) {
+      if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
     $("viewIntro").hidden = tab !== "intro";
-    $("viewPlanner").hidden = tab === "intro";
+    $("viewPlanner").hidden = tab !== "planner" && tab !== "summary";
     $("paneplanner").hidden = tab !== "planner";
     $("panecheck").hidden = tab !== "planner";
     $("panesummary").hidden = tab !== "summary";
@@ -2145,7 +2195,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
     var go = e.target.closest("[data-go]"); if (!go) return;
     setTab(go.getAttribute("data-go")); window.scrollTo(0, 0);
   });
-  setTab(/^#(intro|planner|summary)$/.test(location.hash) ? location.hash.slice(1) : "planner");
+  setTab(/^#(home|intro|planner|summary)$/.test(location.hash) ? location.hash.slice(1) : "home");
 
   render();
   initStore();
