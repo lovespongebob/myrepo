@@ -1,10 +1,10 @@
-# Weekly Planner
+# Weiwei’s Weekly Planner
 
 A single-page weekly task planner built around one fixed entry form, so you stop copying last week's sheet, clearing it, and filling it in again.
 
 ## What it does
 
-- **Fixed entry (固定入口):** one form with task, status, due date, related item and notes, plus Fill, Save and Export buttons.
+- **Fixed entry:** one form with task, status, due date, related item and notes, plus Fill, Save and Export buttons.
 - **Carry over:** unfinished tasks from last week can be moved into this week in one click.
 - **Weekly overview and report:** counts for Done, In progress and Not started update as you work. A text weekly report is generated for you to copy.
 - **Sorting:** tasks sort by due date, and you choose whether tasks without a date go first or last.

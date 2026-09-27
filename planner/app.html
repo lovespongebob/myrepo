@@ -1,7 +1,7 @@
-<title>Weekly Planner</title>
+<title>Weiwei’s Weekly Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root {
   --bg: #eceffb;
@@ -24,8 +24,8 @@
   --todo-soft: #eceef7;
   --danger: #d0445a;
   --shadow: 0 10px 30px rgba(60, 64, 140, 0.10), 0 1px 2px rgba(60, 64, 140, 0.08);
-  --display: "Lexend", "Noto Sans SC", system-ui, sans-serif;
-  --body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --display: "Lexend", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
@@ -101,7 +101,6 @@ body {
 h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
 h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 700; }
 h2 { font-size: 18px; font-weight: 600; }
-.zh { font-family: var(--body); font-weight: 500; color: var(--muted); font-size: 0.8em; margin-left: 6px; letter-spacing: 0; }
 .eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -176,7 +175,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .bigbtn:hover { transform: translateY(-1px); filter: brightness(1.05); }
 .bigbtn:active { transform: translateY(0); }
 .bigbtn .chev { margin-left: auto; opacity: 0.8; }
-.bigbtn .zh { color: rgba(255,255,255,0.8); }
 .b-fill { background: linear-gradient(135deg, #a18cf0, #7c68e6); }
 .b-save { background: linear-gradient(135deg, #6f95f2, #4f7de6); }
 .b-export { background: linear-gradient(135deg, #5fa8f0, #4a8ae0); }
@@ -264,8 +262,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">Weekly planner · 每周计划</div>
-      <h1>This week, one fixed entry</h1>
+      <div class="eyebrow">One fixed entry for every week</div>
+      <h1>Weiwei’s Weekly Planner</h1>
       <p>Add and update tasks in one place instead of copying last week's sheet. Unfinished work carries forward, the weekly report counts itself, and an export keeps a copy you can reopen.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
@@ -282,51 +280,51 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       <div class="brand">
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
-          <h2 id="entryTitle">Fixed entry <span class="zh">固定入口</span></h2>
-          <div class="sub">Set up once, use every week · 一次设置，长期使用</div>
+          <h2 id="entryTitle">Fixed entry</h2>
+          <div class="sub">Set up once, use every week</div>
         </div>
       </div>
       <div class="editing-note" id="editingNote" hidden>Editing a saved task. Save to update it, or press Fill to start a new one.</div>
       <form id="taskForm" class="stack" style="gap:12px" novalidate>
         <div class="field">
-          <label for="f-title">Task · 任务</label>
+          <label for="f-title">Task</label>
           <input id="f-title" name="title" placeholder="e.g. Draft the Q4 budget summary" autocomplete="off" required>
         </div>
         <div class="row2">
           <div class="field">
-            <label for="f-status">Status · 状态</label>
+            <label for="f-status">Status</label>
             <select id="f-status" name="status">
-              <option value="not_started">未开始 Not started</option>
-              <option value="in_progress">进行中 In progress</option>
-              <option value="done">已完成 Done</option>
+              <option value="not_started">Not started</option>
+              <option value="in_progress">In progress</option>
+              <option value="done">Done</option>
             </select>
           </div>
           <div class="field">
-            <label for="f-due">Due date · 截止日期</label>
+            <label for="f-due">Due date</label>
             <input id="f-due" name="due" type="date">
           </div>
         </div>
         <div class="field">
-          <label for="f-related">Related item · 相关事项</label>
+          <label for="f-related">Related item</label>
           <input id="f-related" name="related" placeholder="Project, client, or person" autocomplete="off">
         </div>
         <div class="field">
-          <label for="f-notes">Notes · 备注</label>
+          <label for="f-notes">Notes</label>
           <textarea id="f-notes" name="notes" placeholder="Progress, blockers, links…"></textarea>
         </div>
       </form>
       <div class="bigbtns">
         <button class="bigbtn b-fill" id="btnFill" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
-          Fill <span class="zh">填写</span><span class="chev">›</span>
+          Fill<span class="chev">›</span>
         </button>
         <button class="bigbtn b-save" id="btnSave" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>
-          Save <span class="zh">保存</span><span class="chev">›</span>
+          Save<span class="chev">›</span>
         </button>
         <button class="bigbtn b-export" id="btnExport" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
-          Export <span class="zh">导出</span><span class="chev">›</span>
+          Export<span class="chev">›</span>
         </button>
       </div>
       <div class="toolbar">
@@ -340,13 +338,13 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       <!-- Weekly overview -->
       <section class="panel" aria-labelledby="ovTitle">
         <div class="panel-head">
-          <h2 id="ovTitle">This week's overview <span class="zh">本周任务概览</span></h2>
+          <h2 id="ovTitle">This week's overview</h2>
           <span class="hint mono" id="ovTotal"></span>
         </div>
         <div class="summary">
-          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done · 已完成<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
-          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress · 进行中<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
-          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started · 未开始<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
+          <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
+          <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
+          <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
         </div>
         <div class="carry" id="carry" hidden></div>
       </section>
@@ -354,7 +352,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       <!-- Task list -->
       <section class="panel" aria-labelledby="listTitle">
         <div class="panel-head">
-          <h2 id="listTitle">Tasks <span class="zh">任务</span></h2>
+          <h2 id="listTitle">Tasks</h2>
           <div class="toolbar">
             <div class="seg" role="group" aria-label="Filter by status" id="filterSeg">
               <button type="button" data-f="all" aria-pressed="true">All</button>
@@ -372,10 +370,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             <thead>
               <tr>
                 <th style="width:36px"><span class="sr">Done</span></th>
-                <th class="col-task">Task · 任务</th>
-                <th><button type="button" id="sortDue" aria-label="Sort by due date">Due · 截止日期 <span id="sortArrow">▲</span></button></th>
-                <th>Status · 状态</th>
-                <th class="col-notes">Notes · 备注</th>
+                <th class="col-task">Task</th>
+                <th><button type="button" id="sortDue" aria-label="Sort by due date">Due<span id="sortArrow">▲</span></button></th>
+                <th>Status</th>
+                <th class="col-notes">Notes</th>
                 <th><span class="sr">Actions</span></th>
               </tr>
             </thead>
@@ -387,11 +385,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       <!-- Week note + report -->
       <section class="panel" aria-labelledby="repTitle">
         <div class="panel-head">
-          <h2 id="repTitle">Weekly report <span class="zh">周报</span></h2>
+          <h2 id="repTitle">Weekly report</h2>
           <button class="chipbtn" id="btnCopyReport" type="button">Copy report</button>
         </div>
         <div class="field">
-          <label for="weekNote">This week's progress · 本周进度</label>
+          <label for="weekNote">This week's progress</label>
           <textarea id="weekNote" class="note-area" placeholder="One or two lines on how the week went. Saved when you click away."></textarea>
         </div>
         <label class="sr" for="reportOut">Weekly report text</label>
@@ -404,24 +402,24 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   <!-- Three checks -->
   <section class="panel" aria-labelledby="chkTitle">
     <div class="panel-head">
-      <h2 id="chkTitle">Try these three checks first <span class="zh">做完先试这三个动作</span></h2>
-      <span class="hint">Use the example tasks, not real data · 先用虚构数据试</span>
+      <h2 id="chkTitle">Try these three checks first</h2>
+      <span class="hint">Use the example tasks, not real data</span>
     </div>
     <div class="checks">
       <div class="check" data-check="sort">
         <div class="check-head"><span class="check-num">1</span><h3>Leave a due date empty</h3></div>
         <p>Save a task with no due date, then look at the list. Does it land where you expect? Switch "No date last / first" until it matches how you work.</p>
-        <label><input type="checkbox" id="chk-sort"> Sorting looks right · 排序符合预期</label>
+        <label><input type="checkbox" id="chk-sort"> Sorting looks right</label>
       </div>
       <div class="check" data-check="report">
         <div class="check-head"><span class="check-num">2</span><h3>Mark one as done</h3></div>
         <p>Tick a task's checkbox or click its status pill. The overview counts and the weekly report should change right away.</p>
-        <label><input type="checkbox" id="chk-report"> Counts are correct · 周报统计正确</label>
+        <label><input type="checkbox" id="chk-report"> Counts are correct</label>
       </div>
       <div class="check" data-check="export">
         <div class="check-head"><span class="check-num">3</span><h3>Export, then reopen</h3></div>
         <p>Press Export, then "Reopen an export…" and pick the file. Title, status, empty due date, and notes should all come back intact.</p>
-        <label><input type="checkbox" id="chk-export"> Content is complete · 内容完整正确</label>
+        <label><input type="checkbox" id="chk-export"> Content is complete</label>
       </div>
     </div>
   </section>
@@ -433,9 +431,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   "use strict";
 
   var STATUS = {
-    not_started: { zh: "未开始", en: "Not started" },
-    in_progress: { zh: "进行中", en: "In progress" },
-    done: { zh: "已完成", en: "Done" }
+    not_started: { en: "Not started" },
+    in_progress: { en: "In progress" },
+    done: { en: "Done" }
   };
   var ORDER = ["not_started", "in_progress", "done"];
   var LS_TASKS = "weeklyPlanner.tasks";
@@ -712,12 +710,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       });
       var meta = el("div", { class: "t-meta" }, [
         t.related ? el("span", { class: "tag", text: t.related }) : null,
-        t.example ? el("span", { class: "tag example", text: "Example · 示例" }) : null
+        t.example ? el("span", { class: "tag example", text: "Example" }) : null
       ]);
       var overdue = t.due && t.due < TODAY && t.status !== "done";
       var due = el("span", { class: "due mono" + (t.due ? "" : " empty") + (overdue ? " overdue" : ""), text: t.due ? t.due.replace(/-/g, "/") : "———" });
       if (overdue) due.title = "Past due";
-      var pill = el("button", { type: "button", class: "pill " + t.status, text: STATUS[t.status].zh + " " + STATUS[t.status].en, title: "Click to change status" });
+      var pill = el("button", { type: "button", class: "pill " + t.status, text: STATUS[t.status].en, title: "Click to change status" });
       pill.disabled = state.readOnly;
       pill.addEventListener("click", function () {
         var next = ORDER[(ORDER.indexOf(t.status) + 1) % ORDER.length];
@@ -750,11 +748,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   function reportText(list, c) {
     var lines = [];
-    lines.push("Weekly report · 周报 — W" + isoWeek(parseYmd(state.week)) + " (" + weekRangeText(state.week) + ")");
+    lines.push("Weiwei’s weekly report, W" + isoWeek(parseYmd(state.week)) + " (" + weekRangeText(state.week) + ")");
     lines.push("Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
     var progress = state.weeks[state.week] && state.weeks[state.week].progress;
     if (progress) { lines.push(""); lines.push("Progress: " + progress); }
-    [["done", "Done · 已完成"], ["in_progress", "In progress · 进行中"], ["not_started", "Not started · 未开始"]].forEach(function (g) {
+    [["done", "Done"], ["in_progress", "In progress"], ["not_started", "Not started"]].forEach(function (g) {
       var items = sorted(list.filter(function (t) { return t.status === g[0]; }));
       if (!items.length) return;
       lines.push(""); lines.push(g[1]);
