@@ -901,19 +901,37 @@ tr.is-milestone td { background: var(--accent-soft); }
 
 .home-cover .home-value { color: var(--ink); font-family: var(--display); font-size: clamp(19px, 2vw, 24px); font-weight: 500; line-height: 1.4; letter-spacing: -0.01em; max-width: 48ch; margin-top: 4px; }
 
-/* Home tiles framed like the template grid: a darker frame with clear gutters */
-:root { --grid-frame: #C4C9C9; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --grid-frame: #2B3336; } }
-:root[data-theme="dark"] { --grid-frame: #2B3336; }
-#homeView .tilegrid { background: var(--grid-frame); padding: 8px; gap: 8px; border-radius: 6px; }
-#homeView .navtile { border: 2px solid #FFFFFF; border-radius: 3px; background: #F4F5F5; }
-#homeView .nt-head { border-bottom: 2px solid #FFFFFF; }
-#homeView .navtile .nt-body { background: #F4F5F5; }
-#homeView .navtile:hover { box-shadow: none; border-color: var(--band); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #homeView .navtile, :root:not([data-theme="light"]) #homeView .navtile .nt-body { background: var(--surface); border-color: #3A4447; } :root:not([data-theme="light"]) #homeView .nt-head { border-bottom-color: #3A4447; } }
-:root[data-theme="dark"] #homeView .navtile, :root[data-theme="dark"] #homeView .navtile .nt-body { background: var(--surface); border-color: #3A4447; }
-:root[data-theme="dark"] #homeView .nt-head { border-bottom-color: #3A4447; }
-@media (max-width: 640px) { #homeView .tilegrid { padding: 6px; gap: 6px; } }
+
+/* Home grid like the template: one block of cells split by thin white lines,
+   gradient lime headers, soft grey bodies, and the dark band right underneath */
+#homeView { padding-bottom: 0; }
+#homeView .tilegrid { background: #FFFFFF; padding: 0; gap: 2px; border: 2px solid #FFFFFF; border-radius: 0; box-shadow: 0 18px 40px rgba(17, 20, 20, 0.14); }
+#homeView .navtile { border: 0; border-radius: 0; box-shadow: none; background: linear-gradient(180deg, #F6F7F7 0%, #E3E5E5 100%); min-height: 260px; }
+#homeView .navtile:hover { box-shadow: none; filter: brightness(1.03); }
+#homeView .nt-head, #homeView .navtile:hover .nt-head, #homeView .navtile[aria-pressed] .nt-head {
+  background: linear-gradient(180deg, #B7E874 0%, #9AD54E 100%); color: #111414; border-bottom: 2px solid #FFFFFF;
+  font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; padding: 14px 16px;
+}
+#homeView .navtile .nt-body { background: none; padding: 30px 26px 30px; gap: 18px; }
+#homeView .nt-body svg { width: 70px; height: 70px; color: #1D2A36; stroke-width: 1.6; }
+#homeView .nt-desc { font-family: var(--body); font-size: 14.5px; font-weight: 700; color: #111414; line-height: 1.35; max-width: 26ch; }
+.wrap.is-home .sitefoot { margin-top: -24px; border-radius: 0; padding: 22px 20px; box-shadow: 0 18px 40px rgba(17, 20, 20, 0.14); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #homeView .tilegrid { background: #2B3336; border-color: #2B3336; }
+  :root:not([data-theme="light"]) #homeView .navtile { background: linear-gradient(180deg, #1F2628 0%, #171D1F 100%); }
+  :root:not([data-theme="light"]) #homeView .nt-head { border-bottom-color: #2B3336; }
+  :root:not([data-theme="light"]) #homeView .nt-body svg, :root:not([data-theme="light"]) #homeView .nt-desc { color: #F1F3F2; }
+}
+:root[data-theme="dark"] #homeView .tilegrid { background: #2B3336; border-color: #2B3336; }
+:root[data-theme="dark"] #homeView .navtile { background: linear-gradient(180deg, #1F2628 0%, #171D1F 100%); }
+:root[data-theme="dark"] #homeView .nt-head { border-bottom-color: #2B3336; }
+:root[data-theme="dark"] #homeView .nt-body svg, :root[data-theme="dark"] #homeView .nt-desc { color: #F1F3F2; }
+@media (max-width: 640px) {
+  #homeView .navtile { min-height: 0; }
+  #homeView .navtile .nt-body { padding: 14px 16px; gap: 12px; }
+  #homeView .nt-body svg { width: 36px; height: 36px; }
+  #homeView .nt-desc { max-width: none; }
+}
 </style>
 
 <div class="wrap">
@@ -2352,6 +2370,7 @@ tr.is-milestone td { background: var(--accent-soft); }
   // ---------- Page switch ----------
   function setTab(tab) {
     var home = tab === "home";
+    document.querySelector(".wrap").classList.toggle("is-home", home);
     $("homeView").hidden = !home;
     $("backbar").hidden = home;
     Array.prototype.forEach.call(document.querySelectorAll(".crumbs button"), function (b) {
