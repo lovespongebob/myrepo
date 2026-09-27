@@ -8,7 +8,7 @@
 <title>Weekly Planner Sample</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap">
 <style>
 :root {
   --bg: #eceffb;
@@ -744,14 +744,167 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
 
 .cta-link { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .cta-link:hover { color: #fff; }
+
+/* ================= Pitch-deck template theme =================
+   Light grey gradient page, lime header strips, flat grey cells,
+   a charcoal band for credits and key actions, geometric type. */
+:root {
+  --bg: #ECEDED; --surface: #F7F7F7; --surface-solid: #FFFFFF; --surface-sunk: #EFEFEF;
+  --line: #D8DADA; --line-strong: #C7CACA; --ink: #111414; --muted: #4A5052;
+  --lime: #A3DB5A; --lime-ink: #111414; --band: #1D2629; --on-band: #F4F6F5; --on-band-muted: #AEB7B9;
+  --tile: #A3DB5A; --tile-ink: #111414; --cover: #1D2629; --navy: #1D2629;
+  --accent: #3E7A12; --accent-ink: #FFFFFF; --accent-soft: #E6F4D3;
+  --blue: #2B5FB8; --blue-soft: #E5EDFA; --done: #2F7D32; --done-soft: #E3F2DF;
+  --todo: #5E6466; --todo-soft: #E7E9E9; --wait: #B26A00; --wait-soft: #FBEFD9; --danger: #C0392B;
+  --shadow: none;
+  --display: "Outfit", "Avenir Next", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+  --body: "DM Sans", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --mono: "DM Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #101415; --surface: #1A2022; --surface-solid: #1A2022; --surface-sunk: #151A1C;
+    --line: #2B3336; --line-strong: #394346; --ink: #F1F3F2; --muted: #AAB3B5;
+    --band: #0B0F10; --cover: #0B0F10; --navy: #F1F3F2;
+    --accent: #B6E57A; --accent-ink: #101415; --accent-soft: #24331A;
+    --blue: #8EB2F2; --blue-soft: #1A2740; --done: #7FD08A; --done-soft: #16291A;
+    --todo: #AAB3B5; --todo-soft: #20282A; --wait: #F2B65A; --wait-soft: #33260F; --danger: #F08A7C;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101415; --surface: #1A2022; --surface-solid: #1A2022; --surface-sunk: #151A1C;
+  --line: #2B3336; --line-strong: #394346; --ink: #F1F3F2; --muted: #AAB3B5;
+  --band: #0B0F10; --cover: #0B0F10; --navy: #F1F3F2;
+  --accent: #B6E57A; --accent-ink: #101415; --accent-soft: #24331A;
+  --blue: #8EB2F2; --blue-soft: #1A2740; --done: #7FD08A; --done-soft: #16291A;
+  --todo: #AAB3B5; --todo-soft: #20282A; --wait: #F2B65A; --wait-soft: #33260F; --danger: #F08A7C;
+}
+body { background: linear-gradient(180deg, #FFFFFF 0, var(--bg) 520px) fixed, var(--bg); color: var(--ink); font-family: var(--body); letter-spacing: 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background: var(--bg); } }
+:root[data-theme="dark"] body { background: var(--bg); }
+h1, h2, h3, .block-title, .panel h2 { font-family: var(--display); letter-spacing: -0.01em; }
+.hint { color: var(--muted); }
+.eyebrow { font-family: var(--body); background: var(--lime); color: var(--lime-ink); border: 0; border-radius: 3px; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; }
+.eyebrow::before { display: none; }
+
+/* Home: title on the light page, like the template */
+.home-cover { background: none; color: var(--ink); border: 0; border-radius: 0; box-shadow: none; padding: 18px 0 6px; gap: 12px; }
+.home-cover h1 { color: var(--ink); display: grid; gap: 0; line-height: 1; letter-spacing: -0.02em; }
+.home-cover .h-light { font-weight: 400; font-size: clamp(26px, 3.6vw, 44px); letter-spacing: -0.01em; }
+.home-cover .h-bold { font-weight: 800; font-size: clamp(46px, 7.5vw, 92px); letter-spacing: -0.035em; }
+.home-cover p { color: var(--muted); font-size: 16.5px; max-width: 64ch; }
+.home-cover .home-by { font-family: var(--body); font-size: 14px; color: var(--ink); font-weight: 600; }
+
+/* Tiles: lime strips over flat grey cells */
+.tilegrid { gap: 10px; }
+.navtile, #homeView .navtile { border: 0; border-radius: 4px; box-shadow: none; background: var(--surface-sunk); }
+.navtile:hover, #homeView .navtile:hover { transform: none; box-shadow: 0 0 0 2px var(--band); }
+.nt-head, #homeView .navtile[aria-pressed] .nt-head { background: var(--lime); color: var(--lime-ink); font-family: var(--display); font-weight: 600; letter-spacing: 0; }
+#homeView .navtile:hover .nt-head { background: var(--lime); color: var(--lime-ink); }
+.nt-body, #homeView .navtile .nt-body { background: var(--surface-sunk); }
+.nt-desc { font-weight: 600; color: var(--ink); }
+.nt-body svg { color: var(--ink); stroke-width: 1.8; }
+
+/* Section bar */
+.backbar { border-bottom: 2px solid var(--band); }
+.backbtn { border-radius: 4px; border: 1px solid var(--band); background: var(--surface-solid); }
+.crumbs button { border-radius: 3px; }
+.crumbs button[aria-current="page"] { background: var(--lime); color: var(--lime-ink); }
+
+/* Section header */
+.top h1 { font-weight: 800; letter-spacing: -0.03em; }
+.top .weeknav { background: var(--surface-solid); border: 1px solid var(--line); border-radius: 4px; box-shadow: none; }
+.top .weeknav .iconbtn { border-radius: 3px; background: var(--lime); color: var(--lime-ink); border: 0; }
+.top .weeknav .iconbtn:hover { background: var(--band); color: var(--on-band); }
+.top .weeknav .label strong { font-family: var(--display); font-weight: 600; }
+
+/* Panels: every card gets a lime header strip */
+.panel { background: var(--surface); border: 0; border-radius: 4px; box-shadow: none; padding: 22px; overflow: hidden; }
+.panel > .panel-head:first-child, .panel.entry > .brand { margin: -22px -22px 6px; padding: 13px 22px; background: var(--lime); color: var(--lime-ink); align-items: center; }
+.panel > .panel-head:first-child h2, .panel.entry > .brand h2 { color: var(--lime-ink); font-weight: 600; font-size: 18px; }
+.panel > .panel-head:first-child .hint, .panel.entry > .brand .sub { color: #2E3B22; }
+.panel.entry { background: var(--surface); }
+.brand .tiles { display: none; }
+.reportbox > summary { margin: -22px; padding: 13px 22px; background: var(--lime); color: var(--lime-ink); font-family: var(--display); font-weight: 600; }
+.reportbox[open] > summary { margin-bottom: 16px; }
+.reportbox > summary > span::before { color: var(--lime-ink); }
+
+/* Buttons */
+.bigbtn, .exportbtn, .savebtn, .cta-btn, .chipbtn, .backbtn { border-radius: 4px; box-shadow: none; font-family: var(--body); font-weight: 600; letter-spacing: 0; }
+.b-fill { background: var(--surface-solid); color: var(--ink); border: 1px solid var(--band); }
+.b-save, .exportbtn, .savebtn { background: var(--band); color: var(--on-band); border: 0; }
+.chipbtn { background: var(--surface-solid); border: 1px solid var(--line-strong); color: var(--ink); }
+.chipbtn:hover { border-color: var(--band); }
+.linkbtn { color: var(--accent); }
+
+/* Controls */
+.seg { background: var(--surface-solid); border: 1px solid var(--line); border-radius: 4px; padding: 3px; }
+.seg button { border-radius: 3px; }
+.seg button[aria-pressed="true"] { background: var(--band); color: var(--on-band); box-shadow: none; }
+.selectpill { border-radius: 4px; }
+.field input, .field select, .field textarea, .note-area, .ms-add input { border-radius: 4px; border: 1px solid var(--line-strong); background: var(--surface-solid); box-shadow: none; }
+.field input:focus, .field select:focus, .field textarea:focus, .note-area:focus, .ms-add input:focus { border-color: var(--band); box-shadow: 0 0 0 3px var(--accent-soft); }
+.check-inline input, .t-check, .check input, .kms input[type="checkbox"] { accent-color: var(--accent); }
+
+/* Status */
+.stat { background: var(--surface-solid); border: 0; border-radius: 4px; }
+.stat::before { height: 4px; }
+.stat .num { font-family: var(--display); font-weight: 700; }
+.pill { border-radius: 3px; }
+
+/* Tables: lime heads like the template's cells */
+.tablewrap, .ts-wrap { border: 0; border-radius: 4px; background: var(--surface-solid); }
+th, .ts-table th { background: var(--lime); color: var(--lime-ink); font-family: var(--display); font-weight: 600; font-size: 12.5px; border-bottom: 0; }
+tr.group td { background: var(--surface-sunk); font-family: var(--display); }
+.t-project, .ts-proj { color: var(--accent); font-family: var(--body); font-weight: 700; }
+.ts-title { font-family: var(--display); font-weight: 600; }
+tr.is-milestone td { background: var(--accent-soft); }
+
+/* Bands */
+.next-ms { background: var(--band); color: var(--on-band); border: 0; border-radius: 4px; }
+.next-ms strong { color: var(--on-band); }
+.next-ms .hint { color: var(--on-band-muted); }
+.next-ms .when { color: var(--lime); }
+.carry { border-radius: 4px; border: 0; }
+.kms .meta span { border-radius: 3px; }
+.check { background: var(--surface); border: 0; border-radius: 4px; }
+.check-num { background: var(--lime); color: var(--lime-ink); border-radius: 50%; font-family: var(--display); font-weight: 700; }
+.exportmenu .menu { border-radius: 4px; }
+.toast { background: var(--band); color: var(--on-band); border-radius: 4px; }
+
+/* Introduction */
+.intro .story { background: var(--surface); border: 0; border-radius: 4px; box-shadow: none; }
+.intro .lead { font-family: var(--display); font-weight: 700; color: var(--ink); }
+.intro .story strong { color: var(--ink); background: var(--accent-soft); padding: 0 3px; }
+.feat li { background: var(--surface-sunk); border: 0; border-radius: 4px; box-shadow: none; }
+.feat .ic { background: var(--lime); color: var(--lime-ink); border-radius: 50%; }
+.cta { background: var(--band); color: var(--on-band); border: 0; border-radius: 4px; box-shadow: none; }
+.cta h2 { color: var(--on-band); font-family: var(--display); }
+.cta .note { color: var(--on-band-muted); }
+.cta-btn { background: var(--lime); color: var(--lime-ink); }
+
+/* Footer: the template's dark credit band */
+.sitefoot { background: var(--band); color: var(--on-band-muted); border: 0; border-radius: 4px; padding: 18px 20px; }
+.sitefoot strong { color: var(--on-band); }
+.footlink { background: transparent; color: var(--on-band); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 4px; }
+.footlink:hover { border-color: var(--lime); color: var(--lime); }
+.footlink svg { color: var(--lime); }
+
+.home-cover .home-author { font-family: var(--display); font-size: clamp(17px, 1.8vw, 21px); font-weight: 400; color: var(--ink); margin-top: -4px; }
+.home-cover .eyebrow { justify-self: start; }
+
+.panel th, .panel .ts-table th { background: var(--accent-soft); color: var(--ink); }
 </style>
 
 <div class="wrap">
   <nav class="tiles-nav" id="homeView" aria-label="Sections">
     <header class="home-cover">
       <div class="eyebrow">Sample · example data only</div>
-      <h1>The Weekly Planner</h1>
-      <p>This sample is filled with example projects and tasks so you can try the workflow. Add a task, mark one done, move between weeks, and copy the weekly report. Anything you change stays in your own browser.</p>
+      <h1><span class="h-bold">The Weekly Planner</span></h1>
+      <p class="home-author">by Weiwei Hu</p>
+      <p>Plan together, spend less time chasing updates, and have your weekly report ready. All in one shared place.</p>
       <p class="home-by">Choose where to start below.</p>
     </header>
     <div class="tilegrid" id="pageTabs">
