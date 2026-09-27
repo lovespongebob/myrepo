@@ -1065,6 +1065,14 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   #panesummary .grid-summary > .panel > .takeaways { flex: 1; align-content: start; }
   .tk-arrow { top: 50%; transform: translateY(-50%); }
 }
+
+/* Key takeaways and What's next stand out on a soft lime card */
+.takeaways { margin-top: 4px; padding: 16px 18px 18px; border: 1px solid #C6E09F; border-top: 1px solid #C6E09F; border-radius: 6px; background: #E6F3D3; }
+.takeaways .hint { color: #4A5A3A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .takeaways { background: var(--accent-soft); border-color: #34482A; } :root:not([data-theme="light"]) .takeaways .hint { color: var(--muted); } }
+:root[data-theme="dark"] .takeaways { background: var(--accent-soft); border-color: #34482A; }
+:root[data-theme="dark"] .takeaways .hint { color: var(--muted); }
+@media (min-width: 981px) { .tk-arrow { left: -49px; box-shadow: 0 0 0 3px var(--surface); } }
 </style>
 
 <div class="wrap">
