@@ -29,6 +29,8 @@
   --done-soft: #dcf5ea;
   --todo: #9a9ec2;
   --todo-soft: #eceef7;
+  --wait: #b86e0a;
+  --wait-soft: #fcefd8;
   --danger: #d0445a;
   --shadow: 0 10px 30px rgba(60, 64, 140, 0.10), 0 1px 2px rgba(60, 64, 140, 0.08);
   --display: "Lexend", system-ui, sans-serif;
@@ -56,6 +58,8 @@
     --done-soft: #173f33;
     --todo: #8a8eb8;
     --todo-soft: #262947;
+    --wait: #f2b457;
+    --wait-soft: #3b2c12;
     --danger: #ff7a8e;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3);
   }
@@ -80,6 +84,8 @@
   --done-soft: #173f33;
   --todo: #8a8eb8;
   --todo-soft: #262947;
+  --wait: #f2b457;
+  --wait-soft: #3b2c12;
   --danger: #ff7a8e;
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -188,8 +194,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .bigbtn svg { width: 18px; height: 18px; flex: none; }
 
 /* Summary */
-.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-@media (max-width: 520px) { .summary { grid-template-columns: 1fr; } }
+.summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 380px) { .summary { grid-template-columns: 1fr; } }
 .stat { background: var(--surface-sunk); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 8px; }
 .stat .top-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
 .stat .num { font-family: var(--display); font-size: 26px; font-weight: 600; margin-left: auto; color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -199,6 +206,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .s-done .swatch, .s-done .bar i { background: var(--done); }
 .s-prog .swatch, .s-prog .bar i { background: var(--blue); }
 .s-todo .swatch, .s-todo .bar i { background: var(--todo); }
+.s-wait .swatch, .s-wait .bar i { background: var(--wait); }
 
 /* Toolbar */
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -213,9 +221,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Task table */
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-solid); }
 table { width: 100%; border-collapse: collapse; min-width: 660px; }
-th.col-person { width: 13%; }
-th.col-project { width: 15%; }
-th.col-task { width: 38%; }
+th.col-person { width: 18%; min-width: 120px; }
+th.col-project { width: 13%; }
+th.col-task { width: 34%; }
 th.col-notes { width: 17%; }
 th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th button { border: 0; background: none; color: inherit; cursor: pointer; padding: 0; font: inherit; display: inline-flex; gap: 4px; align-items: center; }
@@ -228,7 +236,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .person { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; min-width: 0; }
 .person .av { width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-soft); }
 .person .av.none { color: var(--muted); background: var(--todo-soft); }
-.person .nm { overflow-wrap: break-word; min-width: 0; }
+.person .nm { white-space: nowrap; }
+.person .you { white-space: nowrap; }
 .person .you { color: var(--muted); font-size: 12px; }
 .people { display: grid; gap: 8px; }
 .prow { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; border: 1px solid transparent; background: none; padding: 6px 8px; border-radius: 12px; cursor: pointer; text-align: left; }
@@ -236,7 +245,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .prow[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .stackbar { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: var(--todo-soft); }
 .stackbar i { display: block; height: 100%; }
-.stackbar .d { background: var(--done); } .stackbar .p { background: var(--blue); } .stackbar .n { background: var(--todo); }
+.stackbar .d { background: var(--done); } .stackbar .p { background: var(--blue); } .stackbar .n { background: var(--todo); } .stackbar .w { background: var(--wait); }
 .prow .cnt { font-size: 12px; color: var(--muted); white-space: nowrap; }
 @media (max-width: 520px) { .prow { grid-template-columns: minmax(0, 1fr) auto; } .prow .stackbar { grid-column: 1 / -1; grid-row: 2; } }
 .added-as { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
@@ -259,6 +268,19 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .pill.done { background: var(--done-soft); color: var(--done); }
 .pill.in_progress { background: var(--blue-soft); color: var(--blue); }
 .pill.not_started { background: var(--todo-soft); color: var(--muted); }
+.pill.waiting { background: var(--wait-soft); color: var(--wait); }
+.owners { display: grid; gap: 4px; }
+.ms { font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 0 6px; }
+tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+tr.group td { background: var(--surface-sunk); font-family: var(--display); font-size: 13px; font-weight: 600; padding: 8px 12px; color: var(--ink); }
+tr.group td span { font-family: var(--body); font-weight: 400; color: var(--muted); margin-left: 6px; }
+.countdown { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; }
+.countdown.soon { color: var(--accent); font-weight: 600; }
+.next-ms { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; background: var(--accent-soft); border-radius: 14px; padding: 10px 14px; font-size: 14px; }
+.next-ms strong { font-family: var(--display); font-weight: 600; }
+.next-ms .when { color: var(--accent); font-weight: 600; margin-left: auto; }
+.check-inline { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.check-inline input { width: 18px; height: 18px; accent-color: var(--accent); }
 .actions { display: flex; gap: 2px; justify-content: flex-end; white-space: nowrap; }
 .actions .linkbtn { padding: 4px 6px; }
 .actions { flex-direction: column; align-items: flex-end; gap: 0; }
@@ -339,13 +361,14 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
           <label for="f-person">Owner</label>
           <input id="f-person" name="owner" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
           <datalist id="assigneeList"></datalist>
-          <div class="hint">Keep “Me” for your own tasks, pick someone from the list, or type any name.</div>
+          <div class="hint">Keep “Me” for your own tasks, or type one or more names separated by commas.</div>
         </div>
         <div class="field">
           <label for="f-status">Status</label>
           <select id="f-status" name="status">
             <option value="not_started">Not started</option>
             <option value="in_progress">In progress</option>
+            <option value="waiting">Waiting</option>
             <option value="done">Done</option>
           </select>
         </div>
@@ -353,6 +376,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
           <label for="f-due">Due date</label>
           <input id="f-due" name="due" type="date">
         </div>
+        <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Milestone <span class="hint">a launch, event day or key deadline</span></label>
         <div class="field">
           <label for="f-related">Related item</label>
           <input id="f-related" name="related" placeholder="Client, person, or meeting" autocomplete="off">
@@ -393,6 +417,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         <div class="summary">
           <div class="stat s-done"><div class="top-line"><span class="swatch"></span>Done<span class="num" id="nDone">0</span></div><div class="bar"><i id="bDone" style="width:0"></i></div></div>
           <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
+          <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
           <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
         </div>
         <div class="people" id="people" aria-label="Tasks by owner"></div>
@@ -404,6 +429,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         <div class="panel-head">
           <h2 id="listTitle">Tasks</h2>
           <div class="toolbar">
+            <div class="seg" role="group" aria-label="Choose a view" id="viewSeg">
+              <button type="button" data-v="week" aria-pressed="true">This week</button>
+              <button type="button" data-v="timeline" aria-pressed="false">Project timeline</button>
+            </div>
+            <label class="sr" for="projectPick">Project</label>
+            <select id="projectPick" class="selectpill" hidden></select>
             <span id="personFilterChip" hidden></span>
             <div class="seg" role="group" aria-label="Whose tasks to show" id="whoSeg">
               <button type="button" data-w="all" aria-pressed="true">Everyone</button>
@@ -421,6 +452,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             </div>
           </div>
         </div>
+        <div class="next-ms" id="nextMs" hidden></div>
         <div class="tablewrap">
           <table>
             <thead>
@@ -490,9 +522,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   var STATUS = {
     not_started: { en: "Not started" },
     in_progress: { en: "In progress" },
+    waiting: { en: "Waiting" },
     done: { en: "Done" }
   };
-  var ORDER = ["not_started", "in_progress", "done"];
+  var ORDER = ["not_started", "in_progress", "waiting", "done"];
   var LS_TASKS = "samplePlanner.tasks";
   var LS_WEEKS = "samplePlanner.notes";
   var LS_PREFS = "samplePlanner.prefs";
@@ -545,7 +578,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     myName: lsGet("samplePlanner.myName", "") || "",   // the name this person types in "Created by"
     nameCase: {},      // lower-cased name -> name as first written
     person: "all",     // assignee filter from the overview: "all" or a person key
-    who: "all"         // "all", "mine" (owned by me) or "added" (created by me)
+    who: "all",        // "all", "mine" (owned by me) or "added" (created by me)
+    view: "week",      // "week" or "timeline"
+    project: "all"     // project shown in the timeline
   };
   var store = null; // set by initStore
   var userCap = null;
@@ -557,11 +592,19 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   function myName() { return state.myName || ""; }
   function ownerName(t) { return t.assigneeName || t.sampleOwner || (t.owner && t.owner === state.me ? myName() : ""); }
   function createdName(t) { return t.createdByName || ""; }
-  function personKey(t) {
-    var n = ownerName(t);
-    if (n) return "name:" + norm(n);
-    return t.owner && t.owner === state.me ? "me" : "none";
+  // A task can have several owners, typed as "Weiwei, Kelsey, Emma" (slashes and & work too).
+  function splitNames(v) { return String(v || "").split(/\s*[,\/&;]\s*/).map(function (x) { return x.trim(); }).filter(Boolean); }
+  function ownerNamesOf(t) {
+    if (Array.isArray(t.ownerNames) && t.ownerNames.length) return t.ownerNames;
+    return splitNames(ownerName(t));
   }
+  function keyForName(n) { return "name:" + norm(n); }
+  function personKeys(t) {
+    var seen = {}, keys = ownerNamesOf(t).map(keyForName).filter(function (k) { if (seen[k]) return false; seen[k] = true; return true; });
+    if (keys.length) return keys;
+    return [t.owner && t.owner === state.me ? "me" : "none"];
+  }
+  function ownsKey(t, k) { return personKeys(t).indexOf(k) >= 0; }
   function isMeKey(k) { return k === "me" || (!!myName() && k === "name:" + norm(myName())); }
   function personName(key) {
     if (key === "none") return "No owner";
@@ -573,12 +616,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var m = {};
     var add = function (n) { n = String(n || "").trim(); if (n && !m[norm(n)]) m[norm(n)] = n; };
     add(myName());
-    state.tasks.forEach(function (t) { add(ownerName(t)); add(createdName(t)); });
+    state.tasks.forEach(function (t) { ownerNamesOf(t).forEach(add); add(createdName(t)); });
     state.nameCase = m;
   }
   function peopleKeys(list) {
     var seen = {}, keys = [];
-    list.forEach(function (t) { var k = personKey(t); if (!seen[k]) { seen[k] = true; keys.push(k); } });
+    list.forEach(function (t) { personKeys(t).forEach(function (k) { if (!seen[k]) { seen[k] = true; keys.push(k); } }); });
     keys.sort(function (a, b) {
       if (isMeKey(a)) return -1; if (isMeKey(b)) return 1;
       if (a === "none") return 1; if (b === "none") return -1;
@@ -621,11 +664,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     return [
       { week: last, project: "Q4 planning", title: "Send the budget template to team leads", assigneeName: "Alex", createdByName: "Alex", status: "done", due: addDays(last, 1), related: "", notes: "" },
       { week: last, project: "Website refresh", title: "Collect feedback on the new homepage", assigneeName: "Sam", createdByName: "Alex", status: "in_progress", due: "", related: "Design review", notes: "Half the replies are in." },
-      { week: last, project: "Q4 planning", title: "Book the offsite venue", assigneeName: "Jordan", createdByName: "Alex", status: "not_started", due: addDays(last, 4), related: "", notes: "" },
+      { week: last, project: "Q4 planning", title: "Book the offsite venue", assigneeName: "Jordan", createdByName: "Alex", status: "waiting", due: addDays(last, 4), related: "", notes: "Waiting on the final headcount." },
       { week: week, project: "Q4 planning", title: "Draft the Q4 budget summary", assigneeName: "Alex", createdByName: "Alex", status: "in_progress", due: addDays(TODAY, 3), related: "Leadership meeting", notes: "Waiting on two team inputs." },
-      { week: week, project: "Q4 planning", title: "Review the hiring plan", assigneeName: "Sam", createdByName: "Alex", status: "not_started", due: "", related: "", notes: "No date yet on purpose." },
+      { week: week, project: "Q4 planning", title: "Review the hiring plan", assigneeName: "Sam, Alex", ownerNames: ["Sam", "Alex"], createdByName: "Alex", status: "not_started", due: "", related: "", notes: "No date yet on purpose." },
       { week: week, project: "Website refresh", title: "Update the pricing page copy", assigneeName: "Jordan", createdByName: "Sam", status: "done", due: addDays(TODAY, -1), related: "", notes: "" },
       { week: week, project: "Website refresh", title: "Fix the mobile menu", assigneeName: "Sam", createdByName: "Jordan", status: "in_progress", due: addDays(TODAY, 4), related: "Bug list", notes: "" },
+      { week: week, project: "Q4 planning", title: "Q4 kickoff meeting", assigneeName: "Alex, Sam, Jordan", ownerNames: ["Alex", "Sam", "Jordan"], createdByName: "Alex", status: "not_started", due: addDays(TODAY, 5), related: "All hands", notes: "The whole team presents Q4 plans.", milestone: true },
       { week: week, project: "Client onboarding", title: "Schedule the kickoff call", assigneeName: "Jordan", createdByName: "Sam", status: "not_started", due: addDays(TODAY, 2), related: "Example client", notes: "" }
     ].map(function (t, i) {
       return Object.assign(t, { id: "sample-" + i, updated: Date.now() });
@@ -656,6 +700,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     if (idRe.test(raw.owner || "")) t.owner = raw.owner;
     if (raw.assigneeName || raw.sampleOwner) t.assigneeName = String(raw.assigneeName || raw.sampleOwner).trim().slice(0, 60);
     if (idRe.test(raw.createdBy || "")) t.createdBy = raw.createdBy;
+    var ons = Array.isArray(raw.ownerNames) ? raw.ownerNames : [];
+    ons = ons.map(function (n) { return String(n || "").trim().slice(0, 60); }).filter(Boolean).slice(0, 10);
+    if (ons.length) t.ownerNames = ons;
+    if (raw.milestone === true || raw.milestone === "true") t.milestone = true;
     if (raw.createdByName) t.createdByName = String(raw.createdByName).trim().slice(0, 60);
     if (raw.example === true || raw.example === "true") t.example = true;
     return t;
@@ -778,7 +826,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
   }
   function counts(list) {
-    var c = { done: 0, in_progress: 0, not_started: 0 };
+    var c = { done: 0, in_progress: 0, waiting: 0, not_started: 0 };
     list.forEach(function (t) { c[t.status] = (c[t.status] || 0) + 1; });
     return c;
   }
@@ -794,23 +842,29 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var all = weekTasks(state.week);
     renderPeople(all);
     renderWhoFilter();
-    var list = all.filter(function (t) {
-      if (state.person !== "all") return personKey(t) === state.person;
-      if (state.who === "mine") return isMeKey(personKey(t));
+    var whoFilter = function (t) {
+      if (state.person !== "all") return ownsKey(t, state.person);
+      if (state.who === "mine") return personKeys(t).some(isMeKey);
       if (state.who === "added") return t.createdBy === state.me || (!!myName() && norm(createdName(t)) === norm(myName()));
       return true;
-    });
+    };
+    var list = all.filter(whoFilter);
+    renderViewControls();
+    var tableList = state.view === "timeline"
+      ? state.tasks.filter(whoFilter).filter(function (t) { return state.project === "all" || (t.project || "") === state.project; })
+      : list;
+    renderNextMilestone(state.view === "timeline" ? tableList : state.tasks);
     var c = counts(list);
     var total = list.length;
     $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Owned by me · " : state.who === "added" ? "Created by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
-    [["Done", "done"], ["Prog", "in_progress"], ["Todo", "not_started"]].forEach(function (p) {
+    [["Done", "done"], ["Prog", "in_progress"], ["Wait", "waiting"], ["Todo", "not_started"]].forEach(function (p) {
       $("n" + p[0]).textContent = c[p[1]];
       $("b" + p[0]).style.width = total ? (c[p[1]] / total * 100) + "%" : "0";
     });
 
     renderProjects();
     renderCarry();
-    renderRows(list);
+    renderRows(tableList);
     renderReport(list, c);
 
     var note = $("weekNote");
@@ -829,20 +883,57 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     box.hidden = !keys.length;
     if (keys.length) box.appendChild(el("div", { class: "people-head", text: "By owner" }));
     keys.forEach(function (k) {
-      var mine = all.filter(function (t) { return personKey(t) === k; });
+      var mine = all.filter(function (t) { return ownsKey(t, k); });
       var c = counts(mine), n = mine.length || 1;
       var bar = el("span", { class: "stackbar" }, [
         el("i", { class: "d", style: "width:" + (c.done / n * 100) + "%" }),
         el("i", { class: "p", style: "width:" + (c.in_progress / n * 100) + "%" }),
+        el("i", { class: "w", style: "width:" + (c.waiting / n * 100) + "%" }),
         el("i", { class: "n", style: "width:" + (c.not_started / n * 100) + "%" })
       ]);
       var btn = el("button", { type: "button", class: "prow", "aria-pressed": String(state.person === k), title: "Show only tasks owned by " + personName(k) }, [
         personChip(k), bar,
-        el("span", { class: "cnt mono", text: c.done + " done · " + c.in_progress + " in progress · " + c.not_started + " not started" })
+        el("span", { class: "cnt mono", text: c.done + " done · " + c.in_progress + " in progress · " + c.waiting + " waiting · " + c.not_started + " not started" })
       ]);
       btn.addEventListener("click", function () { setPerson(state.person === k ? "all" : k); });
       box.appendChild(btn);
     });
+  }
+  function projectsList() {
+    var seen = {};
+    state.tasks.forEach(function (t) { if (t.project) seen[t.project] = true; });
+    return Object.keys(seen).sort();
+  }
+  function renderViewControls() {
+    Array.prototype.forEach.call($("viewSeg").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === state.view)); });
+    var timeline = state.view === "timeline";
+    $("listTitle").textContent = timeline ? "Project timeline" : "Tasks";
+    var pick = $("projectPick");
+    pick.hidden = !timeline;
+    var names = projectsList();
+    if (state.project !== "all" && names.indexOf(state.project) < 0) state.project = "all";
+    pick.replaceChildren(el("option", { value: "all", text: "All projects" }));
+    names.forEach(function (n) { pick.appendChild(el("option", { value: n, text: n })); });
+    pick.value = state.project;
+  }
+  function daysFromToday(ymdStr) { return Math.round((parseYmd(ymdStr) - parseYmd(TODAY)) / 864e5); }
+  function countdownText(d) {
+    if (d === 0) return "Today";
+    if (d === 1) return "Tomorrow";
+    if (d === -1) return "Yesterday";
+    return d > 0 ? "In " + d + " days" : (-d) + " days ago";
+  }
+  function renderNextMilestone(list) {
+    var box = $("nextMs");
+    var next = list.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY; })
+      .sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; })[0];
+    box.replaceChildren();
+    box.hidden = !next;
+    if (!next) return;
+    var d = parseYmd(next.due);
+    box.append(el("span", { text: "Next milestone" }), el("strong", { text: "◆ " + next.title }),
+      el("span", { class: "hint", text: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()] + " " + shortDate(d) }),
+      el("span", { class: "when", text: countdownText(daysFromToday(next.due)) }));
   }
   function setPerson(k) { state.person = k; pendingDelete = null; render(); }
   function renderWhoFilter() {
@@ -869,10 +960,17 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   }
   // "Me" (or your own name) links the task to you; any other name is kept as typed.
   function resolveAssignee(v, creator) {
-    v = String(v || "").trim();
     var mine = creator || myName();
-    if (!v || norm(v) === "me" || (mine && norm(v) === norm(mine))) return { owner: state.me, assigneeName: mine };
-    return { owner: "", assigneeName: state.nameCase[norm(v)] || v };
+    var parts = splitNames(v);
+    if (!parts.length) parts = ["Me"];
+    var names = [], seen = {}, hasMe = false;
+    parts.forEach(function (part) {
+      var isMe = norm(part) === "me" || (!!mine && norm(part) === norm(mine));
+      var n = isMe ? (mine || "Me") : (state.nameCase[norm(part)] || part);
+      if (isMe) hasMe = true;
+      if (!seen[norm(n)]) { seen[norm(n)] = true; names.push(n.slice(0, 60)); }
+    });
+    return { owner: hasMe ? state.me : "", ownerNames: names.slice(0, 10), assigneeName: names.join(", ") };
   }
 
   function renderProjects() {
@@ -901,21 +999,28 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   function renderRows(list) {
     var body = $("rows");
     body.replaceChildren();
+    var timeline = state.view === "timeline";
     var shown = sorted(list).filter(function (t) {
       return state.filter === "all" || (state.filter === "done" ? t.status === "done" : t.status !== "done");
     });
+    if (timeline) shown.sort(function (a, b) { return a.week < b.week ? -1 : a.week > b.week ? 1 : 0; });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : (state.person !== "all" ? personName(state.person) + " doesn’t own any tasks this week." : state.who === "mine" ? "You don’t own any tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
-        (!list.length && state.person === "all" && state.who === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
+        el("div", { text: list.length ? "No tasks match this filter." : timeline ? "No tasks in this project yet." : (state.person !== "all" ? personName(state.person) + " doesn’t own any tasks this week." : state.who === "mine" ? "You don’t own any tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
+        (!list.length && !timeline && state.person === "all" && state.who === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
       ])]);
       body.appendChild(el("tr", null, [cell]));
       return;
     }
+    var lastWeek = null;
     shown.forEach(function (t) {
-      var tr = el("tr", { class: (t.status === "done" ? "is-done " : "") + (t.id === state.editingId ? "is-editing" : "") });
+      if (timeline && t.week !== lastWeek) {
+        lastWeek = t.week;
+        body.appendChild(el("tr", { class: "group" }, [el("td", { colspan: "7" }, [weekRangeText(t.week), el("span", { text: relativeWeekText(t.week) })])]));
+      }
+      var tr = el("tr", { class: (t.status === "done" ? "is-done " : "") + (t.milestone ? "is-milestone " : "") + (t.id === state.editingId ? "is-editing" : "") });
       var chk = el("input", { type: "checkbox", class: "t-check", "aria-label": "Mark " + t.title + " as done" });
       chk.checked = t.status === "done";
       chk.disabled = state.readOnly;
@@ -923,12 +1028,18 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         store.putTask(Object.assign({}, t, { status: chk.checked ? "done" : "in_progress", updated: Date.now() })).catch(function () {});
       });
       var meta = el("div", { class: "t-meta" }, [
+        t.milestone ? el("span", { class: "ms", text: "◆ Milestone" }) : null,
         t.related ? el("span", { class: "tag", text: t.related }) : null,
         t.example ? el("span", { class: "tag example", text: "Example" }) : null
       ]);
       var overdue = t.due && t.due < TODAY && t.status !== "done";
       var due = el("span", { class: "due mono" + (t.due ? "" : " empty") + (overdue ? " overdue" : ""), text: t.due ? t.due.replace(/-/g, "/") : "———" });
       if (overdue) due.title = "Past due";
+      var dueCell = [due];
+      if (timeline && t.due && t.status !== "done") {
+        var dd = daysFromToday(t.due);
+        dueCell.push(el("div", { class: "countdown" + (dd >= 0 && dd <= 3 ? " soon" : ""), text: countdownText(dd) }));
+      }
       var pill = el("button", { type: "button", class: "pill " + t.status, text: STATUS[t.status].en, title: "Click to change status" });
       pill.disabled = state.readOnly;
       pill.addEventListener("click", function () {
@@ -953,37 +1064,39 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
         el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, meta,
           createdName(t) ? el("div", { class: "t-added", text: "Created by " + createdName(t) }) : null]),
-        el("td", null, [personChip(personKey(t))]),
+        el("td", null, [el("div", { class: "owners" }, personKeys(t).map(personChip))]),
         el("td", null, [pill]),
-        el("td", null, [due]),
+        el("td", null, dueCell),
         el("td", null, [actions])
       );
       body.appendChild(tr);
     });
   }
 
-  function taskLine(t) {
+  function taskLine(t, k) {
     var bits = [];
+    var others = personKeys(t).filter(function (x) { return x !== k && x !== "none"; }).map(personName);
+    if (others.length) bits.push("with " + others.join(", "));
     if (t.related) bits.push(t.related);
     if (t.due) bits.push("due " + t.due);
-    if (createdName(t) && norm(createdName(t)) !== norm(ownerName(t))) bits.push("created by " + createdName(t));
-    return "- " + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : "");
+    if (createdName(t) && personKeys(t).indexOf(keyForName(createdName(t))) < 0) bits.push("created by " + createdName(t));
+    return "- " + (t.milestone ? "◆ " : "") + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : "");
   }
   function reportText(list, c) {
     var lines = [];
     var who = state.person === "all" ? "The" : personName(state.person) + "’s";
     lines.push(who + " weekly report, " + weekRangeText(state.week));
-    lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
+    lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started);
     peopleKeys(list).forEach(function (k) {
-      var mine = list.filter(function (t) { return personKey(t) === k; });
+      var mine = list.filter(function (t) { return ownsKey(t, k); });
       var pc = counts(mine);
-      lines.push(""); lines.push("== " + personName(k) + " — Done " + pc.done + " · In progress " + pc.in_progress + " · Not started " + pc.not_started);
+      lines.push(""); lines.push("== " + personName(k) + " — Done " + pc.done + " · In progress " + pc.in_progress + " · Waiting " + pc.waiting + " · Not started " + pc.not_started);
       notesForKey(state.week, k).forEach(function (note) { lines.push("Progress: " + note); });
-      [["done", "Done"], ["in_progress", "In progress"], ["not_started", "Not started"]].forEach(function (g) {
+      [["done", "Done"], ["in_progress", "In progress"], ["waiting", "Waiting"], ["not_started", "Not started"]].forEach(function (g) {
         var items = sorted(mine.filter(function (t) { return t.status === g[0]; }));
         if (!items.length) return;
         lines.push(g[1] + ":");
-        items.forEach(function (t) { lines.push(taskLine(t)); });
+        items.forEach(function (t) { lines.push(taskLine(t, k)); });
       });
     });
     return lines.join("\n");
@@ -996,7 +1109,9 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     state.editingId = t.id;
     $("f-title").value = t.title; $("f-status").value = t.status; $("f-due").value = t.due || "";
     $("f-creator").value = createdName(t);
-    $("f-person").value = isMeKey(personKey(t)) ? "Me" : ownerName(t);
+    var names = ownerNamesOf(t).map(function (n) { return isMeKey(keyForName(n)) ? "Me" : n; });
+    $("f-person").value = names.length ? names.join(", ") : (t.owner === state.me ? "Me" : "");
+    $("f-milestone").checked = !!t.milestone;
     $("f-project").value = t.project || ""; $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
     render();
@@ -1011,6 +1126,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   }
 
   $("btnFill").addEventListener("click", function () { clearForm(); render(); ($("f-creator").value ? $("f-project") : $("f-creator")).focus(); });
+  $("viewSeg").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    state.view = b.getAttribute("data-v"); pendingDelete = null; render();
+  });
+  $("projectPick").addEventListener("change", function () { state.project = $("projectPick").value; render(); });
   $("whoSeg").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return;
     state.who = b.getAttribute("data-w"); state.person = "all"; pendingDelete = null; render();
@@ -1028,6 +1148,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var t = cleanTask({
       owner: who.owner || "",
       assigneeName: who.assigneeName || "",
+      ownerNames: who.ownerNames,
+      milestone: $("f-milestone").checked,
       createdBy: existing ? existing.createdBy : state.me,
       createdByName: creator,
       id: existing ? existing.id : newId(),
@@ -1089,10 +1211,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   // ---------- Export / import ----------
   function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
-  var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "project", "title", "status", "due", "related", "notes", "example"];
+  var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "milestone", "project", "title", "status", "due", "related", "notes", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
-      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? createdName(t) : k === "assigneeName" ? (t.assigneeName || t.sampleOwner || "") : t[k]); }).join(",");
+      return CSV_COLS.map(function (k) { return csvCell(k === "milestone" ? (t.milestone ? "true" : "") : k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personKeys(t).map(personName).join(", ") : k === "createdByName" ? createdName(t) : k === "assigneeName" ? (t.assigneeName || t.sampleOwner || "") : t[k]); }).join(",");
     })).join("\r\n");
   }
   function parseCsv(text) {
