@@ -1,0 +1,286 @@
+<title>The Weekly Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f1f1fa;
+  --surface: #ffffff;
+  --sunk: #e9e9f6;
+  --line: rgba(80, 84, 150, 0.16);
+  --ink: #1f2354;
+  --muted: #62678f;
+  --accent: #6c5ce0;
+  --accent-soft: #e9e5ff;
+  --blue: #4a7be8;
+  --blue-soft: #e1eaff;
+  --done: #23936a;
+  --done-soft: #d9f3e8;
+  --todo: #8b8fb3;
+  --todo-soft: #e6e7f2;
+  --strike: #b44a5c;
+  --display: "Lexend", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #12142b; --surface: #1b1e3d; --sunk: #161933; --line: rgba(170, 176, 240, 0.16);
+    --ink: #e7e8fb; --muted: #a0a4cc; --accent: #a397ff; --accent-soft: #2b2764;
+    --blue: #7ea5ff; --blue-soft: #1e2d5a; --done: #52d39f; --done-soft: #173f33;
+    --todo: #8e92bb; --todo-soft: #262948; --strike: #ff8b9d;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #12142b; --surface: #1b1e3d; --sunk: #161933; --line: rgba(170, 176, 240, 0.16);
+  --ink: #e7e8fb; --muted: #a0a4cc; --accent: #a397ff; --accent-soft: #2b2764;
+  --blue: #7ea5ff; --blue-soft: #1e2d5a; --done: #52d39f; --done-soft: #173f33;
+  --todo: #8e92bb; --todo-soft: #262948; --strike: #ff8b9d;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.page { max-width: 880px; margin: 0 auto; padding-inline: 20px; padding-block: 56px 72px; display: grid; gap: 64px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.015em; }
+h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.08; font-weight: 700; }
+h2 { font-size: clamp(24px, 3.4vw, 30px); font-weight: 600; line-height: 1.2; }
+h3 { font-size: 18px; font-weight: 600; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 19px; color: var(--muted); }
+section { display: grid; gap: 20px; }
+.head { display: grid; gap: 10px; }
+
+/* Hero */
+.hero { display: grid; gap: 20px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+
+/* Before / after */
+.compare { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch; }
+@media (max-width: 720px) { .compare { grid-template-columns: 1fr; } .compare .arrow { transform: rotate(90deg); justify-self: center; } }
+.side { border-radius: 20px; padding: 22px; display: grid; gap: 14px; align-content: start; }
+.before { background: var(--sunk); border: 1px dashed var(--line); }
+.after { background: var(--surface); border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(60, 64, 140, 0.10); }
+.side .label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; }
+.steps .n { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 2px; }
+.before .loop { font-family: var(--mono); font-size: 13px; color: var(--strike); }
+.arrow { align-self: center; font-family: var(--display); font-size: 28px; color: var(--accent); }
+.after .big { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.25; }
+
+/* Fields strip */
+.fields { display: flex; flex-wrap: wrap; gap: 8px; }
+.field { font-family: var(--mono); font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.field b { font-weight: 500; color: var(--accent); margin-right: 6px; }
+
+/* Features */
+.features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+.feature { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: grid; gap: 8px; align-content: start; }
+.feature p { color: var(--muted); font-size: 16px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font-size: 12px; font-weight: 500; border-radius: 999px; padding: 2px 10px; }
+.pill.todo { background: var(--todo-soft); color: var(--muted); }
+.pill.prog { background: var(--blue-soft); color: var(--blue); }
+.pill.done { background: var(--done-soft); color: var(--done); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Week strip (carry-over) */
+.weeks { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; }
+@media (max-width: 640px) { .weeks { grid-template-columns: 1fr; } .weeks .carry { transform: rotate(90deg); justify-self: center; } }
+.week { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 8px; }
+.week .wk { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 15px; }
+.row .t { color: var(--muted); }
+.row.moved .t { color: var(--ink); }
+.carry { font-family: var(--mono); font-size: 12px; color: var(--accent); text-align: center; line-height: 1.3; }
+
+/* Lessons */
+.lessons { display: grid; gap: 14px; counter-reset: l; }
+.lesson { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); }
+.lesson:first-child { border-top: 0; }
+.lesson .k { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--accent); }
+.lesson p { color: var(--muted); }
+.duo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.tag { font-family: var(--mono); font-size: 12.5px; background: var(--accent-soft); color: var(--accent); border-radius: 8px; padding: 3px 9px; }
+
+/* Checks */
+.checks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 720px) { .checks { grid-template-columns: 1fr; } }
+.check { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: grid; gap: 8px; align-content: start; }
+.check .num { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 700; color: #fff; background: var(--accent); }
+.check p { color: var(--muted); font-size: 15.5px; }
+.check .then { font-family: var(--mono); font-size: 12.5px; color: var(--ink); }
+
+/* Close */
+.close { background: var(--ink); color: var(--bg); border-radius: 24px; padding: 32px; display: grid; gap: 14px; }
+.close h2 { color: var(--bg); }
+.close p { color: color-mix(in srgb, var(--bg) 78%, transparent); }
+.steps3 { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: color-mix(in srgb, var(--bg) 88%, transparent); }
+.sign { font-family: var(--mono); font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
+</style>
+
+<main class="page">
+  <header class="hero">
+    <div class="eyebrow">The Weekly Planner · Overview</div>
+    <h1>A sheet you refill every week can become <em>a small tool</em>.</h1>
+    <p class="lede">This page explains the idea behind a weekly planner I made: the problem it solves, what it does, and the design choices that made it useful for more than one person.</p>
+  </header>
+
+  <section aria-labelledby="problem">
+    <div class="head">
+      <div class="eyebrow">The problem</div>
+      <h2 id="problem">The Monday routine nobody chose</h2>
+      <p>Many weekly plans live in a spreadsheet that gets copied, emptied and filled in again every week. The work is small each time, but it repeats forever, and the old version is gone once it has been overwritten.</p>
+    </div>
+    <div class="compare">
+      <div class="side before">
+        <div class="label">Before</div>
+        <ol class="steps">
+          <li><span class="n">01</span><span>Copy last week's sheet</span></li>
+          <li><span class="n">02</span><span>Delete the old content</span></li>
+          <li><span class="n">03</span><span>Type the progress in again</span></li>
+        </ol>
+        <div class="loop">↻ repeat next week</div>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="side after">
+        <div class="label">After</div>
+        <div class="big">One fixed place to enter work. Set up once, used every week.</div>
+        <p>Every week stays on record, and each new week starts with last week's unfinished work already in hand.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="fields">
+    <div class="head">
+      <div class="eyebrow">What goes in</div>
+      <h2 id="fields">Eight fields, in the order people think</h2>
+      <p>Each task is entered in the same order every time. Only the task name and the creator's name are required; everything else is optional, including the due date.</p>
+    </div>
+    <div class="fields" role="list">
+      <span class="field" role="listitem"><b>1</b>Created by</span>
+      <span class="field" role="listitem"><b>2</b>Project</span>
+      <span class="field" role="listitem"><b>3</b>Task</span>
+      <span class="field" role="listitem"><b>4</b>Owner</span>
+      <span class="field" role="listitem"><b>5</b>Status</span>
+      <span class="field" role="listitem"><b>6</b>Due date</span>
+      <span class="field" role="listitem"><b>7</b>Related item</span>
+      <span class="field" role="listitem"><b>8</b>Notes</span>
+    </div>
+  </section>
+
+  <section aria-labelledby="does">
+    <div class="head">
+      <div class="eyebrow">What it does</div>
+      <h2 id="does">Less retyping, more reporting</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <h3>Three statuses, counted for you</h3>
+        <div class="pills"><span class="pill todo">Not started</span><span class="pill prog">In progress</span><span class="pill done">Done</span></div>
+        <p>The weekly overview counts each status for the whole group and for each person, and updates the moment a task is ticked off.</p>
+      </div>
+      <div class="feature">
+        <h3>A weekly report that writes itself</h3>
+        <p>Tasks are grouped by owner and by status, with each person’s progress note alongside their tasks. The text is ready to paste into an email or a team chat.</p>
+      </div>
+      <div class="feature">
+        <h3>Sorting you can predict</h3>
+        <p>Tasks sort by due date. Tasks without a date show as <span class="mono">———</span>, and each person chooses whether they sit at the top or the bottom.</p>
+      </div>
+      <div class="feature">
+        <h3>Export and reopen</h3>
+        <p>The whole plan can be saved as a file and opened again later, with every field intact, so there is always a copy outside the tool.</p>
+      </div>
+    </div>
+    <div class="weeks" aria-label="Carry-over from one week to the next">
+      <div class="week">
+        <div class="wk">Last week</div>
+        <div class="row"><span class="t">Send the proposal</span><span class="pill done">Done</span></div>
+        <div class="row"><span class="t">Review the budget</span><span class="pill prog">In progress</span></div>
+        <div class="row"><span class="t">Book the venue</span><span class="pill todo">Not started</span></div>
+      </div>
+      <div class="carry" aria-hidden="true">unfinished<br>→<br>carries over</div>
+      <div class="week">
+        <div class="wk">This week</div>
+        <div class="row moved"><span class="t">Review the budget</span><span class="pill prog">In progress</span></div>
+        <div class="row moved"><span class="t">Book the venue</span><span class="pill todo">Not started</span></div>
+        <div class="row"><span class="t mono">+ new tasks</span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="lessons">
+    <div class="head">
+      <div class="eyebrow">What I learned</div>
+      <h2 id="lessons">Three design decisions</h2>
+    </div>
+    <div class="lessons">
+      <div class="lesson">
+        <div class="k">01</div>
+        <div>
+          <h3>The person who writes a task is often not the person who does it</h3>
+          <p>The planner started as a personal tool. Once other people joined, it needed two separate fields for every task, because people regularly write down work that someone else will do.</p>
+          <div class="duo"><span class="tag">Created by · who wrote it down</span><span class="tag">Owner · who will do it</span></div>
+        </div>
+      </div>
+      <div class="lesson">
+        <div class="k">02</div>
+        <div>
+          <h3>Owners don't need an account</h3>
+          <p>An owner can be anyone: a colleague, a partner, a contractor, or someone who never opens the planner. People type names the way they say them, and the planner suggests names already used so spellings stay consistent.</p>
+        </div>
+      </div>
+      <div class="lesson">
+        <div class="k">03</div>
+        <div>
+          <h3>Every field has to earn its place</h3>
+          <p>Each field was kept only if someone would read it in the weekly report. Anything nobody would read was left out.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="checks">
+    <div class="head">
+      <div class="eyebrow">Before trusting it</div>
+      <h2 id="checks">Three checks, with made-up data first</h2>
+      <p>Before any real work went in, the planner had to pass three quick tests using example tasks. The third one caught a real bug.</p>
+    </div>
+    <div class="checks">
+      <div class="check">
+        <div class="num">1</div>
+        <h3>Leave a due date empty</h3>
+        <p>Save a task with no date.</p>
+        <div class="then">Then check the sorting.</div>
+      </div>
+      <div class="check">
+        <div class="num">2</div>
+        <h3>Mark a task done</h3>
+        <p>Tick one task off the list.</p>
+        <div class="then">Then check the weekly report.</div>
+      </div>
+      <div class="check">
+        <div class="num">3</div>
+        <h3>Export, then reopen</h3>
+        <p>Save the plan as a file and open it again.</p>
+        <div class="then">Then check every field came back.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close" aria-labelledby="start">
+    <h2 id="start">Try it with your own weekly sheet</h2>
+    <p>If your team refills the same sheet every Monday, three steps are enough to start.</p>
+    <ol class="steps3">
+      <li>Pick the one sheet you recreate every week.</li>
+      <li>Keep only the fields people actually read, and drop the rest.</li>
+      <li>Test with fake data before anyone trusts it with real work.</li>
+    </ol>
+    <p>What's the sheet your team refills every week?</p>
+    <div class="sign">Weiwei</div>
+  </section>
+</main>
