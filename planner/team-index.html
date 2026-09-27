@@ -1095,7 +1095,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </button>
       <button type="button" class="navtile" data-tab="planner" aria-pressed="true">
         <span class="nt-head">Plan Your Week<span class="nt-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Members only</span></span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add grocery runs, ballet, yoga class and more, with dates.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add grocery shopping, errands, activities and more, with dates.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
         <span class="nt-head">Weekly Summary<span class="nt-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Members only</span></span>
@@ -1155,7 +1155,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   <header class="top">
     <div>
       <h1 id="secTitle">Plan Your Week</h1>
-      <p id="secDesc">Add grocery runs, ballet, yoga class and more, with dates.</p>
+      <p id="secDesc">Add grocery shopping, errands, activities and more, with dates.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
@@ -2668,7 +2668,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     var SECTIONS = {
-      planner: ["Plan Your Week", "Add grocery runs, ballet, yoga class and more, with dates."],
+      planner: ["Plan Your Week", "Add grocery shopping, errands, activities and more, with dates."],
       summary: ["Weekly Summary", "What’s done, what’s next and the highlights of your week."]
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
