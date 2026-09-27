@@ -962,6 +962,15 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
 .checking #viewPlanner { visibility: hidden; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .gate { background: #232d30; color: #eef1f1; border-color: #3a4548; } :root:not([data-theme="light"]) .gate p { color: #c3cbcc; } :root:not([data-theme="light"]) .gate a { background: #A3DB5A; color: #1D2629; } :root:not([data-theme="light"]) .gate button { color: #eef1f1; border-color: #eef1f1; } }
 :root[data-theme="dark"] .gate { background: #232d30; color: #eef1f1; border-color: #3a4548; }
+
+/* Separate tile cards with gutters, as in the pitch deck template */
+#homeView .tilegrid { background: transparent; border: 0; gap: 20px; box-shadow: none; }
+#homeView .navtile { border: 1px solid #CDD2D2; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(17, 20, 20, 0.05), 0 14px 30px rgba(17, 20, 20, 0.12); }
+#homeView .navtile:hover { box-shadow: 0 2px 4px rgba(17, 20, 20, 0.06), 0 18px 36px rgba(17, 20, 20, 0.18); }
+@media (max-width: 720px) { #homeView .tilegrid { gap: 14px; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #homeView .tilegrid { background: transparent; } :root:not([data-theme="light"]) #homeView .navtile { border-color: #3a4548; } }
+:root[data-theme="dark"] #homeView .tilegrid { background: transparent; }
+:root[data-theme="dark"] #homeView .navtile { border-color: #3a4548; }
 </style>
 
 <div class="wrap">
