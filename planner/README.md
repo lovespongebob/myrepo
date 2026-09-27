@@ -4,7 +4,7 @@ A single-page weekly task planner built around one fixed entry form, so you stop
 
 ## What it does
 
-- **Fixed entry:** one form with task, status, due date, related item and notes, plus Fill, Save and Export buttons.
+- **Input:** one form with project, task, status, due date, related item and notes, plus Fill, Save and Export buttons.
 - **Carry over:** unfinished tasks from last week can be moved into this week in one click.
 - **Weekly overview and report:** counts for Done, In progress and Not started update as you work. A text weekly report is generated for you to copy.
 - **Sorting:** tasks sort by due date, and you choose whether tasks without a date go first or last.

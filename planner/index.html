@@ -212,9 +212,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* Task table */
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-solid); }
-table { width: 100%; border-collapse: collapse; min-width: 640px; }
-th.col-task { width: 38%; }
-th.col-notes { width: 24%; }
+table { width: 100%; border-collapse: collapse; min-width: 680px; }
+th.col-project { width: 18%; }
+th.col-task { width: 28%; }
+th.col-notes { width: 20%; }
 th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th button { border: 0; background: none; color: inherit; cursor: pointer; padding: 0; font: inherit; display: inline-flex; gap: 4px; align-items: center; }
 td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -223,10 +224,12 @@ tr.is-editing td { background: var(--accent-soft); }
 tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .t-check { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; margin-top: 2px; }
 .t-title { font-weight: 500; overflow-wrap: anywhere; }
+.t-project { font-size: 13px; font-weight: 500; color: var(--accent); overflow-wrap: break-word; }
+.t-project.none { color: var(--muted); font-weight: 400; }
 .t-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--muted); }
 .tag { white-space: nowrap; background: var(--surface-sunk); border: 1px solid var(--line); border-radius: 6px; padding: 0 6px; }
 .tag.example { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
-.t-notes { overflow-wrap: anywhere; }
+.t-notes { overflow-wrap: break-word; }
 .due { white-space: nowrap; font-size: 13px; }
 .due.empty { color: var(--muted); letter-spacing: 0.2em; }
 .due.overdue { color: var(--danger); }
@@ -235,6 +238,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 .pill.in_progress { background: var(--blue-soft); color: var(--blue); }
 .pill.not_started { background: var(--todo-soft); color: var(--muted); }
 .actions { display: flex; gap: 2px; justify-content: flex-end; white-space: nowrap; }
+.actions .linkbtn { padding: 4px 6px; }
 .actions .linkbtn.warn { color: var(--danger); }
 .empty-state { padding: 28px 16px; text-align: center; color: var(--muted); display: grid; gap: 10px; justify-items: center; }
 
@@ -269,7 +273,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">One fixed entry for every week</div>
+      <div class="eyebrow">One input for every week</div>
       <h1>Weiwei’s Weekly Planner</h1>
       <p>Add and update tasks in one place instead of copying last week's sheet. Unfinished work carries forward, the weekly report counts itself, and an export keeps a copy you can reopen.</p>
     </div>
@@ -282,17 +286,22 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
   <div class="grid">
-    <!-- Fixed entry -->
+    <!-- Input -->
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
-          <h2 id="entryTitle">Fixed entry</h2>
+          <h2 id="entryTitle">Input</h2>
           <div class="sub">Set up once, use every week</div>
         </div>
       </div>
       <div class="editing-note" id="editingNote" hidden>Editing a saved task. Save to update it, or press Fill to start a new one.</div>
       <form id="taskForm" class="stack" style="gap:12px" novalidate>
+        <div class="field">
+          <label for="f-project">Project</label>
+          <input id="f-project" name="project" list="projectList" placeholder="e.g. Website refresh" autocomplete="off">
+          <datalist id="projectList"></datalist>
+        </div>
         <div class="field">
           <label for="f-title">Task</label>
           <input id="f-title" name="title" placeholder="e.g. Draft the Q4 budget summary" autocomplete="off" required>
@@ -313,7 +322,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         </div>
         <div class="field">
           <label for="f-related">Related item</label>
-          <input id="f-related" name="related" placeholder="Project, client, or person" autocomplete="off">
+          <input id="f-related" name="related" placeholder="Client, person, or meeting" autocomplete="off">
         </div>
         <div class="field">
           <label for="f-notes">Notes</label>
@@ -377,6 +386,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             <thead>
               <tr>
                 <th style="width:36px"><span class="sr">Done</span></th>
+                <th class="col-project">Project</th>
                 <th class="col-task">Task</th>
                 <th><button type="button" id="sortDue" aria-label="Sort by due date">Due<span id="sortArrow">▲</span></button></th>
                 <th>Status</th>
@@ -518,10 +528,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   function exampleTasks(week) {
     return [
-      { title: "Example task A", status: "not_started", due: "", related: "Example project", notes: "This is example data. No due date on purpose." },
-      { title: "Example task B", status: "in_progress", due: addDays(week, 2), related: "Example project", notes: "Mark this as done to test the weekly report." },
-      { title: "Example task C", status: "in_progress", due: addDays(week, 4), related: "Team sync", notes: "" },
-      { title: "Example task D", status: "done", due: addDays(week, 1), related: "Team sync", notes: "Already finished." }
+      { project: "Example project", title: "Example task A", status: "not_started", due: "", related: "Example client", notes: "This is example data. No due date on purpose." },
+      { project: "Example project", title: "Example task B", status: "in_progress", due: addDays(week, 2), related: "Example client", notes: "Mark this as done to test the weekly report." },
+      { project: "Team operations", title: "Example task C", status: "in_progress", due: addDays(week, 4), related: "Team sync", notes: "" },
+      { project: "Team operations", title: "Example task D", status: "done", due: addDays(week, 1), related: "Team sync", notes: "Already finished." }
     ].map(function (t, i) {
       return Object.assign(t, { id: "example-" + week + "-" + i, week: week, example: true, updated: Date.now() });
     });
@@ -537,6 +547,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var id = /^[A-Za-z0-9_\-.~:@+]{1,120}$/.test(raw.id || "") ? raw.id : newId();
     var t = {
       id: id, week: week, title: title.slice(0, 300), status: status, due: due,
+      project: String(raw.project || "").trim().slice(0, 200),
       related: String(raw.related || "").slice(0, 200), notes: String(raw.notes || "").slice(0, 4000),
       updated: Date.now()
     };
@@ -662,6 +673,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       $("b" + p[0]).style.width = total ? (c[p[1]] / total * 100) + "%" : "0";
     });
 
+    renderProjects();
     renderCarry();
     renderRows(list);
     renderReport(list, c);
@@ -672,6 +684,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
     ["btnFill", "btnSave", "btnImport"].forEach(function (id) { $(id).disabled = state.readOnly; });
     $("sortArrow").textContent = state.sortDir === "asc" ? "▲" : "▼";
+  }
+
+  function renderProjects() {
+    var names = {};
+    state.tasks.forEach(function (t) { if (t.project) names[t.project] = true; });
+    $("projectList").replaceChildren.apply($("projectList"), Object.keys(names).sort().map(function (n) { return el("option", { value: n }); }));
   }
 
   function renderCarry() {
@@ -698,8 +716,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       return state.filter === "all" || (state.filter === "done" ? t.status === "done" : t.status !== "done");
     });
     if (!shown.length) {
-      var cell = el("td", { colspan: "6" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : "No tasks for this week yet. Fill in the entry form on the left, or load example tasks to try the planner." }),
+      var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
+        el("div", { text: list.length ? "No tasks match this filter." : "No tasks for this week yet. Fill in the Input form, or load example tasks to try the planner." }),
         (!list.length && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
@@ -743,6 +761,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       }
       tr.append(
         el("td", null, [chk]),
+        el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
         el("td", null, [el("div", { class: "t-title", text: t.title }), meta]),
         el("td", null, [due]),
         el("td", null, [pill]),
@@ -767,7 +786,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         var bits = [];
         if (t.related) bits.push(t.related);
         if (t.due) bits.push("due " + t.due);
-        lines.push("- " + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : ""));
+        lines.push("- " + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : ""));
       });
     });
     return lines.join("\n");
@@ -779,7 +798,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   function loadIntoForm(t) {
     state.editingId = t.id;
     $("f-title").value = t.title; $("f-status").value = t.status; $("f-due").value = t.due || "";
-    $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
+    $("f-project").value = t.project || ""; $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
     render();
     $("f-title").focus();
@@ -790,7 +809,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     $("editingNote").hidden = true;
   }
 
-  $("btnFill").addEventListener("click", function () { clearForm(); render(); $("f-title").focus(); });
+  $("btnFill").addEventListener("click", function () { clearForm(); render(); $("f-project").focus(); });
   function save() {
     if (state.readOnly) return;
     var title = $("f-title").value.trim();
@@ -800,7 +819,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       id: existing ? existing.id : newId(),
       week: existing ? existing.week : state.week,
       title: title, status: $("f-status").value, due: $("f-due").value,
-      related: $("f-related").value.trim(), notes: $("f-notes").value.trim(),
+      project: $("f-project").value.trim(), related: $("f-related").value.trim(), notes: $("f-notes").value.trim(),
       example: existing ? existing.example : false
     });
     store.putTask(t).then(function () {
@@ -856,7 +875,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   // ---------- Export / import ----------
   function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
-  var CSV_COLS = ["id", "week", "title", "status", "due", "related", "notes", "example"];
+  var CSV_COLS = ["id", "week", "project", "title", "status", "due", "related", "notes", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
       return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : t[k]); }).join(",");
