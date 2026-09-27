@@ -1074,7 +1074,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "project", "title", "status", "due", "related", "notes", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
-      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? createdName(t) : k === "assigneeName" ? assigneeName(t) : t[k]); }).join(",");
+      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? createdName(t) : k === "assigneeName" ? (t.assigneeName || t.sampleOwner || "") : t[k]); }).join(",");
     })).join("\r\n");
   }
   function parseCsv(text) {
