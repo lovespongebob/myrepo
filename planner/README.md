@@ -18,7 +18,7 @@ A single-page weekly task planner built around one fixed entry form, so you stop
 
 Run `./build.sh` after editing `app.html` to regenerate `index.html`.
 
-## Shared version: Our Weekly Planner
+## Shared version: The Weekly Planner
 
 `team.html` is a shared planner for two or more people, such as you and a partner. It is published as a separate Artifact and keeps the personal planner untouched.
 

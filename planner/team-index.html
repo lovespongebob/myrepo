@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 </head>
 <body>
-<title>Our Weekly Planner</title>
+<title>The Weekly Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -289,7 +289,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   <header class="top">
     <div>
       <div class="eyebrow">One plan we share</div>
-      <h1>Our Weekly Planner</h1>
+      <h1>The Weekly Planner</h1>
       <p>Each of us adds our own tasks in one shared place instead of keeping separate lists. Every task shows whose it is, unfinished work carries forward, and the weekly report shows each person's week and our combined totals.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
@@ -301,12 +301,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
   <div class="grid">
-    <!-- My Plan -->
+    <!-- The Plan -->
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
-          <h2 id="entryTitle">My Plan</h2>
+          <h2 id="entryTitle">The Plan</h2>
           <div class="sub">Set up once, use every week</div>
         </div>
       </div>
@@ -850,7 +850,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : (state.person === "all" ? "No tasks for this week yet. Fill in My Plan, or load example tasks to try the planner." : personName(state.person) + " has no tasks this week.") }),
+        el("div", { text: list.length ? "No tasks match this filter." : (state.person === "all" ? "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner." : personName(state.person) + " has no tasks this week.") }),
         (!list.length && state.person === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
@@ -913,7 +913,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   }
   function reportText(list, c) {
     var lines = [];
-    var who = state.person === "all" ? "Our" : personName(state.person) + "’s";
+    var who = state.person === "all" ? "The" : personName(state.person) + "’s";
     lines.push(who + " weekly report, " + weekRangeText(state.week));
     lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
     peopleKeys(list).forEach(function (k) {
@@ -1067,11 +1067,11 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
   }
   $("btnExport").addEventListener("click", function () {
-    var payload = { app: "our-weekly-planner", version: 1, exportedAt: new Date().toISOString(), tasks: state.tasks, weeks: state.weeks };
-    offerFile("our-weekly-planner-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
+    var payload = { app: "the-weekly-planner", version: 1, exportedAt: new Date().toISOString(), tasks: state.tasks, weeks: state.weeks };
+    offerFile("the-weekly-planner-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
   });
   $("btnCsv").addEventListener("click", function () {
-    offerFile("our-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
+    offerFile("the-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
   });
   $("btnImport").addEventListener("click", function () { $("importFile").click(); });
   $("importFile").addEventListener("change", function (e) {
