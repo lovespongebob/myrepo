@@ -1061,6 +1061,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .takeaways .hint { color: var(--muted); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .takeaways { background: linear-gradient(180deg, #232B2D 0%, #1A2123 100%); border-color: #34403F; } }
 :root[data-theme="dark"] .takeaways { background: linear-gradient(180deg, #232B2D 0%, #1A2123 100%); border-color: #34403F; }
+
+/* Copyright line in the footer */
+.sitefoot .foot-sep { margin: 0 6px; opacity: 0.6; }
+.sitefoot .foot-copy { white-space: nowrap; }
+@media (max-width: 520px) { .sitefoot .foot-sep { display: none; } .sitefoot .foot-copy { display: block; margin-top: 2px; } }
 </style>
 
 <div class="wrap">
@@ -1381,7 +1386,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
   </div>
   <footer class="sitefoot">
-    <span>Designed by <strong>Weiwei Hu</strong></span>
+    <span>Designed by <strong>Weiwei Hu</strong> <span class="foot-sep" aria-hidden="true">·</span> <span class="foot-copy">© 2026 Weiwei Hu. All rights reserved.</span></span>
     <a class="footlink" id="footLinkedIn" href="https://www.linkedin.com/in/weiweihu/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.8 3.76-1.8 4 0 4.88 2.4 4.88 5.6v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.95 1.3-1.95 2.66v5.14h-4v-11Z"/></svg> LinkedIn</a>
   </footer>
 </div>
