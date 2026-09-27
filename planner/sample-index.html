@@ -733,6 +733,14 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
 .intro .byline { color: var(--muted); }
 .intro { max-width: none; }
 .intro > section { max-width: 880px; }
+
+/* Footer credit, like the template's bottom band */
+.sitefoot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px; margin-top: 28px; padding: 16px 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); border-radius: 12px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.sitefoot strong { color: var(--ink); font-weight: 600; }
+.footlink { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--surface-sunk); }
+.footlink:hover { border-color: var(--ink); }
+.footlink svg { width: 14px; height: 14px; color: #0A66C2; }
+.footlink[hidden] { display: none !important; }
 </style>
 
 <div class="wrap">
@@ -741,7 +749,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
       <div class="eyebrow">Sample · example data only</div>
       <h1>The Weekly Planner</h1>
       <p>This sample is filled with example projects and tasks so you can try the workflow. Add a task, mark one done, move between weeks, and copy the weekly report. Anything you change stays in your own browser.</p>
-      <p class="home-by">by Weiwei Hu · Choose where to start below.</p>
+      <p class="home-by">Choose where to start below.</p>
     </header>
     <div class="tilegrid" id="pageTabs">
       <button type="button" class="navtile" data-tab="intro" aria-pressed="false">
@@ -771,7 +779,6 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   <div id="viewIntro" class="intro" hidden>
     <header>
       <h1>The Weekly Planner Overview</h1>
-      <p class="byline">by Weiwei Hu</p>
     </header>
     <section class="story" aria-label="Why I made it">
       <p><span class="lead">Copy last week’s tasks, remove the old projects, and update the progress.</span> If you keep your weekly plan in a notebook, spreadsheet, or PPT, this probably sounds familiar. Then there’s the back-and-forth to collect updates and make sure everyone has the latest version.</p>
@@ -1061,6 +1068,10 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   </section>
   </section>
   </div>
+  <footer class="sitefoot">
+    <span>Designed by <strong>Weiwei Hu</strong></span>
+    <a class="footlink" id="footLinkedIn" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.8 3.76-1.8 4 0 4.88 2.4 4.88 5.6v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.95 1.3-1.95 2.66v5.14h-4v-11Z"/></svg> LinkedIn</a>
+  </footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
