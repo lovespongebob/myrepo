@@ -266,7 +266,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">One input for every week</div>
+      <div class="eyebrow">One plan for every week</div>
       <h1>Weiwei’s Weekly Planner</h1>
       <p>Add and update tasks in one place instead of copying last week's sheet. Unfinished work carries forward, the weekly report counts itself, and an export keeps a copy you can reopen.</p>
     </div>
@@ -279,12 +279,12 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
   <div class="grid">
-    <!-- Input -->
+    <!-- My Plan -->
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
-          <h2 id="entryTitle">Input</h2>
+          <h2 id="entryTitle">My Plan</h2>
           <div class="sub">Set up once, use every week</div>
         </div>
       </div>
@@ -710,7 +710,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : "No tasks for this week yet. Fill in the Input form, or load example tasks to try the planner." }),
+        el("div", { text: list.length ? "No tasks match this filter." : "No tasks for this week yet. Fill in My Plan, or load example tasks to try the planner." }),
         (!list.length && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
