@@ -1074,15 +1074,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     <div class="tilegrid" id="pageTabs">
       <button type="button" class="navtile" data-tab="intro" aria-pressed="false">
         <span class="nt-head">Overview</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="1.6" fill="currentColor"/><path d="M24 4v4M24 40v4"/></svg><span class="nt-desc">Why the planner exists and what you can do with it.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="1.6" fill="currentColor"/><path d="M24 4v4M24 40v4"/></svg><span class="nt-desc">See how the planner works and what you can do with it.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="planner" aria-pressed="true">
         <span class="nt-head">Plan Your Week</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add grocery shopping, errands, activities and more, with dates.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add shopping, errands, classes, and other activities with dates.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
         <span class="nt-head">Weekly Summary</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">What’s done, highlights of your week, and what’s next.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">See what you accomplished, what stood out, and what’s next.</span></span>
       </button>
     </div>
   </nav>
@@ -1099,7 +1099,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   <div id="viewIntro" class="intro" hidden>
     <header>
       <h1>Overview</h1>
-      <p class="intro-sub">Why the planner exists and what you can do with it.</p>
+      <p class="intro-sub">See how the planner works and what you can do with it.</p>
     </header>
     <section class="story" aria-label="Why I made it">
       <p><span class="lead">Copy last week’s to-dos, cross off what’s finished, and plan what’s next.</span> If you keep your weekly plan in a notebook, a notes app, or on the fridge, this probably sounds familiar. Then there’s the back-and-forth to remind everyone at home who’s picking up the groceries and what time ballet starts.</p>
@@ -1130,7 +1130,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   <header class="top">
     <div>
       <h1 id="secTitle">Plan Your Week</h1>
-      <p id="secDesc">Add grocery shopping, errands, activities and more, with dates.</p>
+      <p id="secDesc">Add shopping, errands, classes, and other activities with dates.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
@@ -2645,8 +2645,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     var SECTIONS = {
-      planner: ["Plan Your Week", "Add grocery shopping, errands, activities and more, with dates."],
-      summary: ["Weekly Summary", "What’s done, highlights of your week, and what’s next."]
+      planner: ["Plan Your Week", "Add shopping, errands, classes, and other activities with dates."],
+      summary: ["Weekly Summary", "See what you accomplished, what stood out, and what’s next."]
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
     $("viewIntro").hidden = tab !== "intro";
