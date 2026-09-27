@@ -52,6 +52,7 @@ header { gap: 12px; }
 .byline { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--muted); }
 
 /* The repeated routine */
+.lead { font-family: var(--display); font-weight: 600; font-size: 21px; line-height: 1.4; color: var(--ink); }
 .routine { display: flex; flex-wrap: wrap; gap: 10px; }
 .routine span { font-family: var(--display); font-weight: 600; font-size: 17px; background: var(--sunk); border: 1px dashed var(--line); border-radius: 12px; padding: 8px 14px; }
 .routine span::before { content: "↻ "; color: var(--strike); font-weight: 500; }
@@ -75,6 +76,8 @@ header { gap: 12px; }
 
 /* Access */
 .close { background: var(--ink); color: var(--bg); border-radius: 24px; padding: 32px; display: grid; gap: 16px; justify-items: start; }
+.close h2 { color: var(--bg); }
+.close .try { color: color-mix(in srgb, var(--bg) 90%, transparent); }
 .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; font-family: var(--display); font-weight: 600; font-size: 16px; text-decoration: none; padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 20px rgba(108, 92, 224, 0.35); transition: transform 0.15s ease, filter 0.15s ease; }
 .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .btn:focus-visible { outline: 2px solid var(--bg); outline-offset: 3px; }
@@ -91,32 +94,31 @@ header { gap: 12px; }
   </header>
 
   <section class="story" aria-label="Why I made it">
-    <div class="routine" aria-label="The weekly routine">
-      <span>Copy last week’s tasks.</span><span>Delete the old projects.</span><span>Update the progress again.</span>
-    </div>
-    <p class="muted">When a weekly plan lives in a notebook, spreadsheet, or PPT, preparing the next update can mean repeating the same manual work. Sharing updates adds another step, especially when people are working at different times.</p>
-    <p>I wanted one shared place to plan work, update progress, and prepare the weekly report. Everyone can contribute on their own time, and updates appear in real time without waiting for me or anyone else to be there. That became the Weekly Planner: <strong>set it up once, use it each week, and carry unfinished tasks forward.</strong></p>
+    <p><span class="lead">Copy last week’s tasks, remove the old projects, and update the progress.</span> If you keep your weekly plan in a notebook, spreadsheet, or PPT, this probably sounds familiar. Then there’s the back-and-forth to collect updates and make sure everyone has the latest version.</p>
+    <p>I wanted to make this a little easier, so I created the Weekly Planner. <strong>Set it up once, then come back to the same place each week</strong> to plan work, update progress, and prepare your weekly report. Anyone you share it with can contribute whenever it works for them, and everyone can see the latest updates without needing to be there at the same time.</p>
   </section>
 
   <section aria-labelledby="can">
     <h2 id="can">What can you do with it?</h2>
     <ul class="list">
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Create and update plans with anyone you share the planner with</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Organize tasks by project and owner</span></li>
-      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Share plans and update progress in real time</span></li>
-      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Track what’s not started, in progress, and done<span class="pills" aria-hidden="true"><span class="pill todo">Not started</span><span class="pill prog">In progress</span><span class="pill done">Done</span></span></span></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>See what’s not started, in progress, and done<span class="pills" aria-hidden="true"><span class="pill todo">Not started</span><span class="pill prog">In progress</span><span class="pill done">Done</span></span></span></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Sort tasks by due date, or leave the date open</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Carry unfinished tasks into the next week</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Generate weekly reports</span></li>
-      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Keep a record of previous weeks</span></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Look back at previous weeks</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Export and reopen your plan</span></li>
     </ul>
   </section>
 
-  <section class="close" aria-label="Request access">
-    <a class="btn" href="https://claude.ai/artifact/LvS4kNr9qTpmuKs5GP6waH" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      Request access
+  <section class="close" aria-labelledby="how">
+    <h2 id="how">See how it works</h2>
+    <p class="try">Try three things: leave a date blank, mark a task done, then export your plan and reopen it.</p>
+    <a class="btn" href="https://claude.ai/artifact/KBkZCDX4tACMoisaDu5rBE" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Explore the sample
     </a>
-    <p class="note">The planner is private and shared by invitation. If you can’t request access through the link, message me on LinkedIn with the email address you’d like invited.</p>
-    <div class="sign">Weiwei</div>
+    <p class="note">The sample is filled with example projects and tasks, so you can try the workflow without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own planning process, message me on LinkedIn.</p>
   </section>
 </main>
