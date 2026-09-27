@@ -272,7 +272,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
-      <div class="label"><strong id="weekTitle">Week</strong><span id="weekRange" class="mono"></span></div>
+      <div class="label"><strong id="weekTitle">Week</strong><span id="weekRange"></span></div>
       <button class="iconbtn" id="nextWeek" aria-label="Next week">›</button>
     </nav>
   </header>
@@ -467,14 +467,15 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     return x;
   }
   function addDays(s, n) { var d = parseYmd(s); d.setDate(d.getDate() + n); return ymd(d); }
-  function isoWeek(d) {
-    var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    t.setUTCDate(t.getUTCDate() + 3 - ((t.getUTCDay() + 6) % 7));
-    var jan4 = new Date(Date.UTC(t.getUTCFullYear(), 0, 4));
-    return 1 + Math.round(((t - jan4) / 864e5 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
-  }
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   function shortDate(d) { return MONTHS[d.getMonth()] + " " + d.getDate(); }
+  function relativeWeekText(week) {
+    var n = Math.round((parseYmd(week) - parseYmd(THIS_WEEK)) / (7 * 864e5));
+    if (n === 0) return "This week";
+    if (n === -1) return "Last week";
+    if (n === 1) return "Next week";
+    return n < 0 ? (-n) + " weeks ago" : "In " + n + " weeks";
+  }
   function weekRangeText(week) {
     var a = parseYmd(week), b = parseYmd(addDays(week, 6));
     return shortDate(a) + " – " + shortDate(b) + ", " + b.getFullYear();
@@ -651,9 +652,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   // ---------- Render ----------
   function render() {
-    var wk = parseYmd(state.week);
-    $("weekTitle").textContent = (state.week === THIS_WEEK ? "This week · " : "") + "W" + isoWeek(wk);
-    $("weekRange").textContent = weekRangeText(state.week);
+    $("weekTitle").textContent = weekRangeText(state.week);
+    $("weekRange").textContent = relativeWeekText(state.week);
     $("thisWeek").hidden = state.week === THIS_WEEK;
     $("ovTitle").firstChild.textContent = (state.week === THIS_WEEK ? "This week's overview " : "Week overview ");
 
@@ -767,7 +767,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   function reportText(list, c) {
     var lines = [];
-    lines.push("Weiwei’s weekly report, W" + isoWeek(parseYmd(state.week)) + " (" + weekRangeText(state.week) + ")");
+    lines.push("Weiwei’s weekly report, " + weekRangeText(state.week));
     lines.push("Done " + c.done + " · In progress " + c.in_progress + " · Not started " + c.not_started);
     var progress = state.weeks[state.week] && state.weeks[state.week].progress;
     if (progress) { lines.push(""); lines.push("Progress: " + progress); }
