@@ -314,7 +314,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
       <form id="taskForm" class="stack" style="gap:12px" novalidate>
         <div class="added-as" id="addedAs"></div>
         <div class="field">
-          <label for="f-person">Assigned to</label>
+          <label for="f-person">Owner</label>
           <input id="f-person" name="assignee" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
           <datalist id="assigneeList"></datalist>
           <div class="hint">Keep “Me” for your own tasks, pick someone from the list, or type any name.</div>
@@ -384,7 +384,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
           <div class="stat s-prog"><div class="top-line"><span class="swatch"></span>In progress<span class="num" id="nProg">0</span></div><div class="bar"><i id="bProg" style="width:0"></i></div></div>
           <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
         </div>
-        <div class="people" id="people" aria-label="Tasks by who they are assigned to"></div>
+        <div class="people" id="people" aria-label="Tasks by owner"></div>
         <div class="carry" id="carry" hidden></div>
       </section>
 
@@ -396,8 +396,8 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             <span id="personFilterChip" hidden></span>
             <div class="seg" role="group" aria-label="Whose tasks to show" id="whoSeg">
               <button type="button" data-w="all" aria-pressed="true">Everyone</button>
-              <button type="button" data-w="mine" aria-pressed="false">Assigned to me</button>
-              <button type="button" data-w="added" aria-pressed="false">Added by me</button>
+              <button type="button" data-w="mine" aria-pressed="false">Owned by me</button>
+              <button type="button" data-w="added" aria-pressed="false">Created by me</button>
             </div>
             <div class="seg" role="group" aria-label="Filter by status" id="filterSeg">
               <button type="button" data-f="all" aria-pressed="true">All</button>
@@ -415,7 +415,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
             <thead>
               <tr>
                 <th style="width:36px"><span class="sr">Done</span></th>
-                <th class="col-person">Assigned to</th>
+                <th class="col-person">Owner</th>
                 <th class="col-project">Project</th>
                 <th class="col-task">Task</th>
                 <th><button type="button" id="sortDue" aria-label="Sort by due date">Due<span id="sortArrow">▲</span></button></th>
@@ -533,7 +533,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     me: "local",       // viewer's id in the shared planner; "local" when offline
     profiles: {},      // id -> {name, avatarUrl}, resolved on each render, never stored
     person: "all",     // assignee filter from the overview: "all" or a person key
-    who: "all"         // "all", "mine" (assigned to me) or "added" (added by me)
+    who: "all"         // "all", "mine" (owned by me) or "added" (created by me)
   };
   var store = null; // set by initStore
   var userCap = null;
@@ -545,7 +545,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
   function personKey(t) { return t.owner ? t.owner : (assigneeName(t) ? "name:" + assigneeName(t) : "none"); }
   function personName(key) {
     if (key === state.me) return (state.profiles[key] && state.profiles[key].name) || "You";
-    if (key === "none") return "Unassigned";
+    if (key === "none") return "No owner";
     if (key.slice(0, 5) === "name:") return key.slice(5);
     if (key === "local") return "You";
     return (state.profiles[key] && state.profiles[key].name) || "Someone";
@@ -777,7 +777,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
     var c = counts(list);
     var total = list.length;
-    $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Assigned to me · " : state.who === "added" ? "Added by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
+    $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Owned by me · " : state.who === "added" ? "Created by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
     [["Done", "done"], ["Prog", "in_progress"], ["Todo", "not_started"]].forEach(function (p) {
       $("n" + p[0]).textContent = c[p[1]];
       $("b" + p[0]).style.width = total ? (c[p[1]] / total * 100) + "%" : "0";
@@ -804,7 +804,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var keys = peopleKeys(all);
     box.replaceChildren();
     box.hidden = !keys.length;
-    if (keys.length) box.appendChild(el("div", { class: "people-head", text: "By who it’s assigned to" }));
+    if (keys.length) box.appendChild(el("div", { class: "people-head", text: "By owner" }));
     keys.forEach(function (k) {
       var mine = all.filter(function (t) { return personKey(t) === k; });
       var c = counts(mine), n = mine.length || 1;
@@ -813,7 +813,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         el("i", { class: "p", style: "width:" + (c.in_progress / n * 100) + "%" }),
         el("i", { class: "n", style: "width:" + (c.not_started / n * 100) + "%" })
       ]);
-      var btn = el("button", { type: "button", class: "prow", "aria-pressed": String(state.person === k), title: "Show only tasks assigned to " + personName(k) }, [
+      var btn = el("button", { type: "button", class: "prow", "aria-pressed": String(state.person === k), title: "Show only tasks owned by " + personName(k) }, [
         personChip(k), bar,
         el("span", { class: "cnt mono", text: c.done + " done · " + c.in_progress + " in progress · " + c.not_started + " not started" })
       ]);
@@ -831,10 +831,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     chip.hidden = state.person === "all";
     if (state.person === "all") return;
     chip.className = "filter-chip";
-    chip.append("Assigned to " + personName(state.person),
+    chip.append("Owner: " + personName(state.person),
       el("button", { type: "button", "aria-label": "Show everyone again", text: "×", onclick: function () { setPerson("all"); } }));
   }
-  // Suggestions for "Assigned to": me, anyone with an account seen here, and any name typed before.
+  // Suggestions for "Owner": me, anyone with an account seen here, and any name typed before.
   function assigneeOptions() {
     var seen = {}, out = ["Me"];
     seen["me"] = true;
@@ -872,7 +872,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     box.replaceChildren();
     if (existing && !by) { box.hidden = true; return; }
     box.hidden = false;
-    box.append(el("span", { text: existing ? "Added by" : "Adding as" }), personChip(by));
+    box.append(el("span", { text: "Created by" }), personChip(by));
   }
 
   function renderProjects() {
@@ -906,7 +906,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : (state.person !== "all" ? "Nothing is assigned to " + personName(state.person) + " this week." : state.who === "mine" ? "Nothing is assigned to you this week." : state.who === "added" ? "You haven’t added any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
+        el("div", { text: list.length ? "No tasks match this filter." : (state.person !== "all" ? personName(state.person) + " doesn’t own any tasks this week." : state.who === "mine" ? "You don’t own any tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
         (!list.length && state.person === "all" && state.who === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
@@ -953,7 +953,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
         el("td", null, [personChip(personKey(t))]),
         el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
         el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, meta,
-          t.createdBy ? el("div", { class: "t-added", text: "Added by " + (t.createdBy === state.me ? "you" : personName(t.createdBy)) }) : null]),
+          t.createdBy ? el("div", { class: "t-added", text: "Created by " + (t.createdBy === state.me ? "you" : personName(t.createdBy)) }) : null]),
         el("td", null, [due]),
         el("td", null, [pill]),
         el("td", null, [actions])
@@ -966,7 +966,7 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
     var bits = [];
     if (t.related) bits.push(t.related);
     if (t.due) bits.push("due " + t.due);
-    if (t.createdBy && t.createdBy !== personKey(t)) bits.push("added by " + (t.createdBy === state.me ? personName(state.me) : personName(t.createdBy)));
+    if (t.createdBy && t.createdBy !== personKey(t)) bits.push("created by " + (t.createdBy === state.me ? personName(state.me) : personName(t.createdBy)));
     return "- " + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (t.notes ? " — " + t.notes : "");
   }
   function reportText(list, c) {
@@ -1083,10 +1083,10 @@ tr.is-done .t-title { text-decoration: line-through; color: var(--muted); }
 
   // ---------- Export / import ----------
   function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
-  var CSV_COLS = ["id", "week", "assignedTo", "addedBy", "owner", "assigneeName", "createdBy", "project", "title", "status", "due", "related", "notes", "example"];
+  var CSV_COLS = ["id", "week", "ownerName", "createdByName", "owner", "assigneeName", "createdBy", "project", "title", "status", "due", "related", "notes", "example"];
   function toCsv(tasks) {
     return "﻿" + [CSV_COLS.join(",")].concat(tasks.map(function (t) {
-      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "assignedTo" ? personName(personKey(t)) : k === "addedBy" ? (t.createdBy ? personName(t.createdBy) : "") : k === "assigneeName" ? assigneeName(t) : t[k]); }).join(",");
+      return CSV_COLS.map(function (k) { return csvCell(k === "example" ? (t.example ? "true" : "") : k === "ownerName" ? personName(personKey(t)) : k === "createdByName" ? (t.createdBy ? personName(t.createdBy) : "") : k === "assigneeName" ? assigneeName(t) : t[k]); }).join(",");
     })).join("\r\n");
   }
   function parseCsv(text) {
