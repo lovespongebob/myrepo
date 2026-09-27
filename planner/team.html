@@ -223,6 +223,32 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .reportbox > summary > span::before { content: "▸ "; color: var(--muted); }
 .reportbox[open] > summary > span::before { content: "▾ "; }
 
+/* Key milestones of the week */
+.kms-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.kms { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
+.kms:first-child { border-top: 0; }
+.kms input[type="checkbox"] { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--navy, var(--accent)); cursor: pointer; }
+.kms .txt { font-family: var(--display); font-weight: 600; font-size: 17px; line-height: 1.35; color: var(--ink); overflow-wrap: break-word; }
+.kms .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; font-size: 12px; }
+.kms .meta span { background: var(--surface-sunk); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; color: var(--muted); font-weight: 600; }
+.kms .meta .ok { background: var(--done-soft); border-color: transparent; color: var(--done); }
+.kms.done .txt { color: var(--muted); }
+.kms .tools { display: flex; gap: 2px; }
+.kms .tools button { border: 0; background: none; cursor: pointer; color: var(--muted); width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: 18px; line-height: 1; }
+.kms .tools button:hover { background: var(--surface-sunk); color: var(--ink); }
+.kms .tools svg { width: 15px; height: 15px; }
+.kms input.edit { width: 100%; font: inherit; font-family: var(--body); font-size: 15px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; background: var(--surface); color: var(--ink); }
+.kms .edit-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
+.kms .edit-row input[type="date"] { width: auto; }
+.ms-empty { color: var(--muted); padding: 10px 0 4px; }
+.ms-add { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.ms-add input { border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: var(--surface-sunk); color: var(--ink); font: inherit; min-width: 0; }
+.ms-add input:focus { outline: none; border-color: var(--ink); }
+@media (max-width: 520px) { .ms-add { grid-template-columns: minmax(0, 1fr) auto; } .ms-add #msText { grid-column: 1 / -1; } }
+.ms-suggest { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.ms-suggest button { border: 1px dashed var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px; }
+.ms-suggest button:hover { border-style: solid; border-color: var(--ink); }
+
 /* Sections */
 .wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
 .tablewrap { position: relative; }
@@ -839,14 +865,24 @@ tr.is-milestone td { background: var(--gold-soft); }
           <div class="stat s-wait"><div class="top-line"><span class="swatch"></span>Waiting<span class="num" id="nWait">0</span></div><div class="bar"><i id="bWait" style="width:0"></i></div></div>
           <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
         </div>
-        <div class="people" id="people" aria-label="Tasks by owner"></div>
       </section>
       <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
-          <h2 id="msTitle">Milestones of the week</h2>
+          <div>
+            <h2 id="msTitle">Key milestones of the week</h2>
+            <div class="hint">The few results that matter most this week. Tick them off as they land.</div>
+          </div>
           <span class="hint mono" id="msCount"></span>
         </div>
-        <ol class="mweek" id="mweek"></ol>
+        <ul class="kms-list" id="mweek"></ul>
+        <form class="ms-add" id="msForm" novalidate>
+          <label class="sr" for="msText">New key milestone</label>
+          <input id="msText" placeholder="Add a key milestone for this week" autocomplete="off" maxlength="200">
+          <label class="sr" for="msDate">Date (optional)</label>
+          <input id="msDate" type="date">
+          <button type="submit" class="savebtn">Add</button>
+        </form>
+        <div class="ms-suggest" id="msSuggest" hidden></div>
       </section>
     </div>
     <section class="panel" aria-labelledby="tsTitle">
@@ -973,7 +1009,8 @@ tr.is-milestone td { background: var(--gold-soft); }
     who: "all",        // "all", "mine" (owned by me) or "added" (created by me)
     view: "week",      // "week" or "timeline"
     project: "all",    // project shown in the timeline
-    sumEdit: null      // task being updated in the Task summary
+    sumEdit: null,     // task being updated in the Task summary
+    msEdit: null       // key milestone being edited
   };
   var store = null; // set by initStore
   var userCap = null;
@@ -1272,6 +1309,7 @@ tr.is-milestone td { background: var(--gold-soft); }
 
   function renderPeople(all) {
     var box = $("people");
+    if (!box) return;
     var keys = peopleKeys(all);
     box.replaceChildren();
     box.hidden = !keys.length;
@@ -1483,6 +1521,11 @@ tr.is-milestone td { background: var(--gold-soft); }
     var who = state.person === "all" ? "The" : personName(state.person) + "’s";
     lines.push(who + " weekly report, " + weekRangeText(state.week));
     lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started);
+    var kms = visibleMilestones(state.week);
+    if (kms.length) {
+      lines.push(""); lines.push("Key milestones of the week:");
+      kms.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text + (m.date ? " (" + fmtDay(m.date) + ")" : "")); });
+    }
     peopleKeys(list).forEach(function (k) {
       var mine = list.filter(function (t) { return ownsKey(t, k); });
       var pc = counts(mine);
@@ -1570,7 +1613,7 @@ tr.is-milestone td { background: var(--gold-soft); }
   });
 
   // ---------- Week nav + note ----------
-  function goWeek(w) { state.week = w; state.sumEdit = null; pendingDelete = null; clearForm(); render(); }
+  function goWeek(w) { state.week = w; state.sumEdit = null; state.msEdit = null; pendingDelete = null; clearForm(); render(); }
   $("prevWeek").addEventListener("click", function () { goWeek(addDays(state.week, -7)); });
   $("nextWeek").addEventListener("click", function () { goWeek(addDays(state.week, 7)); });
   $("thisWeek").addEventListener("click", function () { goWeek(THIS_WEEK); });
@@ -1730,34 +1773,94 @@ tr.is-milestone td { background: var(--gold-soft); }
     state.sumEdit = null;
     store.putTask(next).then(function () { toast("Updated “" + t.title + "”."); }, function () {});
   }
+  // ---------- Key milestones of the week (entered by people) ----------
+  function msKey(week) { return week + "~key-milestones"; }
+  function keyMilestones(week) { var d = state.weeks[msKey(week)]; return d && Array.isArray(d.items) ? d.items : []; }
+  function visibleMilestones(week) {
+    return keyMilestones(week).filter(function (m) { return state.project === "all" || !m.project || m.project === state.project; });
+  }
+  function saveMilestones(items) {
+    return store.putWeek(msKey(state.week), { week: state.week, kind: "key-milestones", items: items, updated: Date.now() });
+  }
+  function msId() { return "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function addMilestone(text, date) {
+    text = String(text || "").trim().slice(0, 200);
+    if (!text) return Promise.resolve(false);
+    var items = keyMilestones(state.week).slice();
+    items.push({ id: msId(), text: text, done: false, date: /^\d{4}-\d{2}-\d{2}$/.test(date || "") ? date : "", project: state.project !== "all" ? state.project : "" });
+    return saveMilestones(items).then(function () { return true; }, function () { return false; });
+  }
+  function updateMilestone(id, patch) {
+    var items = keyMilestones(state.week).map(function (m) { return m.id === id ? Object.assign({}, m, patch) : m; });
+    return saveMilestones(items).catch(function () {});
+  }
+  function removeMilestone(id) {
+    var items = keyMilestones(state.week).filter(function (m) { return m.id !== id; });
+    return saveMilestones(items).catch(function () {});
+  }
+  var PENCIL_MS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   function renderMilestones(whoFilter, projectFilter) {
-    var box = $("mweek"), end = addDays(state.week, 6);
-    var inWeek = state.tasks.filter(whoFilter).filter(projectFilter).filter(function (t) { return t.due && t.due >= state.week && t.due <= end; });
-    var ms = inWeek.filter(function (t) { return t.milestone; }).length;
-    $("msCount").textContent = ms + (ms === 1 ? " milestone" : " milestones") + " · " + inWeek.length + " due";
+    var box = $("mweek");
+    var keepText = $("msEditText") ? $("msEditText").value : null, keepDate = $("msEditDate") ? $("msEditDate").value : null;
+    var hadFocus = document.activeElement && document.activeElement.id === "msEditText";
+    var items = visibleMilestones(state.week);
+    var done = items.filter(function (m) { return m.done; }).length;
+    $("msCount").textContent = items.length ? done + " of " + items.length + " achieved" : "";
     box.replaceChildren();
-    if (!inWeek.length) { box.appendChild(el("li", { class: "mempty", text: "No milestones or due dates this week." })); return; }
-    var names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    for (var i = 0; i < 7; i++) {
-      var day = addDays(state.week, i);
-      var items = inWeek.filter(function (t) { return t.due === day; }).sort(function (a, b) {
-        if (!!a.milestone !== !!b.milestone) return a.milestone ? -1 : 1;
-        return ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || a.title.localeCompare(b.title);
+    if (!items.length) box.appendChild(el("li", { class: "ms-empty", text: "No key milestones yet for this week. Add the few results that matter most." }));
+    items.forEach(function (m) {
+      var li = el("li", { class: "kms" + (m.done ? " done" : "") });
+      var chk = el("input", { type: "checkbox", "aria-label": "Achieved: " + m.text });
+      chk.checked = !!m.done; chk.disabled = state.readOnly;
+      chk.addEventListener("change", function () { updateMilestone(m.id, { done: chk.checked }); });
+      var body;
+      if (state.msEdit === m.id && !state.readOnly) {
+        var inp = el("input", { class: "edit", id: "msEditText", maxlength: "200", "aria-label": "Key milestone" });
+        inp.value = keepText !== null ? keepText : m.text;
+        var dt = el("input", { class: "edit", id: "msEditDate", type: "date", "aria-label": "Date" });
+        dt.value = keepDate !== null ? keepDate : (m.date || "");
+        var save = function () {
+          var v = $("msEditText").value.trim();
+          if (!v) { toast("A key milestone needs some text."); return; }
+          state.msEdit = null;
+          updateMilestone(m.id, { text: v.slice(0, 200), date: $("msEditDate").value || "" });
+        };
+        inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); save(); } if (e.key === "Escape") { state.msEdit = null; render(); } });
+        body = el("div", null, [inp, el("div", { class: "edit-row" }, [dt,
+          el("button", { type: "button", class: "savebtn", text: "Save", onclick: save }),
+          el("button", { type: "button", class: "linkbtn", text: "Cancel", onclick: function () { state.msEdit = null; render(); } })])]);
+      } else {
+        var meta = [];
+        if (m.done) meta.push(el("span", { class: "ok", text: "Achieved" }));
+        if (m.date) meta.push(el("span", { text: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][parseYmd(m.date).getDay()] + " " + fmtDay(m.date) }));
+        if (m.project && state.project === "all") meta.push(el("span", { text: m.project }));
+        body = el("div", null, [el("div", { class: "txt", text: m.text }), meta.length ? el("div", { class: "meta" }, meta) : null]);
+      }
+      var tools = el("div", { class: "tools" });
+      if (!state.readOnly && state.msEdit !== m.id) {
+        var edit = el("button", { type: "button", "aria-label": "Edit " + m.text, title: "Edit" });
+        edit.innerHTML = PENCIL_MS;
+        edit.addEventListener("click", function () { state.msEdit = m.id; render(); var f = $("msEditText"); if (f) f.focus(); });
+        var del = el("button", { type: "button", "aria-label": "Remove " + m.text, title: "Remove", text: "×" });
+        del.addEventListener("click", function () { removeMilestone(m.id).then(function () { toast("Removed “" + m.text + "”."); }); });
+        tools.append(edit, del);
+      }
+      li.append(chk, body, tools);
+      box.appendChild(li);
+    });
+    if (hadFocus && $("msEditText")) $("msEditText").focus();
+    $("msForm").hidden = state.readOnly;
+    // Suggestions: tasks marked as milestones that fall in this week
+    var sug = $("msSuggest"), end = addDays(state.week, 6);
+    var have = {}; keyMilestones(state.week).forEach(function (m) { have[norm(m.text)] = true; });
+    var cands = state.tasks.filter(projectFilter).filter(function (t) { return t.milestone && t.due && t.due >= state.week && t.due <= end && !have[norm(t.title)]; });
+    sug.replaceChildren();
+    sug.hidden = !cands.length || state.readOnly;
+    if (!sug.hidden) {
+      sug.append("Suggested from milestone tasks:");
+      cands.forEach(function (t) {
+        sug.appendChild(el("button", { type: "button", text: "+ " + t.title, onclick: function () { addMilestone(t.title, t.due); } }));
       });
-      if (!items.length) continue;
-      var label = el("div", { class: "dlabel" }, [names[i], el("b", { text: String(parseYmd(day).getDate()) }), MONTHS[parseYmd(day).getMonth()]]);
-      var list = el("div", { class: "ditems" }, items.map(function (t) {
-        var who = personKeys(t).filter(function (k) { return k !== "none"; }).map(personName).join(", ");
-        var kids = [
-          t.milestone ? null : el("span", { class: "dot " + t.status, title: STATUS[t.status].en }),
-          el("span", { class: "t", text: t.title }),
-          who ? el("span", { class: "who", text: who }) : null
-        ];
-        if (t.milestone && t.status !== "done") kids.push(el("span", { class: "when", text: countdownText(daysFromToday(t.due)) }));
-        if (t.milestone && t.status === "done") kids.push(el("span", { class: "when", text: "Done" }));
-        return el("div", { class: "mitem" + (t.milestone ? " is-ms" : "") + (t.status === "done" ? " is-done" : "") }, kids);
-      }));
-      box.appendChild(el("li", { class: "day" + (day === TODAY ? " today" : "") }, [label, list]));
     }
   }
 
@@ -1793,7 +1896,7 @@ tr.is-milestone td { background: var(--gold-soft); }
     });
     var scope = state.project !== "all" ? state.project : "All projects";
     var who = state.person !== "all" ? personName(state.person) : state.who === "mine" ? "Owned by me" : state.who === "added" ? "Created by me" : "Everyone";
-    return { title: "Weekly report", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people };
+    return { title: "Weekly report", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people, milestones: visibleMilestones(state.week) };
   }
   function dueText(t) { return t.due ? t.due.replace(/-/g, "/") : "No date"; }
   function taskText(t) { return (t.milestone ? "◆ " : "") + t.title; }
@@ -1821,6 +1924,12 @@ tr.is-milestone td { background: var(--gold-soft); }
       new D.Paragraph({ children: [new D.TextRun({ text: m.range + "  ·  " + m.scope, color: "62678F" })] }),
       new D.Paragraph({ spacing: { before: 200, after: 200 }, children: [new D.TextRun({ text: "Together: " + countsLine(m.counts) + " (" + m.total + " tasks)", bold: true })] })
     ];
+    if (m.milestones.length) {
+      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: "Key milestones of the week" })] }));
+      m.milestones.forEach(function (km) {
+        kids.push(new D.Paragraph({ children: [new D.TextRun({ text: (km.done ? "✓  " : "○  ") + km.text, bold: true }), new D.TextRun({ text: km.date ? "  ·  " + fmtDay(km.date) : "", color: "62678F" })] }));
+      });
+    }
     m.people.forEach(function (p) {
       kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: p.name })] }));
       kids.push(new D.Paragraph({ children: [new D.TextRun({ text: countsLine(p.counts), color: "62678F" })] }));
@@ -1849,7 +1958,9 @@ tr.is-milestone td { background: var(--gold-soft); }
       s.addText(String(st[1]), { x: x + 0.25, y: 2.65, w: 2.3, h: 0.9, fontSize: 40, bold: true, color: st[2], fontFace: font });
       s.addText(st[0], { x: x + 0.25, y: 3.5, w: 2.3, h: 0.5, fontSize: 16, color: ink, fontFace: font });
     });
-    var owners = m.people.map(function (p) { return p.name + ": " + countsLine(p.counts); });
+    var owners = m.milestones.length
+      ? ["Key milestones of the week"].concat(m.milestones.map(function (km) { return (km.done ? "✓ " : "○ ") + km.text + (km.date ? "  ·  " + fmtDay(km.date) : ""); }))
+      : m.people.map(function (p) { return p.name + ": " + countsLine(p.counts); });
     if (owners.length) s.addText(owners.join("\n"), { x: 0.6, y: 4.7, w: 12, h: 2.4, fontSize: 13, color: muted, fontFace: font, valign: "top" });
     m.people.forEach(function (p) {
       var sl = pptx.addSlide();
@@ -1876,6 +1987,16 @@ tr.is-milestone td { background: var(--gold-soft); }
     doc.setTextColor(31, 35, 84); doc.setFont("helvetica", "bold");
     doc.text(plain("Together: " + countsLine(m.counts) + " (" + m.total + " tasks)"), 40, 96);
     var y = 118;
+    if (m.milestones.length) {
+      doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(31, 35, 84);
+      doc.text("Key milestones of the week", 40, y); y += 18;
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
+      m.milestones.forEach(function (km) {
+        var lines = doc.splitTextToSize(plain((km.done ? "[x] " : "[ ] ") + km.text + (km.date ? "  -  " + fmtDay(km.date) : "")), W - 80);
+        doc.text(lines, 40, y); y += lines.length * 14;
+      });
+      y += 14;
+    }
     m.people.forEach(function (p) {
       if (y > doc.internal.pageSize.getHeight() - 120) { doc.addPage(); y = 50; }
       doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(31, 35, 84);
@@ -1917,6 +2038,13 @@ tr.is-milestone td { background: var(--gold-soft); }
     document.querySelectorAll("details.exportmenu[open]").forEach(function (d) {
       if (b || e.target.closest("#btnExport, #btnCsv") || !d.contains(e.target)) d.open = false;
     });
+  });
+  $("msForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (state.readOnly) return;
+    var text = $("msText").value, date = $("msDate").value;
+    if (!text.trim()) { toast("Type a key milestone first."); $("msText").focus(); return; }
+    addMilestone(text, date).then(function (ok) { if (ok) { $("msText").value = ""; $("msDate").value = ""; $("msText").focus(); } });
   });
   $("btnImport").addEventListener("click", function () { $("importFile").click(); });
   $("importFile").addEventListener("change", function (e) {
