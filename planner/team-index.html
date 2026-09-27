@@ -900,6 +900,20 @@ tr.is-milestone td { background: var(--accent-soft); }
 .intro-sub { margin: 6px 0 0; color: var(--muted); font-size: 15.5px; }
 
 .home-cover .home-value { color: var(--ink); font-family: var(--display); font-size: clamp(19px, 2vw, 24px); font-weight: 500; line-height: 1.4; letter-spacing: -0.01em; max-width: 48ch; margin-top: 4px; }
+
+/* Home tiles framed like the template grid: a darker frame with clear gutters */
+:root { --grid-frame: #C4C9C9; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --grid-frame: #2B3336; } }
+:root[data-theme="dark"] { --grid-frame: #2B3336; }
+#homeView .tilegrid { background: var(--grid-frame); padding: 8px; gap: 8px; border-radius: 6px; }
+#homeView .navtile { border: 2px solid #FFFFFF; border-radius: 3px; background: #F4F5F5; }
+#homeView .nt-head { border-bottom: 2px solid #FFFFFF; }
+#homeView .navtile .nt-body { background: #F4F5F5; }
+#homeView .navtile:hover { box-shadow: none; border-color: var(--band); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #homeView .navtile, :root:not([data-theme="light"]) #homeView .navtile .nt-body { background: var(--surface); border-color: #3A4447; } :root:not([data-theme="light"]) #homeView .nt-head { border-bottom-color: #3A4447; } }
+:root[data-theme="dark"] #homeView .navtile, :root[data-theme="dark"] #homeView .navtile .nt-body { background: var(--surface); border-color: #3A4447; }
+:root[data-theme="dark"] #homeView .nt-head { border-bottom-color: #3A4447; }
+@media (max-width: 640px) { #homeView .tilegrid { padding: 6px; gap: 6px; } }
 </style>
 
 <div class="wrap">
