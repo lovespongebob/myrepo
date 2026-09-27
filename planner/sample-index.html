@@ -1200,33 +1200,6 @@ tr.is-milestone td { background: var(--accent-soft); }
     </details>
   </section>
 
-  <!-- 3. Checklist -->
-  <section class="block" id="panecheck" aria-labelledby="secCheck">
-    <div class="block-head"><span class="eyebrow">Checklist</span><h2 id="secCheck" class="block-title">Check it before you rely on it</h2></div>
-  <section class="panel" aria-labelledby="chkTitle">
-    <div class="panel-head">
-      <h2 id="chkTitle">Try these three checks first</h2>
-      <span class="hint">Use the example tasks, not real data</span>
-    </div>
-    <div class="checks">
-      <div class="check" data-check="sort">
-        <div class="check-head"><span class="check-num">1</span><h3>Leave a due date empty</h3></div>
-        <p>Save a task with no due date, then look at the list. Does it land where you expect? Switch "No date last / first" until it matches how you work.</p>
-        <label><input type="checkbox" id="chk-sort"> Sorting looks right</label>
-      </div>
-      <div class="check" data-check="report">
-        <div class="check-head"><span class="check-num">2</span><h3>Mark one as done</h3></div>
-        <p>Tick a task's checkbox or click its status pill. The combined counts, that person's row, and the weekly report should all change right away.</p>
-        <label><input type="checkbox" id="chk-report"> Counts are correct</label>
-      </div>
-      <div class="check" data-check="export">
-        <div class="check-head"><span class="check-num">3</span><h3>Export, then reopen</h3></div>
-        <p>Press Export, then "Reopen an export…" and pick the file. Title, status, empty due date, and notes should all come back intact.</p>
-        <label><input type="checkbox" id="chk-export"> Content is complete</label>
-      </div>
-    </div>
-  </section>
-  </section>
   </div>
   <footer class="sitefoot">
     <span>Designed by <strong>Weiwei Hu</strong></span>
@@ -2380,18 +2353,6 @@ tr.is-milestone td { background: var(--accent-soft); }
     e.target.value = "";
   });
 
-  // ---------- Checks ----------
-  var checks = lsGet("samplePlanner.checks", {});
-  ["sort", "report", "export"].forEach(function (k) {
-    var box = $("chk-" + k);
-    box.checked = !!checks[k];
-    box.closest(".check").classList.toggle("passed", box.checked);
-    box.addEventListener("change", function () {
-      checks[k] = box.checked; lsSet("samplePlanner.checks", checks);
-      box.closest(".check").classList.toggle("passed", box.checked);
-    });
-  });
-
   $("resetSample").addEventListener("click", function () {
     try { localStorage.removeItem(LS_TASKS); localStorage.removeItem(LS_WEEKS); } catch (e) { /* storage unavailable */ }
     state.week = THIS_WEEK; state.person = "all"; state.who = "all"; clearForm();
@@ -2414,7 +2375,6 @@ tr.is-milestone td { background: var(--accent-soft); }
     $("viewIntro").hidden = tab !== "intro";
     $("viewPlanner").hidden = tab !== "planner" && tab !== "summary";
     $("paneplanner").hidden = tab !== "planner";
-    $("panecheck").hidden = tab !== "planner";
     $("panesummary").hidden = tab !== "summary";
     Array.prototype.forEach.call($("pageTabs").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-tab") === tab)); });
     try { history.replaceState(null, "", "#" + tab); } catch (e) { /* not allowed here */ }
