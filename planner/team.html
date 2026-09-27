@@ -160,6 +160,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cta-btn:hover { filter: brightness(1.08); }
 .cta-btn svg { width: 18px; height: 18px; }
 
+/* Export bar in the Planning header */
+.block-head.block-head-row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+.export-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; position: relative; }
+.exportbtn { display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; border-radius: 999px; padding: 8px 16px; font-family: var(--display); font-weight: 600; font-size: 14px; color: #fff; background: linear-gradient(135deg, #5fa8f0, #4a8ae0); box-shadow: 0 6px 14px rgba(80, 80, 180, 0.22); }
+.exportbtn:hover { filter: brightness(1.05); }
+.exportbtn:disabled { opacity: 0.5; cursor: default; }
+.exportbtn svg { width: 16px; height: 16px; }
+
 /* Sections */
 .wrap > *, .block > *, .grid-summary > *, .panel > *, .people > * { min-width: 0; }
 .tablewrap { position: relative; }
@@ -415,7 +423,15 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
 
   <!-- 1. Planning -->
   <section class="block" aria-labelledby="secPlan">
-    <div class="block-head"><span class="eyebrow">Planning</span><h2 id="secPlan" class="block-title">Plan the work</h2></div>
+    <div class="block-head block-head-row">
+      <div><span class="eyebrow">Planning</span><h2 id="secPlan" class="block-title">Plan the work</h2></div>
+      <div class="export-bar" role="group" aria-label="Export and reopen">
+        <button class="exportbtn" id="btnExport" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Export</button>
+        <button class="chipbtn" id="btnCsv" type="button">Export CSV</button>
+        <button class="chipbtn" id="btnImport" type="button">Reopen an export…</button>
+        <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="sr" tabindex="-1">
+      </div>
+    </div>
     <div class="grid">
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
@@ -480,15 +496,6 @@ tr.group td span { font-family: var(--body); font-weight: 400; color: var(--mute
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>
           Save<span class="chev">›</span>
         </button>
-        <button class="bigbtn b-export" id="btnExport" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
-          Export<span class="chev">›</span>
-        </button>
-      </div>
-      <div class="toolbar">
-        <button class="chipbtn" id="btnCsv" type="button">Export CSV</button>
-        <button class="chipbtn" id="btnImport" type="button">Reopen an export…</button>
-        <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="sr" tabindex="-1">
       </div>
     </section>
     <section class="panel" aria-labelledby="listTitle">
