@@ -693,14 +693,48 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   #homeView .nt-body svg { width: 36px; height: 36px; }
   .crumbs { display: none; }
 }
+
+/* ================= Home cover and section headers ================= */
+.home-cover {
+  background:
+    radial-gradient(600px 240px at 85% -20%, rgba(91, 91, 240, 0.35), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.09) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--cover, #0B0B10);
+  color: var(--on-cover, #FAFAFA); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(9, 9, 11, 0.18); padding: 44px 44px 40px; display: grid; gap: 14px;
+}
+.home-cover h1 { color: var(--on-cover, #FAFAFA); font-size: clamp(40px, 6.5vw, 72px); letter-spacing: -0.045em; line-height: 1; }
+.home-cover p { margin: 0; max-width: 62ch; color: var(--on-cover-muted, #A1A1AA); font-size: 16px; line-height: 1.6; }
+.home-cover .home-by { font-family: var(--mono); font-size: 13px; }
+.home-cover .eyebrow { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); color: var(--on-cover-muted, #A1A1AA); }
+/* Section header: plain, aligned with the content */
+.top { background: none; color: var(--ink); border: 0; box-shadow: none; border-radius: 0; padding: 4px 0 0; align-items: end; }
+.top h1 { color: var(--ink); font-size: clamp(32px, 4.4vw, 48px); letter-spacing: -0.04em; }
+.top p { color: var(--muted); font-size: 15.5px; margin-top: 6px; }
+.top .weeknav { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.top .weeknav .label strong { color: var(--ink); }
+.top .weeknav .label span { color: var(--muted); }
+.top .weeknav .iconbtn { background: var(--surface-sunk); color: var(--ink); border: 1px solid var(--line); }
+.top .weeknav .iconbtn:hover { background: var(--ink); color: var(--bg); }
+.block-head.block-head-row { justify-content: flex-end; padding-top: 0; }
+#paneplanner > .block-head, #panesummary > .block-head { margin-top: -6px; }
+
+/* Introduction header: plain, like the other sections */
+.intro header { background: none; color: var(--ink); border: 0; box-shadow: none; border-radius: 0; padding: 4px 0 0; }
+.intro header::before, .intro header::after { content: none; display: none; }
+.intro h1 { color: var(--ink); font-size: clamp(32px, 4.4vw, 48px); letter-spacing: -0.04em; }
+.intro .byline { color: var(--muted); }
+.intro { max-width: none; }
+.intro > section { max-width: 880px; }
 </style>
 
 <div class="wrap">
   <nav class="tiles-nav" id="homeView" aria-label="Sections">
-    <header class="home-head">
+    <header class="home-cover">
       <div class="eyebrow">One plan we share</div>
       <h1>The Weekly Planner</h1>
-      <p>by Weiwei Hu · Choose where to start.</p>
+      <p>Each of us adds our own tasks in one shared place instead of keeping separate lists. Every task shows whose it is, unfinished work carries forward, and the weekly report shows each person's week and our combined totals.</p>
+      <p class="home-by">by Weiwei Hu · Choose where to start below.</p>
     </header>
     <div class="tilegrid" id="pageTabs">
       <button type="button" class="navtile" data-tab="intro" aria-pressed="false">
@@ -760,9 +794,8 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   <div id="viewPlanner">
   <header class="top">
     <div>
-      <div class="eyebrow">One plan we share</div>
-      <h1>The Weekly Planner</h1>
-      <p>Each of us adds our own tasks in one shared place instead of keeping separate lists. Every task shows whose it is, unfinished work carries forward, and the weekly report shows each person's week and our combined totals.</p>
+      <h1 id="secTitle">The Weekly Planner</h1>
+      <p id="secDesc">Add tasks, set owners and dates, and plan the week.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
@@ -775,7 +808,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   <!-- 1. Planning -->
   <section class="block" id="paneplanner" aria-labelledby="secPlan">
     <div class="block-head block-head-row">
-      <div><span class="eyebrow">Planning</span><h2 id="secPlan" class="block-title">Plan the work</h2></div>
+      <h2 id="secPlan" class="sr">Plan the work</h2>
       <div class="export-bar" role="group" aria-label="Export and reopen">
         <details class="exportmenu">
           <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Export <span aria-hidden="true">▾</span></summary>
@@ -920,7 +953,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
   <!-- 2. Weekly summary -->
   <section class="block" id="panesummary" aria-labelledby="secSum">
     <div class="block-head block-head-row">
-      <div><span class="eyebrow">Weekly summary</span><h2 id="secSum" class="block-title">See where the week stands</h2></div>
+      <h2 id="secSum" class="sr">See where the week stands</h2>
       <div class="export-bar">
         <label class="filter-label" for="projectPick2">Project</label>
         <select id="projectPick2" class="selectpill"></select>
@@ -2172,6 +2205,11 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
     Array.prototype.forEach.call(document.querySelectorAll(".crumbs button"), function (b) {
       if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
+    var SECTIONS = {
+      planner: ["The Weekly Planner", "Add tasks, set owners and dates, and plan the week."],
+      summary: ["Weekly Summary", "Status, key milestones and highlights for the selected week."]
+    };
+    if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
     $("viewIntro").hidden = tab !== "intro";
     $("viewPlanner").hidden = tab !== "planner" && tab !== "summary";
     $("paneplanner").hidden = tab !== "planner";
