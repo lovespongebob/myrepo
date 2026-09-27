@@ -1676,11 +1676,13 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
   function initStore() {
     var c = window.claude;
-    if (!c || typeof c.use !== "function") { applyLock(); store = localStore(); store.start(); setMode(); return; }
+    // Plan Your Week and Weekly Summary open only for confirmed members; every other case stays locked.
+    function lockOut() { state.readOnly = true; state.locked = true; applyLock(); store = localStore(); store.start(); setMode(); }
+    if (!c || typeof c.use !== "function") { lockOut(); return; }
     Promise.all([c.use("db"), c.use("user")]).then(function (caps) {
       var db = caps[0];
       userCap = caps[1];
-      if (!db) { applyLock(); store = localStore(); store.start(); setMode(); return; }
+      if (!db) { lockOut(); return; }
       var ready = userCap ? Promise.all([userCap.id(), userCap.can("data.write")]) : Promise.resolve([null, null]);
       return ready.then(function (r) {
         if (r[0]) state.me = r[0];
@@ -1695,7 +1697,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           store = dbStore(db); store.start(); setMode();
         });
       });
-    }).catch(function () { applyLock(); store = localStore(); store.start(); setMode(); });
+    }).catch(function () { lockOut(); });
   }
 
   function setMode() {
