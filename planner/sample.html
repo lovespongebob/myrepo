@@ -967,6 +967,23 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
 /* Plan Your Week: both header strips the same height */
 #paneplanner .grid > .panel > .panel-head:first-child, #paneplanner .panel.entry > .brand { min-height: 74px; align-items: center; }
+
+/* Top 3 this week and key takeaways */
+.top3 { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: top3; }
+.top3 li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: center; counter-increment: top3; }
+.top3 li::before { content: counter(top3); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--lime); color: var(--lime-ink); font-family: var(--display); font-weight: 700; font-size: 15px; }
+.top3 input { width: 100%; min-width: 0; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-solid); color: var(--ink); padding: 10px 12px; font: inherit; font-size: 15px; }
+.top3 input:focus { outline: none; border-color: var(--band); box-shadow: 0 0 0 3px var(--accent-soft); }
+.takeaways { margin-top: 6px; padding-top: 16px; border-top: 1px dashed var(--line-strong); display: grid; gap: 10px; }
+.tk-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tk-head h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 17px; }
+.tk-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.tk-list li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.5; }
+.tk-list li::before { content: ""; position: absolute; left: 4px; top: 0.55em; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.tk-list.busy li { opacity: 0.55; }
+
+/* Weekly Summary: the two top headers share one height */
+#panesummary .grid-summary > .panel > .panel-head:first-child { min-height: 104px; align-items: center; }
 </style>
 
 <div class="wrap">
@@ -1209,21 +1226,37 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </div>
     </div>
     <div class="grid-summary">
-      <details class="panel reportbox" open>
-        <summary><span>Summary text and your note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button></summary>
-          <div class="field">
-            <label for="weekNote">Your note for the week</label>
-            <textarea id="weekNote" class="note-area" placeholder="One or two lines on how your week went. Saved when you click away. Each person has their own note."></textarea>
+      <section class="panel top3-panel" aria-labelledby="top3Title">
+        <div class="panel-head">
+          <div>
+            <h2 id="top3Title">Top 3 this week</h2>
+            <div class="hint">Your three best moments or wins, in your own words.</div>
           </div>
-          <label class="sr" for="reportOut">Weekly summary text</label>
-          <textarea id="reportOut" class="report-out" readonly></textarea>
-          <div class="hint">The summary text updates as tasks change. Copy it straight into a message or email.</div>
-      </details>
+          <button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button>
+        </div>
+        <ol class="top3" id="top3">
+          <li><label class="sr" for="top3-0">Top moment 1</label><input id="top3-0" maxlength="160" autocomplete="off" placeholder="e.g. Made it to three yoga classes"></li>
+          <li><label class="sr" for="top3-1">Top moment 2</label><input id="top3-1" maxlength="160" autocomplete="off" placeholder="e.g. Ballet shoes sorted before the recital"></li>
+          <li><label class="sr" for="top3-2">Top moment 3</label><input id="top3-2" maxlength="160" autocomplete="off" placeholder="e.g. Finally fixed the leaky faucet"></li>
+        </ol>
+        <div class="takeaways">
+          <div class="tk-head">
+            <h3>Key takeaways</h3>
+            <button class="linkbtn" id="btnTakeaways" type="button" hidden>Refresh</button>
+          </div>
+          <ul class="tk-list" id="takeaways"></ul>
+          <div class="hint" id="tkSource"></div>
+        </div>
+        <div hidden>
+          <label for="weekNote">Your note for the week</label><textarea id="weekNote"></textarea>
+          <label for="reportOut">Weekly summary text</label><textarea id="reportOut" readonly></textarea>
+        </div>
+      </section>
       <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
           <div>
             <h2 id="msTitle">Goals for the week</h2>
-            <div class="hint">The few things you most want to get done this week. Edit them any time and tick them off when they happen.</div>
+            <div class="hint">The few things you most want to get done. Tick them off as they happen.</div>
           </div>
           <span class="hint mono" id="msCount"></span>
         </div>
@@ -1645,6 +1678,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     renderRows(tableList);
     state.reportList = list; state.reportCounts = c;
     renderTaskSummary(list);
+    renderTop3();
+    renderTakeaways();
     renderMilestones(whoFilter, projectFilter);
     renderReport(list, c);
 
@@ -1995,7 +2030,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
   // ---------- Report copy ----------
   $("btnCopyReport").addEventListener("click", function () {
-    var text = $("reportOut").value;
+    var text = summaryText();
+    $("reportOut").value = text;
     function fallback() { var r = $("reportOut"); r.focus(); r.select(); toast("Summary selected. Press Ctrl+C or ⌘C to copy."); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () { toast("Weekly summary copied."); }, fallback);
@@ -2212,6 +2248,121 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         sug.appendChild(el("button", { type: "button", text: "+ " + t.title, onclick: function () { addMilestone(t.title, t.due); } }));
       });
     }
+  }
+
+  // ---------- Top 3 this week and key takeaways ----------
+  var AI_TAKEAWAYS = false;
+  var sampleFn = null;
+  var tk = { ai: null, busy: false, requested: null };
+  function top3Key(week) { return week + "~top3-" + state.me; }
+  function top3Of(week) { var d = state.weeks[top3Key(week)]; return d && Array.isArray(d.items) ? d.items : []; }
+  function renderTop3() {
+    var items = top3Of(state.week);
+    [0, 1, 2].forEach(function (i) {
+      var f = $("top3-" + i);
+      if (document.activeElement !== f) f.value = items[i] || "";
+      f.disabled = state.readOnly;
+    });
+  }
+  function saveTop3() {
+    if (state.readOnly || !store) return;
+    var items = [0, 1, 2].map(function (i) { return $("top3-" + i).value.trim().slice(0, 160); });
+    var cur = top3Of(state.week);
+    if (items.join("\n") === [0, 1, 2].map(function (i) { return cur[i] || ""; }).join("\n")) return;
+    store.putWeek(top3Key(state.week), { week: state.week, owner: state.me, name: myName(), kind: "top3", items: items, updated: Date.now() })
+      .then(function () { toast("Top 3 saved."); }, function () {});
+  }
+  [0, 1, 2].forEach(function (i) {
+    var f = $("top3-" + i);
+    f.addEventListener("blur", saveTop3);
+    f.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); (i < 2 ? $("top3-" + (i + 1)) : f).focus(); if (i === 2) f.blur(); } });
+  });
+
+  function lc(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
+  function ruleTakeaways(list) {
+    if (!list.length) return ["No plans for this week yet. Add a few in Plan Your Week to see takeaways here."];
+    var out = [], open = list.filter(function (t) { return t.status !== "done"; });
+    if (!open.length) out.push("Everything on this week’s list is done. Time to enjoy it.");
+    var big = list.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY; })
+      .sort(function (a, b) { return a.due < b.due ? -1 : 1; })[0];
+    if (big) out.push(big.title + " is " + lc(countdownText(daysFromToday(big.due))) + (big.nextStep ? ". Still to do: " + lc(big.nextStep.replace(/\.$/, "")) + "." : ". Leave a little room around it."));
+    var byCat = {};
+    list.forEach(function (t) { var k = t.project || ""; if (!k) return; byCat[k] = byCat[k] || { n: 0, done: 0 }; byCat[k].n++; if (t.status === "done") byCat[k].done++; });
+    var top = Object.keys(byCat).sort(function (a, b) { return byCat[b].n - byCat[a].n; })[0];
+    if (top && byCat[top].n >= 2) out.push(top + " took up most of your week" + (byCat[top].done ? ", and " + byCat[top].done + " of those " + byCat[top].n + " plans " + (byCat[top].done === 1 ? "is" : "are") + " done." : "."));
+    var goals = visibleMilestones(state.week), left = goals.filter(function (m) { return !m.done; });
+    if (goals.length) out.push(left.length ? "“" + left[0].text + "” is the goal to focus on next." : "Every goal for the week is done. Worth celebrating.");
+    var waiting = list.filter(function (t) { return t.status === "waiting"; })[0];
+    if (waiting) out.push(waiting.title + " is waiting on someone else. A quick nudge could move it along.");
+    var late = open.filter(function (t) { return t.due && t.due < TODAY; });
+    if (late.length) out.push(late.length === 1 ? late[0].title + " slipped past its date. Pick a new day or let it go." : late.length + " plans slipped past their dates. Pick new days or let some go.");
+    var noDate = open.filter(function (t) { return !t.due; });
+    if (noDate.length) out.push(noDate.length === 1 ? noDate[0].title + " has no date yet. Giving it a day makes it more likely to happen." : noDate.length + " plans have no date yet. Giving each a day makes them more likely to happen.");
+    return out.slice(0, 3);
+  }
+  function tkKey() { return [state.week, state.project, state.person, state.who].join("|"); }
+  function takeawayPrompt(list) {
+    var data = {
+      week: weekRangeText(state.week), today: TODAY,
+      tasks: list.slice(0, 60).map(function (t) {
+        return { category: t.project || "", title: t.title, status: STATUS[t.status].en, due: t.due || "no date", bigDay: !!t.milestone,
+          who: personKeys(t).map(personName).join(", "), highlight: highlightOf(t), next: t.nextStep || "" };
+      }),
+      goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
+      top3: top3Of(state.week).filter(Boolean)
+    };
+    return "You write the \"Key takeaways\" box of a personal weekly planner (family, errands, classes, home). " +
+      "Read this week's data and reply with ONLY a JSON array of exactly 3 short strings, each at most 18 words. " +
+      "Each string is an insight or a helpful nudge: a pattern in the week, what went well, what needs attention next, or what to plan ahead for. " +
+      "Do not restate status counts and do not list tasks one by one. Warm, plain, personal tone, no work jargon, no emoji.\n" +
+      'Example shape: ["Kids\' activities filled most of the week, and the recital prep is nearly done.", "...", "..."]\n\n' +
+      "Data:\n" + JSON.stringify(data);
+  }
+  function requestTakeaways(refresh) {
+    var list = state.reportList || [];
+    if (!sampleFn || tk.busy || !list.length) return;
+    var key = tkKey();
+    tk.requested = key; tk.busy = true; renderTakeaways();
+    var cache = refresh ? { gcTime: 864e5, refresh: true } : { gcTime: 864e5 };
+    sampleFn.json(takeawayPrompt(list), { cache: cache }).then(function (arr) {
+      var items = Array.isArray(arr) ? arr.map(function (s) { return String(s || "").trim(); }).filter(Boolean).slice(0, 3) : [];
+      if (items.length) tk.ai = { key: key, items: items };
+    }, function (e) {
+      var code = e && e.code;
+      if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].indexOf(code) >= 0) { sampleFn = null; }
+      else if (code === "rate_limited") toast("Claude is busy right now. Try Refresh in a little while.");
+      else if (code !== "cancelled") toast("The takeaways couldn’t be written just now. Try Refresh.");
+    }).then(function () { tk.busy = false; renderTakeaways(); });
+  }
+  function renderTakeaways() {
+    var list = state.reportList || [], key = tkKey();
+    var onSummary = !$("panesummary").hidden && !$("viewPlanner").hidden;
+    if (onSummary && sampleFn && !tk.busy && tk.requested !== key && list.length) { requestTakeaways(false); return; }
+    var ai = tk.ai && tk.ai.key === key ? tk.ai.items : null;
+    var items = ai || ruleTakeaways(list);
+    var box = $("takeaways");
+    box.replaceChildren.apply(box, items.map(function (t) { return el("li", { text: t }); }));
+    box.classList.toggle("busy", tk.busy && !ai);
+    $("btnTakeaways").hidden = !sampleFn || !list.length;
+    $("btnTakeaways").disabled = tk.busy;
+    $("tkSource").textContent = tk.busy ? "Claude is reading your week…" : ai ? "Written by Claude from this week’s tasks, goals and top 3." : "Based on this week’s tasks.";
+  }
+  $("btnTakeaways").addEventListener("click", function () { requestTakeaways(true); });
+  if (AI_TAKEAWAYS && window.claude && typeof window.claude.use === "function") {
+    window.claude.use("sample").then(function (s) { sampleFn = s || null; renderTakeaways(); }, function () {});
+  }
+  function currentTakeaways() {
+    var key = tkKey();
+    return tk.ai && tk.ai.key === key ? tk.ai.items : ruleTakeaways(state.reportList || []);
+  }
+  function summaryText() {
+    var lines = ["Weekly summary, " + weekRangeText(state.week)];
+    var top = top3Of(state.week).filter(Boolean);
+    if (top.length) { lines.push("", "Top 3 this week:"); top.forEach(function (t, i) { lines.push((i + 1) + ". " + t); }); }
+    lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
+    var goals = visibleMilestones(state.week);
+    if (goals.length) { lines.push("", "Goals for the week:"); goals.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text); }); }
+    return lines.join("\n");
   }
 
   // ---------- Word, PowerPoint and PDF reports ----------
@@ -2445,6 +2596,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("viewPlanner").hidden = tab !== "planner" && tab !== "summary";
     $("paneplanner").hidden = tab !== "planner";
     $("panesummary").hidden = tab !== "summary";
+    if (tab === "summary") renderTakeaways();
     Array.prototype.forEach.call($("pageTabs").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-tab") === tab)); });
     try { history.replaceState(null, "", "#" + tab); } catch (e) { /* not allowed here */ }
   }
