@@ -979,6 +979,10 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .intro .story, .feat li { background: #FFFFFF; border: 1px solid #DDE2E1; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .intro .story, :root:not([data-theme="light"]) .feat li { background: var(--surface); border-color: var(--line); } }
 :root[data-theme="dark"] .intro .story, :root[data-theme="dark"] .feat li { background: var(--surface); border-color: var(--line); }
+
+/* Overview: full width, aligned with the header, tiles and footer */
+.intro > section { max-width: none; }
+.intro .story p, .intro .cta p { max-width: none; }
 </style>
 
 <div class="wrap">
