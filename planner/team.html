@@ -986,7 +986,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 /* Plan Your Week: both header strips the same height */
 #paneplanner .grid > .panel > .panel-head:first-child, #paneplanner .panel.entry > .brand { min-height: 74px; align-items: center; }
 
-/* Top 3 this week and key takeaways */
+/* Highlights and key takeaways */
 .top3 { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: top3; }
 .top3 li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: center; counter-increment: top3; }
 .top3 li::before { content: counter(top3); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--lime); color: var(--lime-ink); font-family: var(--display); font-weight: 700; font-size: 15px; }
@@ -1002,6 +1002,23 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
 /* Weekly Summary: the two top headers share one height */
 #panesummary .grid-summary > .panel > .panel-head:first-child { min-height: 104px; align-items: center; }
+
+/* Goals styled like the highlights: numbered circles and white boxes */
+.kms-list { counter-reset: goal; gap: 10px; }
+.kms { counter-increment: goal; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: center; padding: 0; border-top: 0; }
+.kms input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 30px; height: 30px; margin: 0; border-radius: 50%; background: var(--lime); display: grid; place-items: center; cursor: pointer; }
+.kms input[type="checkbox"]::after { content: counter(goal); font-family: var(--display); font-weight: 700; font-size: 15px; color: var(--lime-ink); }
+.kms input[type="checkbox"]:checked { background: var(--band); }
+.kms input[type="checkbox"]:checked::after { content: "\2713"; color: var(--lime); }
+.kms input[type="checkbox"]:focus-visible { outline: 2px solid var(--band); outline-offset: 2px; }
+.kms input[type="checkbox"]:disabled { cursor: default; }
+.kms-box { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-solid); padding: 9px 8px 9px 12px; min-height: 44px; }
+.kms-box > div:first-child { min-width: 0; }
+.kms .txt { font-size: 15px; font-weight: 500; font-family: var(--body); }
+.kms.done .txt { color: var(--muted); text-decoration: line-through; }
+.kms .meta { margin-top: 4px; }
+.ms-add { margin-left: 42px; }
+.ms-empty { padding-left: 0; }
 </style>
 
 <div class="wrap">
@@ -1256,15 +1273,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <section class="panel top3-panel" aria-labelledby="top3Title">
         <div class="panel-head">
           <div>
-            <h2 id="top3Title">Top 3 this week</h2>
+            <h2 id="top3Title">Highlights</h2>
             <div class="hint">Your three best moments or wins, in your own words.</div>
           </div>
           <button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button>
         </div>
         <ol class="top3" id="top3">
-          <li><label class="sr" for="top3-0">Top moment 1</label><input id="top3-0" maxlength="160" autocomplete="off" placeholder="e.g. Made it to three yoga classes"></li>
-          <li><label class="sr" for="top3-1">Top moment 2</label><input id="top3-1" maxlength="160" autocomplete="off" placeholder="e.g. Ballet shoes sorted before the recital"></li>
-          <li><label class="sr" for="top3-2">Top moment 3</label><input id="top3-2" maxlength="160" autocomplete="off" placeholder="e.g. Finally fixed the leaky faucet"></li>
+          <li><label class="sr" for="top3-0">Highlight 1</label><input id="top3-0" maxlength="160" autocomplete="off" placeholder="e.g. Made it to three yoga classes"></li>
+          <li><label class="sr" for="top3-1">Highlight 2</label><input id="top3-1" maxlength="160" autocomplete="off" placeholder="e.g. Ballet shoes sorted before the recital"></li>
+          <li><label class="sr" for="top3-2">Highlight 3</label><input id="top3-2" maxlength="160" autocomplete="off" placeholder="e.g. Finally fixed the leaky faucet"></li>
         </ol>
         <div class="takeaways">
           <div class="tk-head">
@@ -2249,7 +2266,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         del.addEventListener("click", function () { removeMilestone(m.id).then(function () { toast("Removed “" + m.text + "”."); }); });
         tools.append(edit, del);
       }
-      li.append(chk, body, tools);
+      li.append(chk, el("div", { class: "kms-box" }, [body, tools]));
       box.appendChild(li);
     });
     if (hadFocus && $("msEditText")) $("msEditText").focus();
@@ -2268,7 +2285,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     }
   }
 
-  // ---------- Top 3 this week and key takeaways ----------
+  // ---------- Highlights and key takeaways ----------
   var AI_TAKEAWAYS = true;
   var sampleFn = null;
   var tk = { ai: null, busy: false, requested: null };
@@ -2288,7 +2305,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var cur = top3Of(state.week);
     if (items.join("\n") === [0, 1, 2].map(function (i) { return cur[i] || ""; }).join("\n")) return;
     store.putWeek(top3Key(state.week), { week: state.week, owner: state.me, name: myName(), kind: "top3", items: items, updated: Date.now() })
-      .then(function () { toast("Top 3 saved."); }, function () {});
+      .then(function () { toast("Highlights saved."); }, function () {});
   }
   [0, 1, 2].forEach(function (i) {
     var f = $("top3-" + i);
@@ -2327,7 +2344,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           who: personKeys(t).map(personName).join(", "), highlight: highlightOf(t), next: t.nextStep || "" };
       }),
       goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
-      top3: top3Of(state.week).filter(Boolean)
+      highlights: top3Of(state.week).filter(Boolean)
     };
     return "You write the \"Key takeaways\" box of a personal weekly planner (family, errands, classes, home). " +
       "Read this week's data and reply with ONLY a JSON array of exactly 3 short strings, each at most 18 words. " +
@@ -2363,7 +2380,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     box.classList.toggle("busy", tk.busy && !ai);
     $("btnTakeaways").hidden = !sampleFn || !list.length;
     $("btnTakeaways").disabled = tk.busy;
-    $("tkSource").textContent = tk.busy ? "Claude is reading your week…" : ai ? "Written by Claude from this week’s tasks, goals and top 3." : "Based on this week’s tasks.";
+    $("tkSource").textContent = tk.busy ? "Claude is reading your week…" : ai ? "Written by Claude from this week’s tasks, goals and highlights." : "Based on this week’s tasks.";
   }
   $("btnTakeaways").addEventListener("click", function () { requestTakeaways(true); });
   if (AI_TAKEAWAYS && window.claude && typeof window.claude.use === "function") {
@@ -2376,7 +2393,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function summaryText() {
     var lines = ["Weekly summary, " + weekRangeText(state.week)];
     var top = top3Of(state.week).filter(Boolean);
-    if (top.length) { lines.push("", "Top 3 this week:"); top.forEach(function (t, i) { lines.push((i + 1) + ". " + t); }); }
+    if (top.length) { lines.push("", "Highlights:"); top.forEach(function (t, i) { lines.push((i + 1) + ". " + t); }); }
     lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
     var goals = visibleMilestones(state.week);
     if (goals.length) { lines.push("", "Goals for the week:"); goals.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text); }); }
