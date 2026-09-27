@@ -968,6 +968,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
 /* Overview: slightly narrower than the page, centred */
 #viewIntro { max-width: 1040px; width: 100%; margin-inline: auto; }
+
+/* Footer matches the Overview's narrower column */
+.wrap.is-intro .sitefoot { max-width: 1040px; width: 100%; margin-inline: auto; }
 </style>
 
 <div class="wrap">
@@ -2407,6 +2410,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function setTab(tab) {
     var home = tab === "home";
     document.querySelector(".wrap").classList.toggle("is-home", home);
+    document.querySelector(".wrap").classList.toggle("is-intro", tab === "intro");
     $("homeView").hidden = !home;
     $("backbar").hidden = home;
     Array.prototype.forEach.call(document.querySelectorAll(".crumbs button"), function (b) {
