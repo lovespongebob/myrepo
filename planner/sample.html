@@ -223,7 +223,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .reportbox > summary > span::before { content: "▸ "; color: var(--muted); }
 .reportbox[open] > summary > span::before { content: "▾ "; }
 
-/* Key milestones */
+/* Goals for the week */
 .kms-list { list-style: none; margin: 0; padding: 0; display: grid; }
 .kms { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
 .kms:first-child { border-top: 0; }
@@ -601,7 +601,7 @@ tr.is-milestone td { background: color-mix(in srgb, var(--accent-soft) 70%, tran
 .next-ms .when { color: var(--accent); font-family: var(--mono); font-weight: 500; }
 .carry { background: var(--wait-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--wait) 25%, transparent); border-radius: 12px; }
 
-/* Key milestones */
+/* Goals for the week */
 .kms .txt { font-family: var(--body); font-weight: 600; font-size: 15px; letter-spacing: -0.015em; }
 .kms .meta span { font-family: var(--mono); font-weight: 400; font-size: 11.5px; border-radius: 6px; }
 .kms .meta .ok { background: var(--done-soft); color: var(--done); }
@@ -961,7 +961,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     <header class="home-cover">
       <div class="eyebrow">Sample · example data only</div>
       <h1><span class="h-bold">The Weekly Planner</span></h1>
-      <p class="home-value">Plan together, spend less time chasing updates, and have your weekly report ready. All in one shared place.</p>
+      <p class="home-value">Plan your week together, spend less time sending reminders, and see everything you got done. All in one shared place.</p>
       <p class="home-by">Choose where to start below.</p>
     </header>
     <div class="tilegrid" id="pageTabs">
@@ -971,11 +971,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </button>
       <button type="button" class="navtile" data-tab="planner" aria-pressed="true">
         <span class="nt-head">Plan Your Week</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add tasks, set owners and dates, and plan the week.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add grocery runs, ballet, yoga class and more, with dates.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
         <span class="nt-head">Weekly Summary</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">Status, key milestones and highlights for the week.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">What’s done, what’s next and the highlights of your week.</span></span>
       </button>
     </div>
   </nav>
@@ -995,18 +995,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <p class="intro-sub">Why the planner exists and what you can do with it.</p>
     </header>
     <section class="story" aria-label="Why I made it">
-      <p><span class="lead">Copy last week’s tasks, remove the old projects, and update the progress.</span> If you keep your weekly plan in a notebook, spreadsheet, or PPT, this probably sounds familiar. Then there’s the back-and-forth to collect updates and make sure everyone has the latest version.</p>
-      <p>I wanted to make this a little easier, so I created the Weekly Planner. <strong>Set it up once, then come back to the same place each week</strong> to plan work, update progress, and prepare your weekly report. Anyone you share it with can contribute whenever it works for them, and everyone can see the latest updates without needing to be there at the same time.</p>
+      <p><span class="lead">Copy last week’s to-dos, cross off what’s finished, and plan what’s next.</span> If you keep your weekly plan in a notebook, a notes app, or on the fridge, this probably sounds familiar. Then there’s the back-and-forth to remind everyone at home who’s picking up the groceries and what time ballet starts.</p>
+      <p>I wanted to make this a little easier, so I created the Weekly Planner. <strong>Set it up once, then come back to the same place each week</strong> to plan errands, classes and family time, check things off, and look back on your week. Anyone you share it with can add to it whenever it works for them, and everyone can see the latest plan without needing to be in the same room.</p>
     </section>
     <section aria-labelledby="introCan">
       <h2 id="introCan">What can you do with it?</h2>
       <ul class="feat">
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Create and update plans with anyone you share the planner with</span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Organize tasks by project and owner</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Plan together with family or friends</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Organize tasks by category and person</span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>See what’s not started, in progress, and done<span class="pills" aria-hidden="true"><span class="pill not_started">Not started</span><span class="pill in_progress">In progress</span><span class="pill done">Done</span></span></span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Sort tasks by due date, or leave the date open</span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Carry unfinished tasks into the next week</span></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Generate weekly reports</span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Get a summary of your week</span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Look back at previous weeks</span></li>
         <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Export and reopen your plan</span></li>
       </ul>
@@ -1015,7 +1015,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <h2 id="introHow">See how it works</h2>
       <p>Try three things: leave a date blank, mark a task done, then export your plan and reopen it.</p>
       <button type="button" class="cta-btn" data-go="planner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> Explore the sample</button>
-      <p class="note">The sample is filled with example projects and tasks, so you can try the workflow without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own planning process, message me on <a class="cta-link" href="https://www.linkedin.com/in/weiweihu/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+      <p class="note">The sample is filled with example plans and tasks, so you can try it out without requesting access or waiting for an invitation. Any changes you make stay in your own browser. If you’d like to adapt the planner for your own routine, message me on <a class="cta-link" href="https://www.linkedin.com/in/weiweihu/" target="_blank" rel="noopener">LinkedIn</a>.</p>
     </section>
   </div>
 
@@ -1023,7 +1023,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   <header class="top">
     <div>
       <h1 id="secTitle">Plan Your Week</h1>
-      <p id="secDesc">Add tasks, set owners and dates, and plan the week.</p>
+      <p id="secDesc">Add grocery runs, ballet, yoga class and more, with dates.</p>
     </div>
     <nav class="weeknav" aria-label="Choose week">
       <button class="iconbtn" id="prevWeek" aria-label="Previous week">‹</button>
@@ -1041,7 +1041,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         <details class="exportmenu">
           <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Export <span aria-hidden="true">▾</span></summary>
           <div class="menu" role="group" aria-label="Export formats">
-            <div class="menu-label">Weekly report</div>
+            <div class="menu-label">Weekly summary</div>
             <button type="button" data-export="docx">Word <span>.docx</span></button>
             <button type="button" data-export="pptx">PowerPoint <span>.pptx</span></button>
             <button type="button" data-export="pdf">PDF <span>.pdf</span></button>
@@ -1072,19 +1072,19 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           <div class="hint">Your name as others should see it. This device remembers it for next time.</div>
         </div>
         <div class="field">
-          <label for="f-project">Project</label>
-          <input id="f-project" name="project" list="projectList" placeholder="e.g. Website refresh" autocomplete="off">
+          <label for="f-project">Category</label>
+          <input id="f-project" name="project" list="projectList" placeholder="e.g. Fitness, Home or Errands" autocomplete="off">
           <datalist id="projectList"></datalist>
         </div>
         <div class="field">
           <label for="f-title">Task</label>
-          <input id="f-title" name="title" placeholder="e.g. Draft the Q4 budget summary" autocomplete="off" required>
+          <input id="f-title" name="title" placeholder="e.g. Book the yoga class" autocomplete="off" required>
         </div>
         <div class="field">
-          <label for="f-person">Owner</label>
+          <label for="f-person">Who</label>
           <input id="f-person" name="owner" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
           <datalist id="assigneeList"></datalist>
-          <div class="hint">Keep “Me” for your own tasks, or type one or more names separated by commas.</div>
+          <div class="hint">Keep “Me” for your own plans, or type one or more names separated by commas.</div>
         </div>
         <div class="field">
           <label for="f-status">Status</label>
@@ -1099,14 +1099,14 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           <label for="f-due">Due date</label>
           <input id="f-due" name="due" type="date">
         </div>
-        <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Milestone <span class="hint">a launch, event day or key deadline</span></label>
+        <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Big day <span class="hint">a birthday, recital, trip or special event</span></label>
         <div class="field">
-          <label for="f-related">Related item</label>
-          <input id="f-related" name="related" placeholder="Client, person, or meeting" autocomplete="off">
+          <label for="f-related">Related to</label>
+          <input id="f-related" name="related" placeholder="Place, person or event" autocomplete="off">
         </div>
         <div class="field">
           <label for="f-notes">Notes</label>
-          <textarea id="f-notes" name="notes" placeholder="Progress, blockers, links…"></textarea>
+          <textarea id="f-notes" name="notes" placeholder="Details, addresses, links…"></textarea>
         </div>
         <div class="field">
           <label for="f-next">Next step</label>
@@ -1131,10 +1131,10 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         </div>
         <div class="filters">
           <div class="filter-row">
-            <label class="filter-label" for="projectPick">Project</label>
+            <label class="filter-label" for="projectPick">Category</label>
             <select id="projectPick" class="selectpill"></select>
             <div class="seg" role="group" aria-label="Choose a view" id="viewSeg">
-              <button type="button" data-v="timeline" aria-pressed="false">Project timeline</button>
+              <button type="button" data-v="timeline" aria-pressed="false">Timeline</button>
               <button type="button" data-v="week" aria-pressed="true">This week</button>
             </div>
           </div>
@@ -1142,7 +1142,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
             <span id="personFilterChip" hidden></span>
             <div class="seg" role="group" aria-label="Whose tasks to show" id="whoSeg">
               <button type="button" data-w="all" aria-pressed="true">Everyone</button>
-              <button type="button" data-w="mine" aria-pressed="false">Owned by me</button>
+              <button type="button" data-w="mine" aria-pressed="false">Mine</button>
               <button type="button" data-w="added" aria-pressed="false">Created by me</button>
             </div>
             <div class="seg" role="group" aria-label="Filter by status" id="filterSeg">
@@ -1163,9 +1163,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
             <thead>
               <tr>
                 <th style="width:36px"><span class="sr">Done</span></th>
-                <th class="col-project">Project</th>
+                <th class="col-project">Category</th>
                 <th class="col-task">Task</th>
-                <th class="col-person">Owner</th>
+                <th class="col-person">Who</th>
                 <th>Status</th>
                 <th><button type="button" id="sortDue" aria-label="Sort by due date">Due date<span id="sortArrow">▲</span></button></th>
                 <th><span class="sr">Actions</span></th>
@@ -1183,11 +1183,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     <div class="block-head block-head-row">
       <h2 id="secSum" class="sr">See where the week stands</h2>
       <div class="export-bar">
-        <label class="filter-label" for="projectPick2">Project</label>
+        <label class="filter-label" for="projectPick2">Category</label>
         <select id="projectPick2" class="selectpill"></select>
         <details class="exportmenu">
-          <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Download report <span aria-hidden="true">▾</span></summary>
-          <div class="menu" role="group" aria-label="Report formats">
+          <summary class="exportbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg> Download summary <span aria-hidden="true">▾</span></summary>
+          <div class="menu" role="group" aria-label="Summary formats">
             <button type="button" data-export="docx">Word <span>.docx</span></button>
             <button type="button" data-export="pptx">PowerPoint <span>.pptx</span></button>
             <button type="button" data-export="pdf">PDF <span>.pdf</span></button>
@@ -1211,15 +1211,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <section class="panel" aria-labelledby="msTitle">
         <div class="panel-head">
           <div>
-            <h2 id="msTitle">Key milestones</h2>
-            <div class="hint">The few results that matter most this week. Edit them any time and tick them off as they land.</div>
+            <h2 id="msTitle">Goals for the week</h2>
+            <div class="hint">The few things you most want to get done this week. Edit them any time and tick them off when they happen.</div>
           </div>
           <span class="hint mono" id="msCount"></span>
         </div>
         <ul class="kms-list" id="mweek"></ul>
         <form class="ms-add" id="msForm" novalidate>
-          <label class="sr" for="msText">New key milestone</label>
-          <input id="msText" placeholder="Add a key milestone for this week" autocomplete="off" maxlength="200">
+          <label class="sr" for="msText">New goal</label>
+          <input id="msText" placeholder="Add a goal for this week" autocomplete="off" maxlength="200">
           <label class="sr" for="msDate">Date (optional)</label>
           <input id="msDate" type="date">
           <button type="submit" class="savebtn">Add</button>
@@ -1237,20 +1237,20 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </div>
       <div class="tablewrap ts-wrap">
         <table class="ts-table">
-          <thead><tr><th class="ts-c1">Project / Task</th><th>Owner</th><th>Status</th><th class="ts-c4">Highlights of the week</th><th class="ts-c5">Next step</th><th><span class="sr">Edit</span></th></tr></thead>
+          <thead><tr><th class="ts-c1">Category / Task</th><th>Who</th><th>Status</th><th class="ts-c4">Highlights of the week</th><th class="ts-c5">Next step</th><th><span class="sr">Edit</span></th></tr></thead>
           <tbody id="tsRows"></tbody>
         </table>
       </div>
     </section>
     <details class="panel reportbox">
-      <summary><span>Report text and your progress note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy report</button></summary>
+      <summary><span>Summary text and your note</span><button class="chipbtn" id="btnCopyReport" type="button">Copy summary</button></summary>
         <div class="field">
-          <label for="weekNote">Your progress this week</label>
+          <label for="weekNote">Your note for the week</label>
           <textarea id="weekNote" class="note-area" placeholder="One or two lines on how your week went. Saved when you click away. Each person has their own note."></textarea>
         </div>
-        <label class="sr" for="reportOut">Weekly report text</label>
+        <label class="sr" for="reportOut">Weekly summary text</label>
         <textarea id="reportOut" class="report-out" readonly></textarea>
-        <div class="hint">The report text updates as tasks change. Copy it straight into email or chat.</div>
+        <div class="hint">The summary text updates as tasks change. Copy it straight into a message or email.</div>
     </details>
   </section>
 
@@ -1329,7 +1329,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     view: "week",      // "week" or "timeline"
     project: "all",    // project shown in the timeline
     sumEdit: null,     // task being updated in the Task summary
-    msEdit: null       // key milestone being edited
+    msEdit: null       // goal being edited
   };
   var store = null; // set by initStore
   var userCap = null;
@@ -1356,7 +1356,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function ownsKey(t, k) { return personKeys(t).indexOf(k) >= 0; }
   function isMeKey(k) { return k === "me" || (!!myName() && k === "name:" + norm(myName())); }
   function personName(key) {
-    if (key === "none") return "No owner";
+    if (key === "none") return "No one yet";
     if (key === "me") return myName() || "Me";
     if (key.slice(0, 5) === "name:") return state.nameCase[key.slice(5)] || key.slice(5);
     return "Someone";
@@ -1411,15 +1411,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function exampleTasks(week) {
     var last = addDays(week, -7);
     return [
-      { week: last, project: "Q4 planning", title: "Send the budget template to team leads", assigneeName: "Alex", createdByName: "Alex", status: "done", due: addDays(last, 1), related: "", notes: "" },
-      { week: last, project: "Website refresh", title: "Collect feedback on the new homepage", assigneeName: "Sam", createdByName: "Alex", status: "in_progress", due: "", related: "Design review", notes: "Half the replies are in." },
-      { week: last, project: "Q4 planning", title: "Book the offsite venue", assigneeName: "Jordan", createdByName: "Alex", status: "waiting", due: addDays(last, 4), related: "", notes: "Waiting on the final headcount." },
-      { week: week, project: "Q4 planning", title: "Draft the Q4 budget summary", assigneeName: "Alex", createdByName: "Alex", status: "in_progress", due: addDays(TODAY, 3), related: "Leadership meeting", notes: "", nextStep: "Collect the last two team inputs", highlights: hl(week, "First draft shared with finance.") },
-      { week: week, project: "Q4 planning", title: "Review the hiring plan", assigneeName: "Sam, Alex", ownerNames: ["Sam", "Alex"], createdByName: "Alex", status: "not_started", due: "", related: "", notes: "No date yet on purpose.", nextStep: "Agree on a review date" },
-      { week: week, project: "Website refresh", title: "Update the pricing page copy", assigneeName: "Jordan", createdByName: "Sam", status: "done", due: addDays(TODAY, -1), related: "", notes: "", highlights: hl(week, "New copy is live.") },
-      { week: week, project: "Website refresh", title: "Fix the mobile menu", assigneeName: "Sam", createdByName: "Jordan", status: "in_progress", due: addDays(TODAY, 4), related: "Bug list", notes: "", nextStep: "Test on small screens", highlights: hl(week, "Found the cause: the menu opens under the header.") },
-      { week: week, project: "Q4 planning", title: "Q4 kickoff meeting", assigneeName: "Alex, Sam, Jordan", ownerNames: ["Alex", "Sam", "Jordan"], createdByName: "Alex", status: "not_started", due: addDays(TODAY, 5), related: "All hands", notes: "The whole team presents Q4 plans.", nextStep: "Send the agenda", milestone: true },
-      { week: week, project: "Client onboarding", title: "Schedule the kickoff call", assigneeName: "Jordan", createdByName: "Sam", status: "not_started", due: addDays(TODAY, 2), related: "Example client", notes: "" }
+      { week: last, project: "Home", title: "Order new curtains", assigneeName: "Alex", createdByName: "Alex", status: "done", due: addDays(last, 1), related: "", notes: "" },
+      { week: last, project: "Fitness", title: "Try the new spin class", assigneeName: "Sam", createdByName: "Alex", status: "in_progress", due: "", related: "Gym", notes: "Booked a trial pass." },
+      { week: last, project: "Family", title: "Plan the weekend trip", assigneeName: "Jordan", createdByName: "Alex", status: "waiting", due: addDays(last, 4), related: "", notes: "Waiting to hear who can come." },
+      { week: week, project: "Groceries", title: "Weekly grocery run", assigneeName: "Alex", createdByName: "Alex", status: "in_progress", due: addDays(TODAY, 3), related: "Farmers market", notes: "", nextStep: "Add oat milk to the list", highlights: hl(week, "Meal plan for the week is done.") },
+      { week: week, project: "Fitness", title: "Book yoga classes for the month", assigneeName: "Sam, Alex", ownerNames: ["Sam", "Alex"], createdByName: "Alex", status: "not_started", due: "", related: "", notes: "No date yet on purpose.", nextStep: "Compare the class times" },
+      { week: week, project: "Kids", title: "Buy new ballet shoes", assigneeName: "Jordan", createdByName: "Sam", status: "done", due: addDays(TODAY, -1), related: "Dance shop", notes: "", highlights: hl(week, "Found the right size.") },
+      { week: week, project: "Home", title: "Fix the leaky faucet", assigneeName: "Sam", createdByName: "Jordan", status: "in_progress", due: addDays(TODAY, 4), related: "Hardware store", notes: "", nextStep: "Pick up a new washer", highlights: hl(week, "Found what's causing the drip.") },
+      { week: week, project: "Kids", title: "Ballet recital", assigneeName: "Alex, Sam, Jordan", ownerNames: ["Alex", "Sam", "Jordan"], createdByName: "Alex", status: "not_started", due: addDays(TODAY, 5), related: "School hall", notes: "The whole family is going.", nextStep: "Buy flowers", milestone: true },
+      { week: week, project: "Errands", title: "Pick up the dry cleaning", assigneeName: "Jordan", createdByName: "Sam", status: "not_started", due: addDays(TODAY, 2), related: "", notes: "" }
     ].map(function (t, i) {
       return Object.assign(t, { id: "sample-" + i, updated: Date.now() });
     });
@@ -1427,12 +1427,12 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function hl(week, text) { var o = {}; o[week] = text; return o; }
   function sampleNotes(week) {
     var n = {};
-    n[week + "~sample-alex"] = { week: week, owner: "sample-alex", name: "Alex", progress: "Budget draft is on track. The venue is still open.", updated: Date.now() };
-    n[week + "~sample-sam"] = { week: week, owner: "sample-sam", name: "Sam", progress: "Homepage feedback is in; the menu fix is next.", updated: Date.now() };
+    n[week + "~sample-alex"] = { week: week, owner: "sample-alex", name: "Alex", progress: "Groceries are on track. The weekend trip is still open.", updated: Date.now() };
+    n[week + "~sample-sam"] = { week: week, owner: "sample-sam", name: "Sam", progress: "Ballet shoes are sorted; the faucet is next.", updated: Date.now() };
     n[week + "~key-milestones"] = { week: week, kind: "key-milestones", updated: Date.now(), items: [
-      { id: "km1", text: "Q4 budget draft shared with finance", done: true, date: "", project: "Q4 planning" },
-      { id: "km2", text: "Pricing page relaunched", done: true, date: addDays(TODAY, -1), project: "Website refresh" },
-      { id: "km3", text: "Kickoff agenda sent to the whole team", done: false, date: addDays(TODAY, 4), project: "Q4 planning" }
+      { id: "km1", text: "Meal plan for the week is done", done: true, date: "", project: "Groceries" },
+      { id: "km2", text: "Ballet shoes bought before the recital", done: true, date: addDays(TODAY, -1), project: "Kids" },
+      { id: "km3", text: "Three yoga classes this week", done: false, date: addDays(TODAY, 4), project: "Fitness" }
     ] };
     return n;
   }
@@ -1536,7 +1536,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var code = err && err.code;
     if (code === "invalid_argument" || code === "not_granted") {
       state.readOnly = true;
-      toast("You can view this planner but not change it. Ask the owner for Contributor access.");
+      toast("You can view this planner but not change it. Ask for Contributor access to make changes.");
       render();
     } else if (code === "quota_exceeded") {
       toast("The planner is full. Delete some old tasks, then try again.");
@@ -1567,7 +1567,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (store.mode === "db") {
       bar.classList.remove("local");
       $("modeText").textContent = state.readOnly
-        ? "You can view this plan. Ask the owner for edit access to add your own tasks."
+        ? "You can view this plan. Ask for edit access to add your own tasks."
         : "Shared and saved automatically. New tasks are added under your name.";
       render();
     } else {
@@ -1621,7 +1621,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     renderNextMilestone(state.tasks.filter(projectFilter));
     var c = counts(list);
     var total = list.length;
-    $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Owned by me · " : state.who === "added" ? "Created by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
+    $("ovTotal").textContent = (state.person !== "all" ? personName(state.person) + " · " : state.who === "mine" ? "Mine · " : state.who === "added" ? "Created by me · " : "Everyone · ") + total + (total === 1 ? " task" : " tasks");
     [["Done", "done"], ["Prog", "in_progress"], ["Wait", "waiting"], ["Todo", "not_started"]].forEach(function (p) {
       $("n" + p[0]).textContent = c[p[1]];
       $("b" + p[0]).style.width = total ? (c[p[1]] / total * 100) + "%" : "0";
@@ -1650,7 +1650,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var keys = peopleKeys(all);
     box.replaceChildren();
     box.hidden = !keys.length;
-    if (keys.length) box.appendChild(el("div", { class: "people-head", text: "By owner" }));
+    if (keys.length) box.appendChild(el("div", { class: "people-head", text: "By person" }));
     keys.forEach(function (k) {
       var mine = all.filter(function (t) { return ownsKey(t, k); });
       var c = counts(mine), n = mine.length || 1;
@@ -1660,7 +1660,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         el("i", { class: "w", style: "width:" + (c.waiting / n * 100) + "%" }),
         el("i", { class: "n", style: "width:" + (c.not_started / n * 100) + "%" })
       ]);
-      var btn = el("button", { type: "button", class: "prow", "aria-pressed": String(state.person === k), title: "Show only tasks owned by " + personName(k) }, [
+      var btn = el("button", { type: "button", class: "prow", "aria-pressed": String(state.person === k), title: "Show only tasks for " + personName(k) }, [
         personChip(k), bar,
         el("span", { class: "cnt mono", text: c.done + " done · " + c.in_progress + " in progress · " + c.waiting + " waiting · " + c.not_started + " not started" })
       ]);
@@ -1676,11 +1676,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function renderViewControls() {
     Array.prototype.forEach.call($("viewSeg").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === state.view)); });
     var timeline = state.view === "timeline";
-    $("listTitle").textContent = timeline ? "Project timeline" : "Tasks this week";
+    $("listTitle").textContent = timeline ? "Timeline" : "Tasks this week";
     var pick = $("projectPick");
     var names = projectsList();
     if (state.project !== "all" && names.indexOf(state.project) < 0) state.project = "all";
-    pick.replaceChildren(el("option", { value: "all", text: "All projects" }));
+    pick.replaceChildren(el("option", { value: "all", text: "All categories" }));
     names.forEach(function (n) { pick.appendChild(el("option", { value: n, text: n })); });
     pick.value = state.project;
     var pick2 = $("projectPick2");
@@ -1702,7 +1702,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     box.hidden = !next;
     if (!next) return;
     var d = parseYmd(next.due);
-    box.append(el("span", { text: "Next milestone" }), el("strong", { text: "◆ " + next.title }),
+    box.append(el("span", { text: "Next big day" }), el("strong", { text: "◆ " + next.title }),
       el("span", { class: "hint", text: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()] + " " + shortDate(d) }),
       el("span", { class: "when", text: countdownText(daysFromToday(next.due)) }));
   }
@@ -1777,7 +1777,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (timeline) shown.sort(function (a, b) { return a.week < b.week ? -1 : a.week > b.week ? 1 : 0; });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : timeline ? "No tasks in this project yet." : (state.person !== "all" ? personName(state.person) + " doesn’t own any tasks this week." : state.who === "mine" ? "You don’t own any tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
+        el("div", { text: list.length ? "No tasks match this filter." : timeline ? "No tasks in this category yet." : (state.person !== "all" ? personName(state.person) + " has no tasks this week." : state.who === "mine" ? "You have no tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
         (!list.length && !timeline && state.person === "all" && state.who === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
           exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
         } }) : null
@@ -1799,7 +1799,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         store.putTask(Object.assign({}, t, { status: chk.checked ? "done" : "in_progress", updated: Date.now() })).catch(function () {});
       });
       var meta = el("div", { class: "t-meta" }, [
-        t.milestone ? el("span", { class: "ms", text: "◆ Milestone" }) : null,
+        t.milestone ? el("span", { class: "ms", text: "◆ Big day" }) : null,
         t.related ? el("span", { class: "tag", text: t.related }) : null,
         t.example ? el("span", { class: "tag example", text: "Example" }) : null
       ]);
@@ -1856,18 +1856,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function reportText(list, c) {
     var lines = [];
     var who = state.person === "all" ? "The" : personName(state.person) + "’s";
-    lines.push(who + " weekly report, " + weekRangeText(state.week));
+    lines.push(who + " weekly summary, " + weekRangeText(state.week));
     lines.push((state.person === "all" ? "Together: " : "") + "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started);
     var kms = visibleMilestones(state.week);
     if (kms.length) {
-      lines.push(""); lines.push("Key milestones:");
+      lines.push(""); lines.push("Goals for the week:");
       kms.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text + (m.date ? " (" + fmtDay(m.date) + ")" : "")); });
     }
     peopleKeys(list).forEach(function (k) {
       var mine = list.filter(function (t) { return ownsKey(t, k); });
       var pc = counts(mine);
       lines.push(""); lines.push("== " + personName(k) + " — Done " + pc.done + " · In progress " + pc.in_progress + " · Waiting " + pc.waiting + " · Not started " + pc.not_started);
-      notesForKey(state.week, k).forEach(function (note) { lines.push("Progress: " + note); });
+      notesForKey(state.week, k).forEach(function (note) { lines.push("Note: " + note); });
       [["done", "Done"], ["in_progress", "In progress"], ["waiting", "Waiting"], ["not_started", "Not started"]].forEach(function (g) {
         var items = sorted(mine.filter(function (t) { return t.status === g[0]; }));
         if (!items.length) return;
@@ -1983,9 +1983,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   // ---------- Report copy ----------
   $("btnCopyReport").addEventListener("click", function () {
     var text = $("reportOut").value;
-    function fallback() { var r = $("reportOut"); r.focus(); r.select(); toast("Report selected. Press Ctrl+C or ⌘C to copy."); }
+    function fallback() { var r = $("reportOut"); r.focus(); r.select(); toast("Summary selected. Press Ctrl+C or ⌘C to copy."); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () { toast("Weekly report copied."); }, fallback);
+      navigator.clipboard.writeText(text).then(function () { toast("Weekly summary copied."); }, fallback);
     } else fallback();
   });
 
@@ -2028,7 +2028,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         return dl.save({ filename: filename, data: text }).then(function () { toast("Exported " + filename + "."); }, function (e) {
           if (e && e.code === "declined") return;
           if (e && (e.code === "extension_not_enabled" || e.code === "rejected_extension")) { toast("This file type can’t be saved here. Try PDF or CSV instead."); return; }
-          toast("Export isn't available here. Copy the weekly report instead.");
+          toast("Export isn't available here. Copy the weekly summary instead.");
         });
       }
       var url = URL.createObjectURL(new Blob([text], { type: mime }));
@@ -2064,7 +2064,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       var editing = state.sumEdit === t.id && !state.readOnly;
       var tr = el("tr", { class: editing ? "ts-editing" : "" });
       var c1 = el("td", null, [
-        el("div", { class: "ts-proj", text: t.project || "No project" }),
+        el("div", { class: "ts-proj", text: t.project || "No category" }),
         el("div", { class: "ts-title", text: (t.milestone ? "◆ " : "") + t.title }),
         el("div", { class: "ts-due", text: t.due ? fmtDay(t.due) : "No date" })
       ]);
@@ -2110,7 +2110,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     state.sumEdit = null;
     store.putTask(next).then(function () { toast("Updated “" + t.title + "”."); }, function () {});
   }
-  // ---------- Key milestones (entered by people) ----------
+  // ---------- Goals for the week (entered by people) ----------
   function msKey(week) { return week + "~key-milestones"; }
   function keyMilestones(week) { var d = state.weeks[msKey(week)]; return d && Array.isArray(d.items) ? d.items : []; }
   function visibleMilestones(week) {
@@ -2144,7 +2144,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var done = items.filter(function (m) { return m.done; }).length;
     $("msCount").textContent = items.length ? done + " of " + items.length + " achieved" : "";
     box.replaceChildren();
-    if (!items.length) box.appendChild(el("li", { class: "ms-empty", text: "No key milestones yet for this week. Add the few results that matter most." }));
+    if (!items.length) box.appendChild(el("li", { class: "ms-empty", text: "No goals yet for this week. Add the few things you most want to get done." }));
     items.forEach(function (m) {
       var li = el("li", { class: "kms" + (m.done ? " done" : "") });
       var chk = el("input", { type: "checkbox", "aria-label": "Achieved: " + m.text });
@@ -2152,13 +2152,13 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       chk.addEventListener("change", function () { updateMilestone(m.id, { done: chk.checked }); });
       var body;
       if (state.msEdit === m.id && !state.readOnly) {
-        var inp = el("input", { class: "edit", id: "msEditText", maxlength: "200", "aria-label": "Key milestone" });
+        var inp = el("input", { class: "edit", id: "msEditText", maxlength: "200", "aria-label": "Goal" });
         inp.value = keepText !== null ? keepText : m.text;
         var dt = el("input", { class: "edit", id: "msEditDate", type: "date", "aria-label": "Date" });
         dt.value = keepDate !== null ? keepDate : (m.date || "");
         var save = function () {
           var v = $("msEditText").value.trim();
-          if (!v) { toast("A key milestone needs some text."); return; }
+          if (!v) { toast("A goal needs some text."); return; }
           state.msEdit = null;
           updateMilestone(m.id, { text: v.slice(0, 200), date: $("msEditDate").value || "" });
         };
@@ -2194,7 +2194,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     sug.replaceChildren();
     sug.hidden = !cands.length || state.readOnly;
     if (!sug.hidden) {
-      sug.append("Suggested from milestone tasks:");
+      sug.append("Suggested from big days:");
       cands.forEach(function (t) {
         sug.appendChild(el("button", { type: "button", text: "+ " + t.title, onclick: function () { addMilestone(t.title, t.due); } }));
       });
@@ -2232,8 +2232,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       return { name: personName(k), key: k, counts: counts(mine), notes: notesForKey(state.week, k), tasks: rows };
     });
     var scope = state.project !== "all" ? state.project : "All projects";
-    var who = state.person !== "all" ? personName(state.person) : state.who === "mine" ? "Owned by me" : state.who === "added" ? "Created by me" : "Everyone";
-    return { title: "Weekly report", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people, milestones: visibleMilestones(state.week) };
+    var who = state.person !== "all" ? personName(state.person) : state.who === "mine" ? "Mine" : state.who === "added" ? "Created by me" : "Everyone";
+    return { title: "Weekly summary", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people, milestones: visibleMilestones(state.week) };
   }
   function dueText(t) { return t.due ? t.due.replace(/-/g, "/") : "No date"; }
   function taskText(t) { return (t.milestone ? "◆ " : "") + t.title; }
@@ -2242,9 +2242,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function countsLine(c) { return "Done " + c.done + " · In progress " + c.in_progress + " · Waiting " + c.waiting + " · Not started " + c.not_started; }
   function reportFileName(ext) {
     var slug = state.project !== "all" ? "-" + state.project.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
-    return "weekly-report-" + state.week + slug + "." + ext;
+    return "weekly-summary-" + state.week + slug + "." + ext;
   }
-  var HEAD = ["Project", "Task", "With", "Status", "Due date", "Highlights of the week", "Next step"];
+  var HEAD = ["Category", "Task", "With", "Status", "Due date", "Highlights of the week", "Next step"];
   function rowCells(t, k) { return [t.project || "", taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), highlightOf(t) || "No update this week", t.nextStep || ""]; }
 
   function makeDocx(m) {
@@ -2262,7 +2262,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       new D.Paragraph({ spacing: { before: 200, after: 200 }, children: [new D.TextRun({ text: "Together: " + countsLine(m.counts) + " (" + m.total + " tasks)", bold: true })] })
     ];
     if (m.milestones.length) {
-      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: "Key milestones" })] }));
+      kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: "Goals for the week" })] }));
       m.milestones.forEach(function (km) {
         kids.push(new D.Paragraph({ children: [new D.TextRun({ text: (km.done ? "✓  " : "○  ") + km.text, bold: true }), new D.TextRun({ text: km.date ? "  ·  " + fmtDay(km.date) : "", color: "62678F" })] }));
       });
@@ -2270,7 +2270,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     m.people.forEach(function (p) {
       kids.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, children: [new D.TextRun({ text: p.name })] }));
       kids.push(new D.Paragraph({ children: [new D.TextRun({ text: countsLine(p.counts), color: "62678F" })] }));
-      p.notes.forEach(function (n) { kids.push(new D.Paragraph({ children: [new D.TextRun({ text: "Progress: ", bold: true }), new D.TextRun({ text: n })] })); });
+      p.notes.forEach(function (n) { kids.push(new D.Paragraph({ children: [new D.TextRun({ text: "Note: ", bold: true }), new D.TextRun({ text: n })] })); });
       kids.push(new D.Table({
         width: { size: 100, type: D.WidthType.PERCENTAGE },
         rows: [new D.TableRow({ tableHeader: true, children: HEAD.map(function (h) { return cell(h, true); }) })]
@@ -2296,7 +2296,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       s.addText(st[0], { x: x + 0.25, y: 3.5, w: 2.3, h: 0.5, fontSize: 16, color: ink, fontFace: font });
     });
     var owners = m.milestones.length
-      ? ["Key milestones"].concat(m.milestones.map(function (km) { return (km.done ? "✓ " : "○ ") + km.text + (km.date ? "  ·  " + fmtDay(km.date) : ""); }))
+      ? ["Goals for the week"].concat(m.milestones.map(function (km) { return (km.done ? "✓ " : "○ ") + km.text + (km.date ? "  ·  " + fmtDay(km.date) : ""); }))
       : m.people.map(function (p) { return p.name + ": " + countsLine(p.counts); });
     if (owners.length) s.addText(owners.join("\n"), { x: 0.6, y: 4.7, w: 12, h: 2.4, fontSize: 13, color: muted, fontFace: font, valign: "top" });
     m.people.forEach(function (p) {
@@ -2304,7 +2304,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       sl.addText(p.name, { x: 0.5, y: 0.35, w: 9, h: 0.7, fontSize: 26, bold: true, color: ink, fontFace: font });
       sl.addText(countsLine(p.counts), { x: 0.5, y: 0.95, w: 12, h: 0.4, fontSize: 13, color: muted, fontFace: font });
       var y = 1.45;
-      if (p.notes.length) { sl.addText("Progress: " + p.notes.join(" "), { x: 0.5, y: y, w: 12.3, h: 0.5, fontSize: 12, color: ink, fontFace: font, italic: true }); y += 0.55; }
+      if (p.notes.length) { sl.addText("Note: " + p.notes.join(" "), { x: 0.5, y: y, w: 12.3, h: 0.5, fontSize: 12, color: ink, fontFace: font, italic: true }); y += 0.55; }
       var rows = [HEAD.map(function (h) { return { text: h, options: { bold: true, fill: { color: "EDEBFB" }, color: ink } }; })]
         .concat(p.tasks.map(function (t) { return rowCells(t, p.key).map(function (v) { return { text: v, options: { color: ink } }; }); }));
       sl.addTable(rows, { x: 0.5, y: y, w: 12.3, colW: [1.5, 2.9, 1.4, 1.1, 1.1, 2.5, 1.8], fontSize: 11, fontFace: font, border: { type: "solid", pt: 0.5, color: "DADCF0" }, valign: "top", autoPage: true, autoPageRepeatHeader: true, autoPageSlideStartY: 0.5 });
@@ -2326,7 +2326,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var y = 118;
     if (m.milestones.length) {
       doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(31, 35, 84);
-      doc.text("Key milestones", 40, y); y += 18;
+      doc.text("Goals for the week", 40, y); y += 18;
       doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
       m.milestones.forEach(function (km) {
         var lines = doc.splitTextToSize(plain((km.done ? "[x] " : "[ ] ") + km.text + (km.date ? "  -  " + fmtDay(km.date) : "")), W - 80);
@@ -2342,7 +2342,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       doc.text(plain(countsLine(p.counts)), 40, y + 15);
       y += 22;
       p.notes.forEach(function (n) {
-        var lines = doc.splitTextToSize(plain("Progress: " + n), W - 80);
+        var lines = doc.splitTextToSize(plain("Note: " + n), W - 80);
         doc.setTextColor(31, 35, 84); doc.text(lines, 40, y + 10); y += lines.length * 12 + 4;
       });
       doc.autoTable({
@@ -2362,8 +2362,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   var NAMES = { docx: "Word", pptx: "PowerPoint", pdf: "PDF" };
   function exportReport(kind) {
     var m = reportModel();
-    if (!m.total) { toast("There are no tasks in this week’s report to export."); return; }
-    toast("Preparing the " + NAMES[kind] + " report…");
+    if (!m.total) { toast("There are no tasks in this week’s summary to export."); return; }
+    toast("Preparing the " + NAMES[kind] + " summary…");
     loadLibs(kind).then(function () { return MAKERS[kind](m); }).then(function (blob) {
       offerFile(reportFileName(kind), blob, MIME[kind]);
     }, function () { toast("The " + NAMES[kind] + " export couldn’t load. Check your connection and try again."); });
@@ -2380,7 +2380,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     e.preventDefault();
     if (state.readOnly) return;
     var text = $("msText").value, date = $("msDate").value;
-    if (!text.trim()) { toast("Type a key milestone first."); $("msText").focus(); return; }
+    if (!text.trim()) { toast("Type a goal first."); $("msText").focus(); return; }
     addMilestone(text, date).then(function (ok) { if (ok) { $("msText").value = ""; $("msDate").value = ""; $("msText").focus(); } });
   });
   $("btnImport").addEventListener("click", function () { $("importFile").click(); });
@@ -2423,8 +2423,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       if (b.getAttribute("data-go") === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     var SECTIONS = {
-      planner: ["Plan Your Week", "Add tasks, set owners and dates, and plan the week."],
-      summary: ["Weekly Summary", "Status, key milestones and highlights for the selected week."]
+      planner: ["Plan Your Week", "Add grocery runs, ballet, yoga class and more, with dates."],
+      summary: ["Weekly Summary", "What’s done, what’s next and the highlights of your week."]
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
     $("viewIntro").hidden = tab !== "intro";
