@@ -1082,7 +1082,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
         <span class="nt-head">Weekly Summary</span>
-        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">What’s done, what’s next and the highlights of your week.</span></span>
+        <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">What’s done, highlights of your week, and what’s next.</span></span>
       </button>
     </div>
   </nav>
@@ -2646,7 +2646,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     });
     var SECTIONS = {
       planner: ["Plan Your Week", "Add grocery shopping, errands, activities and more, with dates."],
-      summary: ["Weekly Summary", "What’s done, what’s next and the highlights of your week."]
+      summary: ["Weekly Summary", "What’s done, highlights of your week, and what’s next."]
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
     $("viewIntro").hidden = tab !== "intro";
