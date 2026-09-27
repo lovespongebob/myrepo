@@ -48,6 +48,8 @@ h2 { font-size: clamp(22px, 3.2vw, 28px); font-weight: 600; line-height: 1.2; }
 p { margin: 0; max-width: 65ch; }
 .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
 section, header { display: grid; gap: 20px; }
+header { gap: 12px; }
+.byline { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--muted); }
 
 /* The repeated routine */
 .routine { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -85,6 +87,7 @@ section, header { display: grid; gap: 20px; }
 <main class="page">
   <header>
     <h1>The Weekly Planner Overview</h1>
+    <p class="byline">by Weiwei Hu</p>
   </header>
 
   <section class="story" aria-label="Why I made it">
