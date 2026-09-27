@@ -41,3 +41,12 @@ To plan together, share the artifact from its Share menu. People in your claude.
 
 - `sample.html` is a public sample of the shared planner, filled with fictional projects and tasks dated from the current week. Each visitor's changes stay in their own browser, and "Reset the sample" restores the starting data. `sample-index.html` is its offline copy.
 - `overview.html` is a one-page overview by Weiwei Hu, with an "Explore the sample" button that opens the public sample.
+
+## Shareable standalone files
+
+`dist/` holds two single-file versions anyone can open in a browser, with no claude.ai account:
+
+- `dist/weekly-planner.html` is the full planner. It saves to the browser it is opened in; Export keeps a copy or moves a plan to another device.
+- `dist/weekly-planner-sample.html` is the same planner filled with example data, opening on the tiles page.
+
+Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they need an internet connection. Everything else works offline.

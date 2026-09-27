@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 </head>
 <body>
-<title>Weekly Planner Sample</title>
+<title>The Weekly Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap">
@@ -949,7 +949,6 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
 <div class="wrap">
   <nav class="tiles-nav" id="homeView" aria-label="Sections">
     <header class="home-cover">
-      <div class="eyebrow">Sample · example data only</div>
       <h1><span class="h-bold">The Weekly Planner</span></h1>
       <p class="home-value">Plan together, spend less time chasing updates, and have your weekly report ready. All in one shared place.</p>
       <p class="home-by">Choose where to start below.</p>
@@ -1021,7 +1020,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
       <button class="iconbtn" id="nextWeek" aria-label="Next week">›</button>
     </nav>
   </header>
-  <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button><button class="linkbtn" id="resetSample">Reset the sample</button></div>
+  <div class="modebar" id="modebar"><span class="dot"></span><span id="modeText">Connecting…</span><button class="linkbtn" id="thisWeek" hidden>Back to this week</button></div>
 
   <!-- 1. Planning -->
   <section class="block" id="paneplanner" aria-labelledby="secPlan">
@@ -1263,9 +1262,9 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
     done: { en: "Done" }
   };
   var ORDER = ["not_started", "in_progress", "waiting", "done"];
-  var LS_TASKS = "samplePlanner.tasks";
-  var LS_WEEKS = "samplePlanner.notes";
-  var LS_PREFS = "samplePlanner.prefs";
+  var LS_TASKS = "teamPlanner.tasks";
+  var LS_WEEKS = "teamPlanner.notes";
+  var LS_PREFS = "teamPlanner.prefs";
 
   function lsGet(key, fallback) {
     try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
@@ -1312,7 +1311,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
     sortDir: prefs.sortDir === "desc" ? "desc" : "asc",
     readOnly: false,
     me: "local",       // viewer's id in the shared planner; "local" when offline
-    myName: lsGet("samplePlanner.myName", "") || "",   // the name this person types in "Created by"
+    myName: lsGet("teamPlanner.myName", "") || "",   // the name this person types in "Created by"
     nameCase: {},      // lower-cased name -> name as first written
     person: "all",     // assignee filter from the overview: "all" or a person key
     who: "all",        // "all", "mine" (owned by me) or "added" (created by me)
@@ -1397,34 +1396,16 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
     toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2600);
   }
 
-  // Fictional sample data, dated relative to the current week so it always looks fresh.
   function exampleTasks(week) {
-    var last = addDays(week, -7);
     return [
-      { week: last, project: "Q4 planning", title: "Send the budget template to team leads", assigneeName: "Alex", createdByName: "Alex", status: "done", due: addDays(last, 1), related: "", notes: "" },
-      { week: last, project: "Website refresh", title: "Collect feedback on the new homepage", assigneeName: "Sam", createdByName: "Alex", status: "in_progress", due: "", related: "Design review", notes: "Half the replies are in." },
-      { week: last, project: "Q4 planning", title: "Book the offsite venue", assigneeName: "Jordan", createdByName: "Alex", status: "waiting", due: addDays(last, 4), related: "", notes: "Waiting on the final headcount." },
-      { week: week, project: "Q4 planning", title: "Draft the Q4 budget summary", assigneeName: "Alex", createdByName: "Alex", status: "in_progress", due: addDays(TODAY, 3), related: "Leadership meeting", notes: "", nextStep: "Collect the last two team inputs", highlights: hl(week, "First draft shared with finance.") },
-      { week: week, project: "Q4 planning", title: "Review the hiring plan", assigneeName: "Sam, Alex", ownerNames: ["Sam", "Alex"], createdByName: "Alex", status: "not_started", due: "", related: "", notes: "No date yet on purpose.", nextStep: "Agree on a review date" },
-      { week: week, project: "Website refresh", title: "Update the pricing page copy", assigneeName: "Jordan", createdByName: "Sam", status: "done", due: addDays(TODAY, -1), related: "", notes: "", highlights: hl(week, "New copy is live.") },
-      { week: week, project: "Website refresh", title: "Fix the mobile menu", assigneeName: "Sam", createdByName: "Jordan", status: "in_progress", due: addDays(TODAY, 4), related: "Bug list", notes: "", nextStep: "Test on small screens", highlights: hl(week, "Found the cause: the menu opens under the header.") },
-      { week: week, project: "Q4 planning", title: "Q4 kickoff meeting", assigneeName: "Alex, Sam, Jordan", ownerNames: ["Alex", "Sam", "Jordan"], createdByName: "Alex", status: "not_started", due: addDays(TODAY, 5), related: "All hands", notes: "The whole team presents Q4 plans.", nextStep: "Send the agenda", milestone: true },
-      { week: week, project: "Client onboarding", title: "Schedule the kickoff call", assigneeName: "Jordan", createdByName: "Sam", status: "not_started", due: addDays(TODAY, 2), related: "Example client", notes: "" }
+      { owner: state.me, assigneeName: myName(), createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task A", status: "not_started", due: "", related: "Example client", notes: "This is example data. No due date on purpose." },
+      { owner: state.me, assigneeName: myName(), createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task B", status: "in_progress", due: addDays(week, 2), related: "Example client", notes: "Mark this as done to test the weekly report." },
+      { assigneeName: "Alex (example)", createdBy: state.me, createdByName: myName(), project: "Team operations", title: "Example task C", status: "in_progress", due: addDays(week, 4), related: "Team sync", notes: "" },
+      { assigneeName: "Alex (example)", createdBy: state.me, createdByName: myName(), project: "Team operations", title: "Example task D", status: "done", due: addDays(week, 1), related: "Team sync", notes: "Already finished." },
+      { assigneeName: "Sam (example)", createdBy: state.me, createdByName: myName(), project: "Example project", title: "Example task E", status: "not_started", due: addDays(week, 3), related: "", notes: "" }
     ].map(function (t, i) {
-      return Object.assign(t, { id: "sample-" + i, updated: Date.now() });
+      return Object.assign(t, { id: "example-" + week + "-" + i, week: week, example: true, updated: Date.now() });
     });
-  }
-  function hl(week, text) { var o = {}; o[week] = text; return o; }
-  function sampleNotes(week) {
-    var n = {};
-    n[week + "~sample-alex"] = { week: week, owner: "sample-alex", name: "Alex", progress: "Budget draft is on track. The venue is still open.", updated: Date.now() };
-    n[week + "~sample-sam"] = { week: week, owner: "sample-sam", name: "Sam", progress: "Homepage feedback is in; the menu fix is next.", updated: Date.now() };
-    n[week + "~key-milestones"] = { week: week, kind: "key-milestones", updated: Date.now(), items: [
-      { id: "km1", text: "Q4 budget draft shared with finance", done: true, date: "", project: "Q4 planning" },
-      { id: "km2", text: "Pricing page relaunched", done: true, date: addDays(TODAY, -1), project: "Website refresh" },
-      { id: "km3", text: "Kickoff agenda sent to the whole team", done: false, date: addDays(TODAY, 4), project: "Q4 planning" }
-    ] };
-    return n;
   }
 
   function cleanTask(raw) {
@@ -1469,7 +1450,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
       start: function () {
         var saved = lsGet(LS_TASKS, null);
         state.tasks = Array.isArray(saved) ? saved.map(cleanTask).filter(Boolean) : exampleTasks(THIS_WEEK);
-        state.weeks = lsGet(LS_WEEKS, null) || sampleNotes(THIS_WEEK);
+        state.weeks = lsGet(LS_WEEKS, {}) || {};
         render();
       },
       putTask: function (t) {
@@ -1537,7 +1518,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
   }
 
   function initStore() {
-    var c = null; // the sample always runs in the visitor's own browser
+    var c = window.claude;
     if (!c || typeof c.use !== "function") { store = localStore(); store.start(); setMode(); return; }
     Promise.all([c.use("db"), c.use("user")]).then(function (caps) {
       var db = caps[0];
@@ -1562,7 +1543,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
       render();
     } else {
       bar.classList.add("local");
-      $("modeText").textContent = "Sample planner with example data. Your changes stay in this browser only.";
+      $("modeText").textContent = "Saved in this browser only. Use Export to keep a copy or move your plan to another device.";
     }
   }
 
@@ -1911,7 +1892,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
     var creator = $("f-creator").value.trim();
     if (!creator) { toast("Add your name in Created by."); $("f-creator").focus(); return; }
     creator = state.nameCase[norm(creator)] || creator;
-    if (!existing) { state.myName = creator; lsSet("samplePlanner.myName", creator); }
+    if (!existing) { state.myName = creator; lsSet("teamPlanner.myName", creator); }
     var who = resolveAssignee($("f-person").value, existing ? myName() : creator);
     var t = cleanTask({
       owner: who.owner || "",
@@ -2030,10 +2011,10 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
   }
   $("btnExport").addEventListener("click", function () {
     var payload = { app: "the-weekly-planner", version: 1, exportedAt: new Date().toISOString(), tasks: state.tasks, weeks: state.weeks };
-    offerFile("weekly-planner-sample-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
+    offerFile("the-weekly-planner-" + TODAY + ".json", JSON.stringify(payload, null, 2), "application/json");
   });
   $("btnCsv").addEventListener("click", function () {
-    offerFile("weekly-planner-sample-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
+    offerFile("the-weekly-planner-" + TODAY + ".csv", toCsv(sorted(state.tasks)), "text/csv");
   });
 
 
@@ -2397,11 +2378,6 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
     e.target.value = "";
   });
 
-  $("resetSample").addEventListener("click", function () {
-    try { localStorage.removeItem(LS_TASKS); localStorage.removeItem(LS_WEEKS); } catch (e) { /* storage unavailable */ }
-    state.week = THIS_WEEK; state.person = "all"; state.who = "all"; clearForm();
-    store.start(); toast("The sample is back to its starting data.");
-  });
   $("f-creator").value = myName();
   // ---------- Page switch ----------
   function setTab(tab) {

@@ -1330,7 +1330,7 @@ body { background: linear-gradient(180deg, #F4F5F5 0, #DDE1E1 360px) fixed, #DDE
   function myName() { return state.myName || ""; }
   function ownerName(t) { return t.assigneeName || t.sampleOwner || (t.owner && t.owner === state.me ? myName() : ""); }
   function createdName(t) { return t.createdByName || ""; }
-  // A task can have several owners, typed as "Weiwei, Kelsey, Emma" (slashes and & work too).
+  // A task can have several owners, typed as "Alex, Sam, Jordan" (slashes and & work too).
   function splitNames(v) { return String(v || "").split(/\s*[,\/&;]\s*/).map(function (x) { return x.trim(); }).filter(Boolean); }
   function ownerNamesOf(t) {
     if (Array.isArray(t.ownerNames) && t.ownerNames.length) return t.ownerNames;
