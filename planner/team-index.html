@@ -1058,6 +1058,13 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   .tk-arrow svg { width: 18px; height: 18px; }
 }
 @media (max-width: 980px) { .tk-arrow { display: none; } }
+
+/* Centre the arrow on the takeaways / what's next block */
+@media (min-width: 981px) {
+  #panesummary .grid-summary > .panel { display: flex; flex-direction: column; gap: 16px; }
+  #panesummary .grid-summary > .panel > .takeaways { flex: 1; align-content: start; }
+  .tk-arrow { top: 50%; transform: translateY(-50%); }
+}
 </style>
 
 <div class="wrap">
