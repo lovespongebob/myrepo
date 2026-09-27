@@ -1061,6 +1061,25 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .takeaways .hint { color: var(--muted); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .takeaways { background: linear-gradient(180deg, #232B2D 0%, #1A2123 100%); border-color: #34403F; } }
 :root[data-theme="dark"] .takeaways { background: linear-gradient(180deg, #232B2D 0%, #1A2123 100%); border-color: #34403F; }
+
+/* Members-only sections */
+.navtile .nt-lock { display: none; }
+.navtile.locked .nt-lock { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-family: var(--mono, monospace); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.navtile.locked .nt-head { display: flex; align-items: center; }
+.navtile.locked .nt-lock svg { width: 13px; height: 13px; }
+.navtile.locked .nt-body { opacity: .55; }
+.crumbs button.locked::after { content: " \1F512"; font-size: .8em; }
+.gate { max-width: 640px; margin: 24px auto 0; background: #fff; border: 1px solid #CDD2D2; border-top: 6px solid #A3DB5A; border-radius: 6px; padding: 36px 32px; display: grid; gap: 14px; justify-items: start; color: #1D2629; }
+.gate h2 { margin: 0; font-family: "Outfit", system-ui, sans-serif; font-size: clamp(22px, 3.4vw, 28px); font-weight: 600; letter-spacing: -.01em; }
+.gate p { margin: 0; font-size: 16px; line-height: 1.6; color: #3d4749; max-width: 56ch; }
+.gate .gate-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.gate a, .gate button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font: 600 15px/1 "DM Sans", system-ui, sans-serif; text-decoration: none; cursor: pointer; }
+.gate a { background: #1D2629; color: #fff; border: 0; }
+.gate button { background: transparent; color: #1D2629; border: 1px solid #1D2629; }
+.checking #viewPlanner { visibility: hidden; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .gate { background: #232d30; color: #eef1f1; border-color: #3a4548; } :root:not([data-theme="light"]) .gate p { color: #c3cbcc; } :root:not([data-theme="light"]) .gate a { background: #A3DB5A; color: #1D2629; } :root:not([data-theme="light"]) .gate button { color: #eef1f1; border-color: #eef1f1; } }
+:root[data-theme="dark"] .gate { background: #232d30; color: #eef1f1; border-color: #3a4548; }
+
 </style>
 
 <div class="wrap">
@@ -1077,11 +1096,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="1.6" fill="currentColor"/><path d="M24 4v4M24 40v4"/></svg><span class="nt-desc">See how the planner works and what you can do with it.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="planner" aria-pressed="true">
-        <span class="nt-head">Plan Your Week</span>
+        <span class="nt-head">Plan Your Week<span class="nt-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Members only</span></span>
         <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="3"/><path d="M7 18h34M16 6v8M32 6v8"/><path d="m15 28 4 4 8-9"/><path d="M31 30h4"/></svg><span class="nt-desc">Add shopping, errands, classes, and other activities with dates.</span></span>
       </button>
       <button type="button" class="navtile" data-tab="summary" aria-pressed="false">
-        <span class="nt-head">Weekly Summary</span>
+        <span class="nt-head">Weekly Summary<span class="nt-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Members only</span></span>
         <span class="nt-body"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="28" width="6" height="12" rx="1"/><rect x="19" y="21" width="6" height="19" rx="1"/><rect x="29" y="14" width="6" height="26" rx="1"/><path d="m9 18 10-7 8 5 12-9"/><path d="M34 7h5v5"/></svg><span class="nt-desc">See what you accomplished, what stood out, and what’s next.</span></span>
       </button>
     </div>
@@ -1095,6 +1114,14 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <button type="button" data-go="summary">Weekly Summary</button>
     </div>
   </div>
+
+  <section id="viewLocked" class="gate" hidden aria-labelledby="gateTitle">
+    <h2 id="gateTitle">This section is for invited members</h2>
+    <p id="gateText">Plan Your Week and Weekly Summary hold personal plans, so they open only for people who have been invited.</p>
+    <div class="gate-actions">
+      <button type="button" data-go="intro">Read the overview</button>
+    </div>
+  </section>
 
   <div id="viewIntro" class="intro" hidden>
     <header>
@@ -1446,6 +1473,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     emptyPos: prefs.emptyPos === "first" ? "first" : "last",
     sortDir: prefs.sortDir === "desc" ? "desc" : "asc",
     readOnly: false,
+    locked: false,
     me: "local",       // viewer's id in the shared planner; "local" when offline
     myName: lsGet("samplePlanner.myName", "") || "",   // the name this person types in "Created by"
     nameCase: {},      // lower-cased name -> name as first written
@@ -2635,7 +2663,17 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   });
   $("f-creator").value = myName();
   // ---------- Page switch ----------
+  var curTab = "home";
+  function isLocked(t) { return state.locked && (t === "planner" || t === "summary"); }
+  function applyLock() {
+    document.body.classList.remove("checking");
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tab="planner"],[data-tab="summary"],.crumbs [data-go="planner"],.crumbs [data-go="summary"]'), function (b) {
+      b.classList.toggle("locked", !!state.locked);
+    });
+    setTab(curTab);
+  }
   function setTab(tab) {
+    curTab = tab;
     var home = tab === "home";
     document.querySelector(".wrap").classList.toggle("is-home", home);
     document.querySelector(".wrap").classList.toggle("is-intro", tab === "intro");
@@ -2650,7 +2688,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     };
     if (SECTIONS[tab]) { $("secTitle").textContent = SECTIONS[tab][0]; $("secDesc").textContent = SECTIONS[tab][1]; }
     $("viewIntro").hidden = tab !== "intro";
-    $("viewPlanner").hidden = tab !== "planner" && tab !== "summary";
+    var locked = isLocked(tab);
+    $("viewLocked").hidden = !locked;
+    $("viewPlanner").hidden = locked || (tab !== "planner" && tab !== "summary");
     $("paneplanner").hidden = tab !== "planner";
     $("panesummary").hidden = tab !== "summary";
     if (tab === "summary") renderTakeaways();
@@ -2665,10 +2705,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var go = e.target.closest("[data-go]"); if (!go) return;
     setTab(go.getAttribute("data-go")); window.scrollTo(0, 0);
   });
+  document.body.classList.add("checking");
   setTab(/^#(home|intro|planner|summary)$/.test(location.hash) ? location.hash.slice(1) : "home");
 
   render();
   initStore();
+  // Plan Your Week and Weekly Summary open only for the owner and invited Editors.
+  (function checkAccess() {
+    var c = window.claude;
+    function done(ok) { if (!ok) state.locked = true; applyLock(); }
+    if (!c || typeof c.use !== "function") { done(false); return; }
+    c.use("user").then(function (u) { return u ? u.canEdit() : false; }).then(function (ok) { done(ok === true); }, function () { done(false); });
+  })();
 })();
 </script>
 

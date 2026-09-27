@@ -51,3 +51,5 @@ To plan together, share the artifact from its Share menu. The planner's data nee
 - `dist/weekly-planner-sample.html` is the same planner filled with example data, opening on the tiles page.
 
 Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they need an internet connection. Everything else works offline.
+
+**Sample access:** the sample follows the same rule as the shared planner. Plan Your Week and Weekly Summary open only for the owner and people invited as Editors; everyone else, signed in or not, sees only the home tiles and the Overview. The sample holds no real plans, so this lock is on the page itself (it asks claude.ai whether the viewer can edit).
