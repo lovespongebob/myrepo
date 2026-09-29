@@ -53,3 +53,11 @@ To plan together, share the artifact from its Share menu. The planner's data nee
 Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they need an internet connection. Everything else works offline.
 
 **Sample access:** the sample follows the same rule as the shared planner. Plan Your Week and Weekly Summary open only for the owner and people invited as Editors; everyone else, signed in or not, sees only the home tiles and the Overview. The sample holds no real plans, so this lock is on the page itself (it asks claude.ai whether the viewer can edit).
+
+**Weekly system (routines, Sunday reset, check-in, priority, protected time):**
+- *Weekly routines* (Plan Your Week, bottom): a list of regular weekly actions, starting from suggestions such as planning outfits and meals, light workouts, reading, a film with a short reflection, writing, a day in nature, a quick declutter, free time and a Sunday review. Routines that are on are added once to each new week (never to past weeks) in the Routines category, with an optional day. Actions done several times a week show a counter such as "1 of 3" with a + button. Unfinished routines are not carried over, since each week gets its own.
+- *Sunday reset*: a five-step checklist (review the week, add highlights and a check-in, carry over, set next week's goals, check next week's routines). Each step's Go button opens the right section and week. It opens by itself at the weekend and anytime from the "Sunday reset" link.
+- *Weekly check-in* (Weekly Summary): energy this week (1 to 5) and one thing learned, saved per person with the highlights.
+- *Priority*: an optional important/urgent choice on each task, shown as a tag, with a "By priority" order in the task list.
+- *Protected time*: a checkbox on tasks and routines for free time or a nature day, shown as a tag.
+- Key takeaways and What's next now also use energy, what was learned, routine progress, priorities and protected time (including a nudge when other plans crowd a protected day).
