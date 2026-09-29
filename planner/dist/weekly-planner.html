@@ -1559,7 +1559,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var id = /^[A-Za-z0-9_\-.~:@+]{1,120}$/.test(raw.id || "") ? raw.id : newId();
     var t = {
       id: id, week: week, title: title.slice(0, 300), status: status, due: due,
-      project: String(raw.project || "").trim().slice(0, 200),
+      project: canonCategory(String(raw.project || "").slice(0, 200)),
       related: String(raw.related || "").slice(0, 200), notes: String(raw.notes || "").slice(0, 4000),
       updated: Date.now()
     };
@@ -1723,7 +1723,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       if (state.who === "added") return t.createdBy === state.me || (!!myName() && norm(createdName(t)) === norm(myName()));
       return true;
     };
-    var projectFilter = function (t) { return state.project === "all" || (t.project || "") === state.project; };
+    var projectFilter = function (t) { return state.project === "all" || catKey(t.project) === catKey(state.project); };
     var list = all.filter(whoFilter).filter(projectFilter);
     renderViewControls();
     var tableList = state.view === "timeline"
@@ -1782,11 +1782,19 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       box.appendChild(btn);
     });
   }
-  function projectsList() {
-    var seen = {};
-    state.tasks.forEach(function (t) { if (t.project) seen[t.project] = true; });
-    return Object.keys(seen).sort();
+  // Categories: one list for the form, both filters and every tag. "Work" is always offered;
+  // spellings that differ only in capitals or spaces count as the same category.
+  function catKey(v) { return String(v || "").trim().replace(/\s+/g, " ").toLowerCase(); }
+  function categoryList() {
+    var m = { work: "Work" };
+    state.tasks.forEach(function (t) { var k = catKey(t.project); if (k && !m[k]) m[k] = String(t.project).trim().replace(/\s+/g, " "); });
+    return Object.keys(m).map(function (k) { return m[k]; }).sort(function (a, b) { return a.localeCompare(b); });
   }
+  function canonCategory(v) {
+    var k = catKey(v); if (!k) return "";
+    return categoryList().filter(function (n) { return catKey(n) === k; })[0] || String(v).trim().replace(/\s+/g, " ");
+  }
+  function projectsList() { return categoryList(); }
   function renderViewControls() {
     Array.prototype.forEach.call($("viewSeg").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === state.view)); });
     var timeline = state.view === "timeline";
@@ -1859,9 +1867,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   }
 
   function renderProjects() {
-    var names = { Work: true };   // always offered, even before any Work task exists
-    state.tasks.forEach(function (t) { if (t.project) names[t.project] = true; });
-    $("projectList").replaceChildren.apply($("projectList"), Object.keys(names).sort().map(function (n) { return el("option", { value: n }); }));
+    $("projectList").replaceChildren.apply($("projectList"), categoryList().map(function (n) { return el("option", { value: n }); }));
   }
 
   function renderCarry() {
@@ -1946,7 +1952,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       }
       tr.append(
         el("td", null, [chk]),
-        el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: t.project || "—" })]),
+        el("td", null, [el("div", { class: "t-project" + (t.project ? "" : " none"), text: canonCategory(t.project) || "—" })]),
         el("td", null, [el("div", { class: "t-title", text: t.title }), t.notes ? el("div", { class: "t-notes hint", text: t.notes }) : null, t.nextStep ? el("div", { class: "t-notes hint", text: "Next: " + t.nextStep }) : null, meta,
           createdName(t) ? el("div", { class: "t-added", text: "Created by " + createdName(t) }) : null]),
         el("td", null, [el("div", { class: "owners" }, personKeys(t).map(personChip))]),
@@ -1965,7 +1971,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (t.related) bits.push(t.related);
     if (t.due) bits.push("due " + t.due);
     if (createdName(t) && personKeys(t).indexOf(keyForName(createdName(t))) < 0) bits.push("created by " + createdName(t));
-    return "- " + (t.milestone ? "◆ " : "") + (t.project ? "[" + t.project + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (highlightOf(t) ? " — This week: " + highlightOf(t) : "") + (t.nextStep ? " — Next: " + t.nextStep : "") + (t.notes ? " — " + t.notes : "");
+    return "- " + (t.milestone ? "◆ " : "") + (t.project ? "[" + canonCategory(t.project) + "] " : "") + t.title + (bits.length ? " (" + bits.join(", ") + ")" : "") + (highlightOf(t) ? " — This week: " + highlightOf(t) : "") + (t.nextStep ? " — Next: " + t.nextStep : "") + (t.notes ? " — " + t.notes : "");
   }
   function reportText(list, c) {
     var lines = [];
@@ -2179,7 +2185,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       var editing = state.sumEdit === t.id && !state.readOnly;
       var tr = el("tr", { class: editing ? "ts-editing" : "" });
       var c1 = el("td", null, [
-        el("div", { class: "ts-proj", text: t.project || "No category" }),
+        el("div", { class: "ts-proj", text: canonCategory(t.project) || "No category" }),
         el("div", { class: "ts-title", text: (t.milestone ? "◆ " : "") + t.title }),
         el("div", { class: "ts-due", text: t.due ? fmtDay(t.due) : "No date" })
       ]);
@@ -2323,7 +2329,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (goals.length) out.push(goalsDone.length === goals.length ? "You reached every goal you set for the week." : goalsDone.length ? "You reached " + goalsDone.length + " of your " + goals.length + " goals, a steady week." : "None of the week’s goals are ticked off yet, so they may need more room.");
     if (highlights.length) out.push("“" + highlights[0] + "” stood out as a highlight" + (highlights.length > 1 ? ", along with " + (highlights.length - 1) + " more." : "."));
     var byCat = {};
-    list.forEach(function (t) { var k = t.project || ""; if (!k) return; byCat[k] = byCat[k] || { n: 0, done: 0 }; byCat[k].n++; if (t.status === "done") byCat[k].done++; });
+    list.forEach(function (t) { var k = canonCategory(t.project); if (!k) return; byCat[k] = byCat[k] || { n: 0, done: 0 }; byCat[k].n++; if (t.status === "done") byCat[k].done++; });
     var top = Object.keys(byCat).sort(function (a, b) { return byCat[b].n - byCat[a].n; })[0];
     if (top && byCat[top].n >= 2) out.push(top + " took up most of your week" + (byCat[top].done ? ", and " + byCat[top].done + " of those " + byCat[top].n + " plans " + (byCat[top].done === 1 ? "is" : "are") + " done." : "."));
     if (list.length && !open.length) out.push("Everything on this week’s list got done.");
@@ -2353,7 +2359,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       highlights: top3Of(state.week).filter(Boolean),
       goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
       tasks: list.slice(0, 60).map(function (t) {
-        return { category: t.project || "", title: t.title, status: STATUS[t.status].en, due: t.due || "no date", bigDay: !!t.milestone,
+        return { category: canonCategory(t.project), title: t.title, status: STATUS[t.status].en, due: t.due || "no date", bigDay: !!t.milestone,
           who: personKeys(t).map(personName).join(", "), highlight: highlightOf(t), next: t.nextStep || "" };
       }),
       upcomingBigDays: state.tasks.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY && t.due <= addDays(state.week, 13); })
@@ -2446,7 +2452,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       });
       return { name: personName(k), key: k, counts: counts(mine), notes: notesForKey(state.week, k), tasks: rows };
     });
-    var scope = state.project !== "all" ? state.project : "All projects";
+    var scope = state.project !== "all" ? state.project : "All categories";
     var who = state.person !== "all" ? personName(state.person) : state.who === "mine" ? "Mine" : state.who === "added" ? "Created by me" : "Everyone";
     return { title: "Weekly summary", range: weekRangeText(state.week), scope: scope + " · " + who, counts: c, total: list.length, people: people, milestones: visibleMilestones(state.week) };
   }
@@ -2460,7 +2466,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     return "weekly-summary-" + state.week + slug + "." + ext;
   }
   var HEAD = ["Category", "Task", "With", "Status", "Due date", "Highlights of the week", "Next step"];
-  function rowCells(t, k) { return [t.project || "", taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), highlightOf(t) || "No update this week", t.nextStep || ""]; }
+  function rowCells(t, k) { return [canonCategory(t.project), taskText(t), withText(t, k), STATUS[t.status].en, dueText(t), highlightOf(t) || "No update this week", t.nextStep || ""]; }
 
   function makeDocx(m) {
     var D = window.docx;
