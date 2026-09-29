@@ -1269,6 +1269,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .cal-col { cursor: copy; }
 .cal-block, .cal-item { cursor: pointer; }
 .cal-tip { margin-left: auto; }
+
+/* Calendar: colour by category (tint + solid left stripe, ink text); symbols for routine / big day, outline for protected */
+.cal .cal-block, .cal .cal-item, .cal-nodate .cal-item { background: color-mix(in srgb, var(--c, #8a8f91) 16%, var(--surface-solid)); border: 1px solid color-mix(in srgb, var(--c, #8a8f91) 40%, var(--surface-solid)); border-left: 4px solid var(--c, #8a8f91); color: var(--ink); }
+.cal .cal-block span { color: var(--muted); }
+.cal .cal-block.protect, .cal .cal-item.protect, .cal-nodate .cal-item.protect { box-shadow: inset 0 0 0 2px var(--band); }
+.cal .cal-block.big, .cal .cal-item.big, .cal-nodate .cal-item.big { font-weight: 700; }
+.cal-legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; background: color-mix(in srgb, var(--c) 16%, var(--surface-solid)); border: 1px solid var(--c); border-left: 4px solid var(--c); }
+.cal-legend .sym { font-weight: 700; margin-right: 4px; }
+.cal-legend .outline { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; box-shadow: inset 0 0 0 2px var(--band); }
 </style>
 
 <div class="wrap">
@@ -2880,6 +2889,21 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 
 
   // ---------- Time blocks and the week calendar ----------
+
+  // Category colours: fixed slots for common categories, so a colour always means the same thing.
+  var CAT_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"];
+  var CAT_FIXED = { work: 0, home: 1, fitness: 2, errands: 3, family: 4, groceries: 5, routines: 6, kids: 7 };
+  var OTHER_COLOR = "#8a8f91";
+  function catColorMap() {
+    var present = {}, order = [], map = {}, used = {};
+    state.tasks.slice().sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; }).forEach(function (t) {
+      var k = catKey(t.project); if (k && !present[k]) { present[k] = true; order.push(k); }
+    });
+    order.forEach(function (k) { if (k in CAT_FIXED) { map[k] = CAT_COLORS[CAT_FIXED[k]]; used[CAT_FIXED[k]] = true; } });
+    var free = CAT_COLORS.map(function (_, i) { return i; }).filter(function (i) { return !used[i]; });
+    order.forEach(function (k) { if (!(k in map)) map[k] = free.length ? CAT_COLORS[free.shift()] : OTHER_COLOR; });
+    return map;
+  }
   function minutesOf(hm) { var p = String(hm || "").split(":"); return p.length === 2 ? Number(p[0]) * 60 + Number(p[1]) : NaN; }
   function fmtTime(min) { var h = Math.floor(min / 60) % 24, m = min % 60; return (h % 12 || 12) + (m ? ":" + pad(m) : "") + (h >= 12 ? "pm" : "am"); }
   var CAL_START = 6 * 60, CAL_END = 23 * 60, HOUR_PX = 44;
@@ -2893,7 +2917,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     toast("New task for " + DAYS[(parseYmd(d).getDay() + 6) % 7] + " " + shortDate(parseYmd(d)) + (time ? " at " + fmtTime(minutesOf(time)) : "") + ". Type what you want to do.");
   }
   function calOpen(t) { if (state.readOnly) return; loadIntoForm(t); $("taskForm").scrollIntoView({ block: "start", behavior: "smooth" }); }
-  function calLabel(t) { return t.title + (t.target > 1 ? " · " + Math.min(t.doneCount || 0, t.target) + " of " + t.target : ""); }
+  function calLabel(t) { return (t.routineId ? "↻ " : "") + (t.milestone ? "◆ " : "") + t.title + (t.target > 1 ? " · " + Math.min(t.doneCount || 0, t.target) + " of " + t.target : ""); }
   function renderCalendar(list) {
     var box = $("calendar");
     var shown = list.filter(function (t) { return state.filter === "all" || (state.filter === "done" ? t.status === "done" : t.status !== "done"); });
@@ -2903,7 +2927,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     cal.appendChild(el("div", { class: "cal-head" }, [el("div")].concat(days.map(function (d, k) {
       return el("div", { class: "cal-day" + (d === TODAY ? " today" : "") }, [el("b", { text: DAYS[k] }), el("span", { text: shortDate(parseYmd(d)) })]);
     }))));
-    var item = function (t) { return el("button", { type: "button", class: "cal-item" + calClasses(t), title: calLabel(t), text: calLabel(t), onclick: function () { calOpen(t); } }); };
+    var cmap = catColorMap();
+    var colorOf = function (t) { return cmap[catKey(t.project)] || OTHER_COLOR; };
+    var item = function (t) { return el("button", { type: "button", class: "cal-item" + calClasses(t), style: "--c:" + colorOf(t), title: calLabel(t) + (t.project ? " · " + canonCategory(t.project) : ""), text: calLabel(t), onclick: function () { calOpen(t); } }); };
     var untimed = function (t) { return isNaN(minutesOf(t.time)); };
     [["am", "AM"], ["pm", "PM"], ["", "Anytime"]].forEach(function (pp) {
       var at = function (d) { return shown.filter(function (t) { return t.due === d && untimed(t) && (t.part || "") === pp[0]; }); };
@@ -2943,7 +2969,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           var top = Math.max(0, Math.min(x.s, CAL_END - 30) - CAL_START) / 60 * HOUR_PX;
           var h2 = Math.max(22, (Math.min(x.e, CAL_END) - Math.max(x.s, CAL_START)) / 60 * HOUR_PX - 2);
           col.appendChild(el("button", { type: "button", class: "cal-block" + calClasses(x.t) + (h2 < 40 ? " short" : ""), title: calLabel(x.t) + ", " + fmtTime(x.s) + " to " + fmtTime(x.e),
-            style: "top:" + top + "px;height:" + h2 + "px;left:calc(" + (100 / n * x.lane) + "% + 2px);width:calc(" + (100 / n) + "% - 4px)",
+            style: "--c:" + colorOf(x.t) + ";top:" + top + "px;height:" + h2 + "px;left:calc(" + (100 / n * x.lane) + "% + 2px);width:calc(" + (100 / n) + "% - 4px)",
             onclick: function () { calOpen(x.t); } }, [el("b", { text: calLabel(x.t) }), el("span", { text: h2 < 40 ? fmtTime(x.s) : fmtTime(x.s) + "–" + fmtTime(x.e) })]));
         });
       });
@@ -2952,10 +2978,15 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     cal.appendChild(body);
     var noDay = shown.filter(function (t) { return !t.due || t.due < state.week || t.due > last; });
     var nd = el("div", { class: "cal-nodate" }, [el("span", { text: noDay.length ? "No day yet:" : "Everything this week has a day." })].concat(noDay.map(item)));
-    box.replaceChildren(cal, nd, el("div", { class: "cal-legend" }, [
-      el("span", null, [el("i"), "Task"]), el("span", null, [el("i", { class: "routine" }), "Routine"]),
-      el("span", null, [el("i", { class: "protect" }), "Protected time"]), el("span", null, [el("i", { class: "big" }), "Big day"]),
-      el("span", { class: "cal-tip", text: "Click an empty spot to add a task there." })]));
+    var cats = {};
+    shown.forEach(function (t) { var k = catKey(t.project); cats[k] = k ? canonCategory(t.project) : "No category"; });
+    var legend = Object.keys(cats).sort(function (x, y) { return !x ? 1 : !y ? -1 : cats[x].localeCompare(cats[y]); }).map(function (k) {
+      return el("span", null, [el("i", { class: "sw", style: "--c:" + (k ? cmap[k] || OTHER_COLOR : OTHER_COLOR) }), cats[k]]);
+    });
+    box.replaceChildren(cal, nd, el("div", { class: "cal-legend" }, legend.concat([
+      el("span", null, [el("b", { class: "sym", text: "↻" }), "Routine"]), el("span", null, [el("b", { class: "sym", text: "◆" }), "Big day"]),
+      el("span", null, [el("i", { class: "outline" }), "Protected time"]),
+      el("span", { class: "cal-tip", text: "Click an empty spot to add a task there." })])));
   }
 
   function updateRepeatUI() {}
