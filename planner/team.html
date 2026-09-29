@@ -2181,10 +2181,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (timeline) shown.sort(function (a, b) { return a.week < b.week ? -1 : a.week > b.week ? 1 : 0; });
     if (!shown.length) {
       var cell = el("td", { colspan: "7" }, [el("div", { class: "empty-state" }, [
-        el("div", { text: list.length ? "No tasks match this filter." : timeline ? "No tasks in this category yet." : (state.person !== "all" ? personName(state.person) + " has no tasks this week." : state.who === "mine" ? "You have no tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Fill in The Plan, or load example tasks to try the planner.") }),
-        (!list.length && !timeline && state.person === "all" && state.who === "all" && !state.readOnly && store) ? el("button", { class: "chipbtn", type: "button", text: "Load example tasks", onclick: function () {
-          exampleTasks(state.week).forEach(function (t) { store.putTask(t).catch(function () {}); });
-        } }) : null
+        el("div", { text: list.length ? "No tasks match this filter." : timeline ? "No tasks in this category yet." : (state.person !== "all" ? personName(state.person) + " has no tasks this week." : state.who === "mine" ? "You have no tasks this week." : state.who === "added" ? "You haven’t created any tasks this week." : "No tasks for this week yet. Add one in The Plan.") }),
       ])]);
       body.appendChild(el("tr", null, [cell]));
       return;

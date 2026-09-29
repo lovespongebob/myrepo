@@ -69,3 +69,5 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 - *Calendar view* (Plan Your Week, Calendar): the week as seven day columns from 6am to 11pm with time blocks, an Anytime row for items with a day but no time, and a "No day yet" list. Overlapping items sit side by side; routines, protected time and big days have their own colours. Click any item to edit it.
 
 **Plan Your Week layout:** The Plan (left) sits beside Weekly routines (right), with Tasks this week full width underneath. The Plan no longer has a "Related to" field; related notes already saved on tasks still show as tags.
+
+**Example tasks:** the shared planner and its standalone copy (`dist/weekly-planner.html`) start empty and have no "Load example tasks" button; example tasks live only in the sample.
