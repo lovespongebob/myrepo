@@ -1218,6 +1218,38 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 @media (max-width: 520px) {
   .rtpanel .rt-row { grid-template-columns: 30px minmax(0, 1fr) 32px; grid-template-areas: "on title del" ". times ." ". day ." ". when ." ". prot ."; }
 }
+
+/* ================= Simple inputs: The Plan, Weekly routines, and the calendar as the main view ================= */
+.more-opts { border-top: 1px dashed var(--line-strong); padding-top: 10px; }
+.more-opts > summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--accent); list-style: none; }
+.more-opts > summary::-webkit-details-marker { display: none; }
+.more-opts > summary::before { content: "+ "; }
+.more-opts[open] > summary::before { content: "− "; }
+.more-opts > .stack { margin-top: 12px; }
+.rt-add { display: grid; grid-template-columns: minmax(0, 1fr) 216px 92px auto; gap: 8px; align-items: center; }
+.rt-add input[type="text"], .rtpanel .rt-row input.rt-title { width: 100%; min-width: 0; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-solid); color: var(--ink); padding: 9px 11px; font: inherit; font-size: 14px; }
+.rt-add .rt-days, .rtpanel .rt-row .rt-days { grid-template-columns: repeat(7, 28px); gap: 3px; }
+.rt-part { display: grid; grid-template-columns: repeat(2, 42px); gap: 3px; }
+.rt-part button { height: 30px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-solid); color: var(--ink); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; padding: 0; }
+.rt-part button[aria-pressed="true"] { background: var(--band); border-color: var(--band); color: var(--lime); }
+.rt-part button:disabled { cursor: default; opacity: 0.6; }
+.rtpanel .rt-row { grid-template-columns: 24px minmax(0, 1fr) 216px 92px 28px; grid-template-areas: "on title days part del"; align-items: center; row-gap: 6px; column-gap: 8px; padding: 6px 8px; }
+.rtpanel .rt-row > .rt-on { grid-area: on; } .rtpanel .rt-row > .rt-title { grid-area: title; } .rtpanel .rt-row > .rt-days { grid-area: days; }
+.rtpanel .rt-row > .rt-part { grid-area: part; } .rtpanel .rt-row > .rt-del { grid-area: del; }
+@media (max-width: 1100px) {
+  .rt-add { grid-template-columns: minmax(0, 1fr) auto; }
+  .rt-add > input { grid-column: 1 / -1; }
+  .rtpanel .rt-row { grid-template-columns: 24px auto minmax(0, 1fr) 28px; grid-template-areas: "on title title del" ". days part ."; }
+}
+@media (max-width: 520px) {
+  .rt-add { grid-template-columns: minmax(0, 1fr); }
+  .rtpanel .rt-row { grid-template-columns: 24px minmax(0, 1fr) 28px; grid-template-areas: "on title del" ". days ." ". part ."; }
+  .rt-add .rt-days, .rtpanel .rt-row .rt-days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+}
+.cal-any > div[data-day] { cursor: pointer; }
+.cal-col { cursor: copy; }
+.cal-block, .cal-item { cursor: pointer; }
+.cal-tip { margin-left: auto; }
 </style>
 
 <div class="wrap">
@@ -1332,57 +1364,17 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         <div class="tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div>
           <h2 id="entryTitle">The Plan</h2>
-          <div class="sub">Set up once, use every week</div>
+          <div class="sub">A task for the week you’re viewing</div>
         </div>
       </div>
       <div class="editing-note" id="editingNote" hidden>Editing a saved task. Save to update it, or press Clear form to start a new one.</div>
       <form id="taskForm" class="stack" style="gap:12px" novalidate>
         <div class="field">
-          <label for="f-creator">Created by</label>
-          <input id="f-creator" name="creator" list="creatorList" placeholder="Your name" autocomplete="off">
-          <datalist id="creatorList"></datalist>
-          <div class="hint">Your name as others should see it. This device remembers it for next time.</div>
-        </div>
-        <div class="field">
-          <label for="f-project">Category</label>
-          <input id="f-project" name="project" list="projectList" placeholder="e.g. Home, Errands, Fitness or Work" autocomplete="off">
-          <datalist id="projectList"></datalist>
-        </div>
-        <div class="field">
           <label for="f-title">Task</label>
           <input id="f-title" name="title" placeholder="e.g. Book the yoga class" autocomplete="off" required>
         </div>
         <div class="field">
-          <label for="f-repeat">Repeat</label>
-          <select id="f-repeat" name="repeat">
-            <option value="once">Just this week</option>
-            <option value="weekly">Weekly routine</option>
-          </select>
-          <div class="hint" id="repeatHint">A one-time task for the week you’re viewing.</div>
-        </div>
-        <div class="field routine-fields" id="f-routineFields" hidden>
-          <span class="ci-label" id="fDaysLabel">Days (pick any)</span>
-          <div class="rt-days" id="f-days" role="group" aria-labelledby="fDaysLabel"></div>
-          <label for="f-times">Times a week</label>
-          <select id="f-times"><option value="1">Once</option><option value="2">2 times</option><option value="3">3 times</option><option value="4">4 times</option><option value="5">5 times</option><option value="6">6 times</option><option value="7">7 times</option></select>
-        </div>
-        <div class="field">
-          <label for="f-person">Who</label>
-          <input id="f-person" name="owner" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
-          <datalist id="assigneeList"></datalist>
-          <div class="hint">Keep “Me” for your own plans, or type one or more names separated by commas.</div>
-        </div>
-        <div class="field">
-          <label for="f-status">Status</label>
-          <select id="f-status" name="status">
-            <option value="not_started">Not started</option>
-            <option value="in_progress">In progress</option>
-            <option value="waiting">Waiting</option>
-            <option value="done">Done</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-due">Due date</label>
+          <label for="f-due">Day</label>
           <input id="f-due" name="due" type="date">
         </div>
         <div class="row-time">
@@ -1395,27 +1387,57 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
             <select id="f-duration" name="duration"><option value="">—</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="150">2.5 hours</option><option value="180">3 hours</option><option value="240">4 hours</option><option value="360">6 hours</option><option value="480">8 hours</option></select>
           </div>
         </div>
-        <div class="hint">A start time blocks that slot on the calendar.</div>
         <div class="field">
-          <label for="f-priority">Priority</label>
-          <select id="f-priority" name="priority">
-            <option value="">No priority</option>
-            <option value="iu">Important and urgent</option>
-            <option value="in">Important, not urgent</option>
-            <option value="un">Urgent, not important</option>
-            <option value="nn">Neither</option>
-          </select>
+          <label for="f-project">Category</label>
+          <input id="f-project" name="project" list="projectList" placeholder="e.g. Home, Errands, Fitness or Work" autocomplete="off">
+          <datalist id="projectList"></datalist>
         </div>
-        <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Big day <span class="hint">a birthday, recital, trip or special event</span></label>
-        <label class="check-inline" for="f-protected"><input type="checkbox" id="f-protected" name="protected"> Protected time <span class="hint">keep it free</span></label>
-        <div class="field">
-          <label for="f-notes">Notes</label>
-          <textarea id="f-notes" name="notes" placeholder="Details, addresses, links…"></textarea>
-        </div>
-        <div class="field">
-          <label for="f-next">Next step</label>
-          <input id="f-next" name="nextStep" placeholder="What happens next" autocomplete="off">
-        </div>
+        <details class="more-opts" id="moreOpts">
+          <summary>More options</summary>
+          <div class="stack" style="gap:12px">
+          <div class="field">
+            <label for="f-person">Who</label>
+            <input id="f-person" name="owner" list="assigneeList" value="Me" autocomplete="off" placeholder="Me, or anyone's name">
+            <datalist id="assigneeList"></datalist>
+            <div class="hint">Keep “Me” for your own plans, or type one or more names separated by commas.</div>
+          </div>
+          <div class="field">
+            <label for="f-status">Status</label>
+            <select id="f-status" name="status">
+              <option value="not_started">Not started</option>
+              <option value="in_progress">In progress</option>
+              <option value="waiting">Waiting</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-priority">Priority</label>
+            <select id="f-priority" name="priority">
+              <option value="">No priority</option>
+              <option value="iu">Important and urgent</option>
+              <option value="in">Important, not urgent</option>
+              <option value="un">Urgent, not important</option>
+              <option value="nn">Neither</option>
+            </select>
+          </div>
+          <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Big day <span class="hint">a birthday, recital, trip or special event</span></label>
+          <label class="check-inline" for="f-protected"><input type="checkbox" id="f-protected" name="protected"> Protected time <span class="hint">keep it free</span></label>
+          <div class="field">
+            <label for="f-notes">Notes</label>
+            <textarea id="f-notes" name="notes" placeholder="Details, addresses, links…"></textarea>
+          </div>
+          <div class="field">
+            <label for="f-next">Next step</label>
+            <input id="f-next" name="nextStep" placeholder="What happens next" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="f-creator">Created by</label>
+            <input id="f-creator" name="creator" list="creatorList" placeholder="Your name" autocomplete="off">
+            <datalist id="creatorList"></datalist>
+            <div class="hint">Your name as others should see it. This device remembers it for next time.</div>
+          </div>
+          </div>
+        </details>
       </form>
       <div class="bigbtns">
         <button class="bigbtn b-fill" id="btnFill" type="button">
@@ -1432,14 +1454,20 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       <div class="panel-head">
         <div>
           <h2 id="rtTitle">Weekly routines</h2>
-          <div class="sub">Repeats every week, on the days you pick</div>
+          <div class="sub">Name, days, and AM or PM. That’s it.</div>
         </div>
         <span class="hint mono" id="rtCount"></span>
       </div>
-      <p class="hint rt-intro">Add a routine from The Plan (Repeat: Weekly routine) or turn on a suggestion here. Routines that are on are added to each new week automatically, in the Routines category. Pick days to get one task on each of those days, or leave the days empty to get one task with a counter.</p>
-      <div class="rt-head" aria-hidden="true"><span>On</span><span>Routine</span><span>Times a week</span><span>Days (pick any)</span><span>Time and length</span><span>Protected</span><span></span></div>
+      <div class="rt-add">
+        <label class="sr" for="rtNewTitle">New routine</label>
+        <input id="rtNewTitle" type="text" maxlength="120" autocomplete="off" placeholder="Add a routine, e.g. Yoga">
+        <div id="rtNewDays"></div>
+        <div id="rtNewPart"></div>
+        <button type="button" class="savebtn" id="rtAddBtn">Add</button>
+      </div>
+      <p class="hint rt-intro">Pick the days it repeats and, if you like, AM or PM. Routines that are on show up every week and on the calendar.</p>
       <ul class="rt-list" id="rtList"></ul>
-      <div class="rt-actions"><button type="button" class="chipbtn" id="rtAdd">+ Add a routine</button><span class="hint" id="rtNote"></span></div>
+      <div class="rt-actions"><span class="hint" id="rtNote"></span></div>
     </section>
     </div>
     <section class="panel tasks-panel" aria-labelledby="listTitle">
@@ -1452,9 +1480,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
             <label class="filter-label" for="projectPick">Category</label>
             <select id="projectPick" class="selectpill"></select>
             <div class="seg" role="group" aria-label="Choose a view" id="viewSeg">
+              <button type="button" data-v="calendar" aria-pressed="true">Calendar</button>
+              <button type="button" data-v="week" aria-pressed="false">List</button>
               <button type="button" data-v="timeline" aria-pressed="false">Timeline</button>
-              <button type="button" data-v="week" aria-pressed="true">This week</button>
-              <button type="button" data-v="calendar" aria-pressed="false">Calendar</button>
             </div>
           </div>
           <div class="filter-row">
@@ -1694,7 +1722,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     nameCase: {},      // lower-cased name -> name as first written
     person: "all",     // assignee filter from the overview: "all" or a person key
     who: "all",        // "all", "mine" (owned by me) or "added" (created by me)
-    view: "week",      // "week" or "timeline"
+    view: "calendar",      // "week" or "timeline"
     project: "all",    // project shown in the timeline
     sumEdit: null,     // task being updated in the Task summary
     msEdit: null       // goal being edited
@@ -1830,6 +1858,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (["iu", "in", "un", "nn"].indexOf(raw.priority) >= 0) t.priority = raw.priority;
     if (raw.protected === true || raw.protected === "true") t.protected = true;
     if (/^\d{2}:\d{2}$/.test(raw.time || "")) t.time = raw.time;
+    if (raw.part === "am" || raw.part === "pm") t.part = raw.part;
     var du = parseInt(raw.duration, 10);
     if (du >= 5 && du <= 720) t.duration = du;
     if (/^[A-Za-z0-9_\-]{1,60}$/.test(raw.routineId || "")) t.routineId = raw.routineId;
@@ -2010,6 +2039,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     renderCarry();
     var calView = state.view === "calendar";
     $("taskTable").hidden = calView; $("calendar").hidden = !calView;
+    $("orderSeg").hidden = $("emptySeg").hidden = calView;
     if (calView) renderCalendar(list); else renderRows(tableList);
     updateRepeatUI();
     state.reportList = list; state.reportCounts = c;
@@ -2071,7 +2101,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function renderViewControls() {
     Array.prototype.forEach.call($("viewSeg").children, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === state.view)); });
     var timeline = state.view === "timeline";
-    $("listTitle").textContent = timeline ? "Timeline" : state.view === "calendar" ? "This week’s calendar" : "Tasks this week";
+    $("listTitle").textContent = timeline ? "Timeline" : state.view === "calendar" ? "Your week: tasks and routines" : "Tasks this week";
     var pick = $("projectPick");
     var names = projectsList();
     if (state.project !== "all" && names.indexOf(state.project) < 0) state.project = "all";
@@ -2291,7 +2321,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("f-protected").checked = !!t.protected;
     $("f-time").value = t.time || "";
     $("f-duration").value = t.duration ? String(t.duration) : "";
-    $("f-repeat").value = t.routineId ? "weekly" : "once";
+    $("moreOpts").open = !!(t.priority || t.milestone || t.protected || t.notes || t.nextStep || t.status !== "not_started");
     $("f-next").value = t.nextStep || "";
     $("f-project").value = t.project || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
@@ -2304,10 +2334,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("f-person").value = "Me";
     $("f-creator").value = myName();
     $("editingNote").hidden = true;
-    $("f-repeat").value = "once";
-    Array.prototype.forEach.call($("f-days").children, function (b) { b.setAttribute("aria-pressed", "false"); });
-    $("f-times").disabled = false; $("f-times").value = "1";
-    updateRepeatUI();
+    $("moreOpts").open = false;
   }
 
   $("btnFill").addEventListener("click", function () { clearForm(); render(); ($("f-creator").value ? $("f-project") : $("f-creator")).focus(); });
@@ -2327,10 +2354,9 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     if (!title) { toast("Give the task a title first."); $("f-title").focus(); return; }
     var existing = state.editingId && state.tasks.find(function (x) { return x.id === state.editingId; });
     var creator = $("f-creator").value.trim();
-    if (!creator) { toast("Add your name in Created by."); $("f-creator").focus(); return; }
+    if (!creator) creator = myName() || "Me";
     creator = state.nameCase[norm(creator)] || creator;
     if (!existing) { state.myName = creator; lsSet("samplePlanner.myName", creator); }
-    if (!existing && $("f-repeat").value === "weekly") { saveAsRoutine(creator); return; }
     var who = resolveAssignee($("f-person").value, existing ? myName() : creator);
     var t = cleanTask({
       owner: who.owner || "",
@@ -2590,11 +2616,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   // ---------- Weekly system: routines, Sunday reset, check-in ----------
   var RT_KEY = "routines";
   var SUGGESTED_ROUTINES = [
-    { id: "workout", title: "Light workout (run, jump rope, stretch)", times: 3, days: [0, 2, 4], time: "07:00", duration: 20, protected: false },
-    { id: "read", title: "Deep reading, 30 minutes", times: 7, days: [0, 1, 2, 3, 4, 5, 6], time: "21:00", duration: 30, protected: false },
-    { id: "film", title: "Watch a good film and write a short reflection", times: 1, days: [4], time: "19:30", duration: 150, protected: false },
-    { id: "write", title: "Write one piece (reflection, notes or lessons)", times: 1, days: [6], time: "10:00", duration: 60, protected: false },
-    { id: "nature", title: "Day in nature (hike, bike or walk)", times: 1, days: [5], time: "09:00", duration: 360, protected: true }
+    { id: "workout", title: "Light workout (run, jump rope, stretch)", times: 3, days: [0, 2, 4], part: "am", protected: false },
+    { id: "read", title: "Deep reading, 30 minutes", times: 7, days: [0, 1, 2, 3, 4, 5, 6], part: "pm", protected: false },
+    { id: "film", title: "Watch a good film and write a short reflection", times: 1, days: [4], part: "pm", protected: false },
+    { id: "write", title: "Write one piece (reflection, notes or lessons)", times: 1, days: [6], part: "am", protected: false },
+    { id: "nature", title: "Day in nature (hike, bike or walk)", times: 1, days: [5], part: "am", protected: true }
   ];
   var DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // The page's own latest save wins until the shared copy catches up, so quick changes never undo each other.
@@ -2631,7 +2657,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     return cleanTask({
       id: perDay ? "rt-" + r.id + "-" + week + "-d" + d : "rt-" + r.id + "-" + week, week: week, title: r.title, status: "not_started",
       due: perDay ? addDays(week, d) : "",
-      project: r.category || "Routines", routineId: r.id, time: r.time || "", duration: r.duration || "", priority: r.priority || "", target: !perDay && r.times > 1 ? r.times : undefined, doneCount: 0,
+      project: r.category || "Routines", routineId: r.id, part: r.part || "", priority: r.priority || "", target: !perDay && r.times > 1 ? r.times : undefined, doneCount: 0,
       protected: !!r.protected, owner: state.me, assigneeName: myName(), ownerNames: myName() ? [myName()] : [],
       createdBy: state.me, createdByName: myName()
     });
@@ -2661,74 +2687,89 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var w = state.week;
     setTimeout(function () { seedWeek(w); }, 0);
   }
+  // Day and AM/PM pickers used by Weekly routines
+  function dayButtons(chosen, onChange, label) {
+    var wrap = el("div", { class: "rt-days", role: "group", "aria-label": label });
+    DAYS.forEach(function (d, k) {
+      var b = el("button", { type: "button", title: d, "aria-label": d, "aria-pressed": String(chosen.indexOf(k) >= 0), text: d.charAt(0) });
+      b.disabled = state.readOnly;
+      b.addEventListener("click", function () { b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); if (onChange) onChange(); });
+      wrap.appendChild(b);
+    });
+    wrap.getValue = function () { var out = []; Array.prototype.forEach.call(wrap.children, function (b, k) { if (b.getAttribute("aria-pressed") === "true") out.push(k); }); return out; };
+    return wrap;
+  }
+  function partButtons(cur, onChange) {
+    var wrap = el("div", { class: "rt-part", role: "group", "aria-label": "Morning (AM) or afternoon and evening (PM)" });
+    ["am", "pm"].forEach(function (v) {
+      var b = el("button", { type: "button", "aria-pressed": String(cur === v), text: v.toUpperCase(), title: v === "am" ? "Morning" : "Afternoon or evening" });
+      b.disabled = state.readOnly;
+      b.addEventListener("click", function () {
+        var on = b.getAttribute("aria-pressed") !== "true";
+        Array.prototype.forEach.call(wrap.children, function (x) { x.setAttribute("aria-pressed", "false"); });
+        b.setAttribute("aria-pressed", String(on));
+        if (onChange) onChange();
+      });
+      wrap.appendChild(b);
+    });
+    wrap.getValue = function () { var v = ""; Array.prototype.forEach.call(wrap.children, function (x, k) { if (x.getAttribute("aria-pressed") === "true") v = k ? "pm" : "am"; }); return v; };
+    return wrap;
+  }
+  function cloneItems() { return routineItems().map(function (x) { return Object.assign({}, x); }); }
   function renderRoutines() {
-    var list = $("rtList");
-    if (list.contains(document.activeElement)) return;   // don't redraw while someone is typing
+    var list = $("rtList"), ae = document.activeElement;
+    if (list.contains(ae) && ae.tagName === "INPUT" && ae.type === "text") return;   // don't redraw while someone is typing
     var items = routineItems(), on = items.filter(function (r) { return r.on; }).length;
     $("rtCount").textContent = on ? on + " on" : "none on yet";
     list.replaceChildren.apply(list, items.map(function (r, i) {
       var row = el("li", { class: "rt-row" + (r.on ? "" : " off") });
-      var onBox = el("input", { type: "checkbox", "aria-label": "Turn on: " + r.title }); onBox.checked = !!r.on;
-      var title = el("input", { type: "text", maxlength: "120", "aria-label": "Routine name", value: r.title });
-      var times = el("select", { "aria-label": "Times a week" });
-      for (var n = 1; n <= 7; n++) times.appendChild(el("option", { value: String(n), text: n === 1 ? "Once" : n + " times" }));
-      times.value = String(r.times || 1);
-      var chosen = daysOf(r);
-      var day = el("div", { class: "rt-days", role: "group", "aria-label": "Days for " + r.title });
-      DAYS.forEach(function (d, k) {
-        var b = el("button", { type: "button", title: d, "aria-label": d, "aria-pressed": String(chosen.indexOf(k) >= 0), text: d.charAt(0) });
-        b.disabled = state.readOnly;
-        b.addEventListener("click", function () {
-          b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
-          var n = pickedDays().length;
-          if (n) times.value = String(n);
-          times.disabled = state.readOnly || n > 0;
-          times.title = n ? "Set by the days you picked" : "";
-          commit(false);
-        });
-        day.appendChild(b);
-      });
-      if (chosen.length) { times.value = String(chosen.length); times.disabled = true; times.title = "Set by the days you picked"; }
-      var tIn = el("input", { type: "time", step: "900", "aria-label": "Start time for " + r.title, value: r.time || "" });
-      var dSel = el("select", { "aria-label": "How long: " + r.title });
-      dSel.innerHTML = '<option value="">—</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="150">2.5 hours</option><option value="180">3 hours</option><option value="240">4 hours</option><option value="360">6 hours</option><option value="480">8 hours</option>';
-      if (r.duration && !dSel.querySelector('option[value="' + r.duration + '"]')) dSel.appendChild(el("option", { value: String(r.duration), text: r.duration + " min" }));
-      dSel.value = r.duration ? String(r.duration) : "";
-      tIn.disabled = dSel.disabled = state.readOnly;
-      var when = el("div", { class: "rt-when" }, [tIn, dSel]);
-      tIn.addEventListener("change", function () { commit(false); }); dSel.addEventListener("change", function () { commit(false); });
-      var prot = el("input", { type: "checkbox", "aria-label": "Protected time: " + r.title }); prot.checked = !!r.protected;
+      var onBox = el("input", { type: "checkbox", class: "rt-on", "aria-label": "Turn on: " + r.title }); onBox.checked = !!r.on;
+      var title = el("input", { type: "text", class: "rt-title", maxlength: "120", "aria-label": "Routine name", value: r.title });
+      var days = dayButtons(daysOf(r), function () { commit(false); }, "Days for " + r.title);
+      var part = partButtons(r.part || "", function () { commit(false); });
       var del = el("button", { type: "button", class: "rt-del", "aria-label": "Remove " + r.title, text: "×" });
-      [onBox, title, times, prot].forEach(function (f) { f.disabled = state.readOnly || (f === times && times.disabled); });
-      del.disabled = state.readOnly;
+      onBox.disabled = title.disabled = del.disabled = state.readOnly;
       function commit(turnedOn) {
-        var next = routineItems().map(function (x) { return Object.assign({}, x); });
-        next[i] = Object.assign({}, next[i], { on: onBox.checked, title: title.value.trim().slice(0, 120) || next[i].title, times: Number(times.value), days: pickedDays(), day: undefined, protected: prot.checked, time: tIn.value || "", duration: Number(dSel.value) || 0 });
-        if (next[i].days.length) next[i].times = next[i].days.length;
+        var next = cloneItems(), ds = days.getValue();
+        next[i] = Object.assign({}, next[i], { on: onBox.checked, title: title.value.trim().slice(0, 120) || next[i].title, days: ds, day: undefined, times: ds.length || 1, part: part.getValue(), time: "", duration: 0 });
         saveRoutines(next).then(function () {
           if (turnedOn && state.week >= THIS_WEEK) setTimeout(function () { seedWeek(state.week, [next[i].id]); }, 0);
-          $("rtNote").textContent = turnedOn ? "Added to this week. It will appear in each new week too." : "Saved. Changes apply to new weeks.";
+          $("rtNote").textContent = turnedOn ? "Added to this week and every new week." : "Saved. Changes apply to new weeks.";
         });
       }
       onBox.addEventListener("change", function () { commit(onBox.checked); });
-      function pickedDays() { var out = []; Array.prototype.forEach.call(day.children, function (b, k) { if (b.getAttribute("aria-pressed") === "true") out.push(k); }); return out; }
-      [times, prot].forEach(function (f) { f.addEventListener("change", function () { commit(false); }); });
       title.addEventListener("blur", function () { if (title.value.trim() !== r.title) commit(false); });
       title.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); title.blur(); } });
       del.addEventListener("click", function () {
-        var next = routineItems().filter(function (_, k) { return k !== i; });
-        saveRoutines(next).then(function () { toast("Removed “" + r.title + "” from your routines."); });
+        saveRoutines(cloneItems().filter(function (_, k) { return k !== i; })).then(function () { toast("Removed “" + r.title + "” from your routines."); });
       });
-      row.append(onBox, title, times, day, when, el("label", { class: "rt-prot" }, [prot, el("span", { class: "rt-prot-text", text: "Protected time" })]), del);
+      row.append(onBox, title, days, part, del);
       return row;
     }));
-    $("rtAdd").disabled = state.readOnly;
   }
-  $("rtAdd").addEventListener("click", function () {
-    var next = routineItems().map(function (x) { return Object.assign({}, x); });
-    next.push({ id: "r" + Date.now().toString(36), title: "New routine", times: 1, day: "", protected: false, on: false });
-    saveRoutines(next).then(function () { renderRoutines(); var rows = $("rtList").querySelectorAll(".rt-row input[type=text]"); var f = rows[rows.length - 1]; if (f) { f.focus(); f.select(); } });
-  });
+  // One-line add: name, days, AM or PM
+  (function () {
+    var days = dayButtons([], null, "Days for the new routine"), part = partButtons("", null);
+    $("rtNewDays").replaceWith(days); $("rtNewPart").replaceWith(part);
+    function add() {
+      var t = $("rtNewTitle").value.trim();
+      if (!t) { toast("Type a routine first, for example Yoga."); $("rtNewTitle").focus(); return; }
+      if (state.readOnly || !store) return;
+      var ds = days.getValue();
+      var r = { id: "r" + Date.now().toString(36), title: t.slice(0, 120), on: true, days: ds, times: ds.length || 1, part: part.getValue(), protected: false };
+      saveRoutines(cloneItems().concat([r])).then(function () {
+        var w = state.week >= THIS_WEEK ? state.week : THIS_WEEK;
+        setTimeout(function () { seedWeek(w, [r.id]); }, 0);
+        toast("Added “" + r.title + "”. It shows up every week" + (ds.length ? " on the days you picked." : "."));
+        $("rtNewTitle").value = "";
+        Array.prototype.forEach.call(days.children, function (b) { b.setAttribute("aria-pressed", "false"); });
+        Array.prototype.forEach.call(part.children, function (b) { b.setAttribute("aria-pressed", "false"); });
+        renderRoutines();
+      });
+    }
+    $("rtAddBtn").addEventListener("click", add);
+    $("rtNewTitle").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); add(); } });
+  })();
   // "2 of 3" counter for routines done several times a week
   function routineCounter(t) {
     if (!(t.target > 1)) return null;
@@ -2815,6 +2856,14 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   function fmtTime(min) { var h = Math.floor(min / 60) % 24, m = min % 60; return (h % 12 || 12) + (m ? ":" + pad(m) : "") + (h >= 12 ? "pm" : "am"); }
   var CAL_START = 6 * 60, CAL_END = 23 * 60, HOUR_PX = 44;
   function calClasses(t) { return (t.routineId ? " routine" : "") + (t.protected ? " protect" : "") + (t.milestone ? " big" : "") + (t.status === "done" ? " done" : ""); }
+  function startTaskAt(d, time) {
+    if (state.readOnly) return;
+    clearForm(); render();
+    $("f-due").value = d; $("f-time").value = time;
+    $("taskForm").scrollIntoView({ block: "start", behavior: "smooth" });
+    setTimeout(function () { $("f-title").focus(); }, 250);
+    toast("New task for " + DAYS[(parseYmd(d).getDay() + 6) % 7] + " " + shortDate(parseYmd(d)) + (time ? " at " + fmtTime(minutesOf(time)) : "") + ". Type what you want to do.");
+  }
   function calOpen(t) { if (state.readOnly) return; loadIntoForm(t); $("taskForm").scrollIntoView({ block: "start", behavior: "smooth" }); }
   function calLabel(t) { return t.title + (t.target > 1 ? " · " + Math.min(t.doneCount || 0, t.target) + " of " + t.target : ""); }
   function renderCalendar(list) {
@@ -2827,15 +2876,27 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       return el("div", { class: "cal-day" + (d === TODAY ? " today" : "") }, [el("b", { text: DAYS[k] }), el("span", { text: shortDate(parseYmd(d)) })]);
     }))));
     var item = function (t) { return el("button", { type: "button", class: "cal-item" + calClasses(t), title: calLabel(t), text: calLabel(t), onclick: function () { calOpen(t); } }); };
-    cal.appendChild(el("div", { class: "cal-any" }, [el("div", { class: "cal-label", text: "Anytime" })].concat(days.map(function (d) {
-      return el("div", null, shown.filter(function (t) { return t.due === d && isNaN(minutesOf(t.time)); }).map(item));
-    }))));
+    var untimed = function (t) { return isNaN(minutesOf(t.time)); };
+    [["am", "AM"], ["pm", "PM"], ["", "Anytime"]].forEach(function (pp) {
+      var at = function (d) { return shown.filter(function (t) { return t.due === d && untimed(t) && (t.part || "") === pp[0]; }); };
+      if (pp[0] && !days.some(function (d) { return at(d).length; })) return;
+      cal.appendChild(el("div", { class: "cal-any" }, [el("div", { class: "cal-label", text: pp[1] })].concat(days.map(function (d) {
+        var cell = el("div", { "data-day": d, title: "Click to add a task on " + shortDate(parseYmd(d)) }, at(d).map(item));
+        cell.addEventListener("click", function (e) { if (e.target === cell) startTaskAt(d, ""); });
+        return cell;
+      }))));
+    });
     var height = (CAL_END - CAL_START) / 60 * HOUR_PX;
     var hours = el("div", { class: "cal-hours", style: "height:" + height + "px" });
     for (var h = CAL_START / 60 + 1; h < CAL_END / 60; h++) hours.appendChild(el("span", { style: "top:" + ((h * 60 - CAL_START) / 60 * HOUR_PX) + "px", text: fmtTime(h * 60) }));
     var body = el("div", { class: "cal-body" }, [hours]);
     days.forEach(function (d) {
-      var col = el("div", { class: "cal-col" + (d === TODAY ? " today" : ""), style: "height:" + height + "px" });
+      var col = el("div", { class: "cal-col" + (d === TODAY ? " today" : ""), style: "height:" + height + "px", title: "Click an empty spot to add a task" });
+      col.addEventListener("click", function (e) {
+        if (e.target !== col) return;
+        var m = CAL_START + Math.floor(e.offsetY / HOUR_PX * 2) * 30;
+        startTaskAt(d, pad(Math.floor(m / 60)) + ":" + pad(m % 60));
+      });
       var timed = shown.filter(function (t) { return t.due === d && !isNaN(minutesOf(t.time)); }).map(function (t) {
         var s = minutesOf(t.time), e = s + (t.duration || 30);
         return { t: t, s: s, e: e };
@@ -2865,47 +2926,11 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var nd = el("div", { class: "cal-nodate" }, [el("span", { text: noDay.length ? "No day yet:" : "Everything this week has a day." })].concat(noDay.map(item)));
     box.replaceChildren(cal, nd, el("div", { class: "cal-legend" }, [
       el("span", null, [el("i"), "Task"]), el("span", null, [el("i", { class: "routine" }), "Routine"]),
-      el("span", null, [el("i", { class: "protect" }), "Protected time"]), el("span", null, [el("i", { class: "big" }), "Big day"])]));
+      el("span", null, [el("i", { class: "protect" }), "Protected time"]), el("span", null, [el("i", { class: "big" }), "Big day"]),
+      el("span", { class: "cal-tip", text: "Click an empty spot to add a task there." })]));
   }
 
-  // ---------- Weekly routines from The Plan ----------
-  (function () {
-    var wrap = $("f-days");
-    DAYS.forEach(function (d) {
-      var b = el("button", { type: "button", title: d, "aria-label": d, "aria-pressed": "false", text: d.charAt(0) });
-      b.addEventListener("click", function () { b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); syncFormDays(); });
-      wrap.appendChild(b);
-    });
-  })();
-  function formDays() { var out = []; Array.prototype.forEach.call($("f-days").children, function (b, k) { if (b.getAttribute("aria-pressed") === "true") out.push(k); }); return out; }
-  function syncFormDays() { var n = formDays().length; if (n) $("f-times").value = String(n); $("f-times").disabled = n > 0; }
-  function updateRepeatUI() {
-    var editingRoutine = !!(state.editingId && (state.tasks.find(function (x) { return x.id === state.editingId; }) || {}).routineId);
-    var weekly = $("f-repeat").value === "weekly";
-    $("f-repeat").disabled = !!state.editingId || state.readOnly;
-    $("f-routineFields").hidden = !weekly || !!state.editingId;
-    $("f-due").closest(".field").hidden = weekly && !state.editingId;
-    $("f-status").closest(".field").hidden = weekly && !state.editingId;
-    $("repeatHint").textContent = editingRoutine ? "This week’s copy of a routine. Changes here apply to this week only; edit the routine itself in Weekly routines."
-      : weekly ? "Repeats every week from now on. Pick days to block them on the calendar, or leave days empty and set how many times."
-      : "A one-time task for the week you’re viewing.";
-  }
-  $("f-repeat").addEventListener("change", updateRepeatUI);
-  function saveAsRoutine(creator) {
-    var title = $("f-title").value.trim(), days = formDays();
-    var dur = parseInt($("f-duration").value, 10);
-    var r = { id: "r" + Date.now().toString(36), title: title.slice(0, 120), on: true,
-      times: days.length || Number($("f-times").value), days: days, time: /^\d{2}:\d{2}$/.test($("f-time").value) ? $("f-time").value : "",
-      duration: dur > 0 ? dur : 0, protected: $("f-protected").checked, priority: $("f-priority").value,
-      category: canonCategory($("f-project").value) || "Routines" };
-    var items = routineItems().map(function (x) { return Object.assign({}, x); }).concat([r]);
-    saveRoutines(items).then(function () {
-      var w = state.week >= THIS_WEEK ? state.week : THIS_WEEK;
-      setTimeout(function () { seedWeek(w, [r.id]); }, 0);
-      toast("Added “" + r.title + "” as a weekly routine. It’s in this week and every new week.");
-      clearForm(); render();
-    });
-  }
+  function updateRepeatUI() {}
 
   // ---------- Highlights, key takeaways and what's next ----------
   var AI_TAKEAWAYS = false;

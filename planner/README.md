@@ -71,3 +71,8 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 **Plan Your Week layout:** The Plan (left) sits beside Weekly routines (right), with Tasks this week full width underneath. The Plan no longer has a "Related to" field; related notes already saved on tasks still show as tags.
 
 **Example tasks:** the shared planner and its standalone copy (`dist/weekly-planner.html`) start empty and have no "Load example tasks" button; example tasks live only in the sample.
+
+**Simpler inputs and the calendar as the main view:**
+- *The Plan* shows only Task, Day, Start time, How long and Category. Who, status, priority, big day, protected time, notes, next step and created by sit under "More options". The Plan adds one-off tasks; repeating things go in Weekly routines.
+- *Weekly routines*: type a name, tap the days, optionally pick AM or PM, and press Add. Each routine is one line (on/off, name, days, AM/PM, remove). There is no exact time or length for routines.
+- *Your week* (bottom of Plan Your Week) opens on the calendar: AM and PM rows for routines, an Anytime row, hourly time blocks for timed tasks, and a "No day yet" list. Click an empty spot to start a task on that day and time. List and Timeline are one click away.
