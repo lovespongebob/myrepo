@@ -61,3 +61,9 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 - *Priority*: an optional important/urgent choice on each task, shown as a tag, with a "By priority" order in the task list.
 - *Protected time*: a checkbox on tasks and routines for free time or a nature day, shown as a tag.
 - Key takeaways and What's next now also use energy, what was learned, routine progress, priorities and protected time (including a nudge when other plans crowd a protected day).
+
+**Routines in The Plan, time blocks and the calendar:**
+- *Repeat* in The Plan: "Just this week" saves a one-off task for the week you're viewing; "Weekly routine" saves a routine that repeats every week, on the days you pick (or a number of times a week with a counter), and adds this week's copy right away.
+- *Suggested routines*: five, from the body-and-mind part of the weekly system: light workouts (Mon, Wed, Fri, 7am, 20 min), deep reading (every day, 9pm, 30 min), a film with a short reflection (Fri, 7:30pm), one piece of writing (Sun, 10am) and a day in nature (Sat, 9am to 3pm, protected). All start turned off.
+- *Time blocks*: tasks and routines can have a start time and a length. Routines with a time reserve that slot on each chosen day, every week.
+- *Calendar view* (Plan Your Week, Calendar): the week as seven day columns from 6am to 11pm with time blocks, an Anytime row for items with a day but no time, and a "No day yet" list. Overlapping items sit side by side; routines, protected time and big days have their own colours. Click any item to edit it.
