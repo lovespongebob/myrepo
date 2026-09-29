@@ -1196,6 +1196,28 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
 .cal-block.short { display: flex; align-items: center; gap: 5px; padding-top: 1px; padding-bottom: 1px; white-space: nowrap; }
 .cal-block.short span { order: -1; flex: none; font-weight: 600; }
 .cal-block.short b { min-width: 0; font-size: 11.5px; }
+
+/* Plan Your Week: The Plan beside Weekly routines, tasks full width below */
+#paneplanner .tasks-panel { margin-top: 0; }
+.rtpanel { align-content: start; }
+.rtpanel .rt-intro { margin: 0; }
+.rtpanel .rt-head { display: none; }
+.rtpanel .rt-list { gap: 10px; }
+.rtpanel .rt-row { grid-template-columns: 30px 96px minmax(0, 1fr) 32px; grid-template-areas: "on title title del" ". times day day" ". when when prot"; row-gap: 8px; column-gap: 10px; padding: 10px 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-solid); }
+.rtpanel .rt-row > :nth-child(1) { grid-area: on; } .rtpanel .rt-row > :nth-child(2) { grid-area: title; } .rtpanel .rt-row > :nth-child(3) { grid-area: times; }
+.rtpanel .rt-row > :nth-child(4) { grid-area: day; } .rtpanel .rt-row > :nth-child(5) { grid-area: when; } .rtpanel .rt-row > :nth-child(6) { grid-area: prot; justify-self: start; } .rtpanel .rt-row > :nth-child(7) { grid-area: del; }
+.rtpanel .rt-days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.rtpanel .rt-prot-text { display: inline; }
+.rtpanel .rt-row.off { background: var(--surface-sunk); }
+@media (max-width: 520px) {
+  .rtpanel .rt-row { grid-template-columns: 30px minmax(0, 1fr) 32px; grid-template-areas: "on title del" ". times ." ". day ." ". when ." ". prot ."; }
+}
+
+.rtpanel .rt-row { grid-template-columns: 30px 96px minmax(0, 1fr) 140px 32px; grid-template-areas: "on title title title del" ". times day day day" ". when when prot prot"; }
+.rtpanel .rt-prot { white-space: nowrap; }
+@media (max-width: 520px) {
+  .rtpanel .rt-row { grid-template-columns: 30px minmax(0, 1fr) 32px; grid-template-areas: "on title del" ". times ." ". day ." ". when ." ". prot ."; }
+}
 </style>
 
 <div class="wrap">
@@ -1386,10 +1408,6 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         <label class="check-inline" for="f-milestone"><input type="checkbox" id="f-milestone" name="milestone"> Big day <span class="hint">a birthday, recital, trip or special event</span></label>
         <label class="check-inline" for="f-protected"><input type="checkbox" id="f-protected" name="protected"> Protected time <span class="hint">keep it free</span></label>
         <div class="field">
-          <label for="f-related">Related to</label>
-          <input id="f-related" name="related" placeholder="Place, person or event" autocomplete="off">
-        </div>
-        <div class="field">
           <label for="f-notes">Notes</label>
           <textarea id="f-notes" name="notes" placeholder="Details, addresses, links…"></textarea>
         </div>
@@ -1409,7 +1427,21 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         </button>
       </div>
     </section>
-    <section class="panel" aria-labelledby="listTitle">
+    <section class="panel rtpanel" id="routinesPanel" aria-labelledby="rtTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="rtTitle">Weekly routines</h2>
+          <div class="sub">Repeats every week, on the days you pick</div>
+        </div>
+        <span class="hint mono" id="rtCount"></span>
+      </div>
+      <p class="hint rt-intro">Add a routine from The Plan (Repeat: Weekly routine) or turn on a suggestion here. Routines that are on are added to each new week automatically, in the Routines category. Pick days to get one task on each of those days, or leave the days empty to get one task with a counter.</p>
+      <div class="rt-head" aria-hidden="true"><span>On</span><span>Routine</span><span>Times a week</span><span>Days (pick any)</span><span>Time and length</span><span>Protected</span><span></span></div>
+      <ul class="rt-list" id="rtList"></ul>
+      <div class="rt-actions"><button type="button" class="chipbtn" id="rtAdd">+ Add a routine</button><span class="hint" id="rtNote"></span></div>
+    </section>
+    </div>
+    <section class="panel tasks-panel" aria-labelledby="listTitle">
         <div class="panel-head">
           <h2 id="listTitle">Tasks</h2>
           <span class="hint mono" id="listCount"></span>
@@ -1466,14 +1498,6 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
           </table>
         </div>
     </section>
-    </div>
-    <details class="panel reportbox routines" id="routinesPanel">
-      <summary><span>Your weekly routines</span><span class="hint mono" id="rtCount"></span></summary>
-      <p class="hint rt-intro">Add a routine from The Plan (Repeat: Weekly routine) or turn on a suggestion here. Routines that are on are added to each new week automatically, in the Routines category. Pick days to get one task on each of those days, or leave the days empty to get one task with a counter.</p>
-      <div class="rt-head" aria-hidden="true"><span>On</span><span>Routine</span><span>Times a week</span><span>Days (pick any)</span><span>Time and length</span><span>Protected</span><span></span></div>
-      <ul class="rt-list" id="rtList"></ul>
-      <div class="rt-actions"><button type="button" class="chipbtn" id="rtAdd">+ Add a routine</button><span class="hint" id="rtNote"></span></div>
-    </details>
   </section>
 
   <!-- 2. Weekly summary -->
@@ -2250,7 +2274,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("f-duration").value = t.duration ? String(t.duration) : "";
     $("f-repeat").value = t.routineId ? "weekly" : "once";
     $("f-next").value = t.nextStep || "";
-    $("f-project").value = t.project || ""; $("f-related").value = t.related || ""; $("f-notes").value = t.notes || "";
+    $("f-project").value = t.project || ""; $("f-notes").value = t.notes || "";
     $("editingNote").hidden = false;
     render();
     $("f-title").focus();
@@ -2308,7 +2332,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       id: existing ? existing.id : newId(),
       week: existing ? existing.week : state.week,
       title: title, status: $("f-status").value, due: $("f-due").value,
-      project: $("f-project").value.trim(), related: $("f-related").value.trim(), notes: $("f-notes").value.trim(),
+      project: $("f-project").value.trim(), related: existing ? (existing.related || "") : "", notes: $("f-notes").value.trim(),
       example: existing ? existing.example : false
     });
     store.putTask(t).then(function () {
@@ -2843,7 +2867,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     $("f-routineFields").hidden = !weekly || !!state.editingId;
     $("f-due").closest(".field").hidden = weekly && !state.editingId;
     $("f-status").closest(".field").hidden = weekly && !state.editingId;
-    $("repeatHint").textContent = editingRoutine ? "This week’s copy of a routine. Changes here apply to this week only; edit the routine itself in Your weekly routines below."
+    $("repeatHint").textContent = editingRoutine ? "This week’s copy of a routine. Changes here apply to this week only; edit the routine itself in Weekly routines."
       : weekly ? "Repeats every week from now on. Pick days to block them on the calendar, or leave days empty and set how many times."
       : "A one-time task for the week you’re viewing.";
   }

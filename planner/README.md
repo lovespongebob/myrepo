@@ -67,3 +67,5 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 - *Suggested routines*: five, from the body-and-mind part of the weekly system: light workouts (Mon, Wed, Fri, 7am, 20 min), deep reading (every day, 9pm, 30 min), a film with a short reflection (Fri, 7:30pm), one piece of writing (Sun, 10am) and a day in nature (Sat, 9am to 3pm, protected). All start turned off.
 - *Time blocks*: tasks and routines can have a start time and a length. Routines with a time reserve that slot on each chosen day, every week.
 - *Calendar view* (Plan Your Week, Calendar): the week as seven day columns from 6am to 11pm with time blocks, an Anytime row for items with a day but no time, and a "No day yet" list. Overlapping items sit side by side; routines, protected time and big days have their own colours. Click any item to edit it.
+
+**Plan Your Week layout:** The Plan (left) sits beside Weekly routines (right), with Tasks this week full width underneath. The Plan no longer has a "Related to" field; related notes already saved on tasks still show as tags.
