@@ -1145,6 +1145,18 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   .rt-row > :nth-child(4) { grid-area: day; } .rt-row > :nth-child(5) { grid-area: prot; justify-self: start; } .rt-row > :nth-child(6) { grid-area: del; }
   .rt-prot-text { display: inline; }
 }
+
+/* Routine days: pick any combination */
+.rt-head, .rt-row { grid-template-columns: 34px minmax(0, 1fr) 110px 226px 84px 32px; }
+.rt-days { display: grid; grid-template-columns: repeat(7, 28px); gap: 4px; }
+.rt-days button { height: 30px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface-solid); color: var(--ink); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0; }
+.rt-days button[aria-pressed="true"] { background: var(--band); border-color: var(--band); color: var(--lime); }
+.rt-days button:disabled { cursor: default; opacity: 0.6; }
+.rt-row select:disabled { color: var(--muted); background: var(--surface-sunk); }
+@media (max-width: 760px) {
+  .rt-row { grid-template-columns: 30px minmax(0, 1fr) 32px; grid-template-areas: "on title del" ". times ." ". day ." ". prot ."; }
+  .rt-days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+}
 </style>
 
 <div class="wrap">
@@ -1400,8 +1412,8 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     </div>
     <details class="panel reportbox routines" id="routinesPanel">
       <summary><span>Weekly routines</span><span class="hint mono" id="rtCount"></span></summary>
-      <p class="hint rt-intro">Set up your regular weekly actions once. Routines that are on are added to each new week automatically, in the Routines category. Actions you do several times a week get a counter.</p>
-      <div class="rt-head" aria-hidden="true"><span>On</span><span>Routine</span><span>Times a week</span><span>Day</span><span>Protected</span><span></span></div>
+      <p class="hint rt-intro">Set up your regular weekly actions once. Routines that are on are added to each new week automatically, in the Routines category. Pick days to get one task on each of those days, or leave the days empty to get one task with a counter.</p>
+      <div class="rt-head" aria-hidden="true"><span>On</span><span>Routine</span><span>Times a week</span><span>Days (pick any)</span><span>Protected</span><span></span></div>
       <ul class="rt-list" id="rtList"></ul>
       <div class="rt-actions"><button type="button" class="chipbtn" id="rtAdd">+ Add a routine</button><span class="hint" id="rtNote"></span></div>
     </details>
@@ -2481,17 +2493,17 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   // ---------- Weekly system: routines, Sunday reset, check-in ----------
   var RT_KEY = "routines";
   var SUGGESTED_ROUTINES = [
-    { id: "outfits", title: "Plan 5 outfits for the week", times: 1, day: "6", protected: false },
-    { id: "meals", title: "Plan the week’s meals and shop", times: 1, day: "6", protected: false },
-    { id: "plan", title: "Sunday evening: plan the week", times: 1, day: "6", protected: false },
-    { id: "workout", title: "Light workout (run, jump rope, stretch)", times: 3, day: "", protected: false },
-    { id: "read", title: "Read 30 minutes", times: 5, day: "", protected: false },
-    { id: "film", title: "Watch a good film and write a short reflection", times: 1, day: "", protected: false },
-    { id: "write", title: "Write one piece (post, notes or lessons)", times: 1, day: "", protected: false },
-    { id: "nature", title: "Day in nature (hike, bike or walk)", times: 1, day: "5", protected: true },
-    { id: "declutter", title: "15-minute declutter: one in, one out", times: 1, day: "", protected: false },
-    { id: "free", title: "Free time just for fun", times: 1, day: "5", protected: true },
-    { id: "review", title: "Sunday review (60 minutes)", times: 1, day: "6", protected: false }
+    { id: "outfits", title: "Plan 5 outfits for the week", times: 1, days: [6], protected: false },
+    { id: "meals", title: "Plan the week’s meals and shop", times: 1, days: [6], protected: false },
+    { id: "plan", title: "Sunday evening: plan the week", times: 1, days: [6], protected: false },
+    { id: "workout", title: "Light workout (run, jump rope, stretch)", times: 3, days: [], protected: false },
+    { id: "read", title: "Read 30 minutes", times: 5, days: [], protected: false },
+    { id: "film", title: "Watch a good film and write a short reflection", times: 1, days: [], protected: false },
+    { id: "write", title: "Write one piece (post, notes or lessons)", times: 1, days: [], protected: false },
+    { id: "nature", title: "Day in nature (hike, bike or walk)", times: 1, days: [5], protected: true },
+    { id: "declutter", title: "15-minute declutter: one in, one out", times: 1, days: [], protected: false },
+    { id: "free", title: "Free time just for fun", times: 1, days: [5], protected: true },
+    { id: "review", title: "Sunday review (60 minutes)", times: 1, days: [6], protected: false }
   ];
   var DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // The page's own latest save wins until the shared copy catches up, so quick changes never undo each other.
@@ -2514,11 +2526,21 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     rtPending = { kind: "routines", items: items, seeded: seeded, updated: Math.max(Date.now(), (d.updated || 0) + 1) };
     return store.putWeek(RT_KEY, rtPending);
   }
-  function routineTaskFor(r, week) {
+  // Days a routine is set for (0 = Mon ... 6 = Sun); older saves kept a single "day".
+  function daysOf(r) {
+    var ds = Array.isArray(r.days) ? r.days : (r.day !== "" && r.day != null ? [r.day] : []);
+    return ds.map(Number).filter(function (n, i, a) { return n >= 0 && n <= 6 && a.indexOf(n) === i; }).sort();
+  }
+  function routineTaskIds(r, week) {
+    var ds = daysOf(r);
+    return ds.length ? ds.map(function (d) { return "rt-" + r.id + "-" + week + "-d" + d; }) : ["rt-" + r.id + "-" + week];
+  }
+  function routineTaskFor(r, week, d) {
+    var perDay = d != null;
     return cleanTask({
-      id: "rt-" + r.id + "-" + week, week: week, title: r.title, status: "not_started",
-      due: r.day !== "" && r.day != null ? addDays(week, Number(r.day)) : "",
-      project: "Routines", routineId: r.id, target: r.times > 1 ? r.times : undefined, doneCount: 0,
+      id: perDay ? "rt-" + r.id + "-" + week + "-d" + d : "rt-" + r.id + "-" + week, week: week, title: r.title, status: "not_started",
+      due: perDay ? addDays(week, d) : "",
+      project: "Routines", routineId: r.id, target: !perDay && r.times > 1 ? r.times : undefined, doneCount: 0,
       protected: !!r.protected, owner: state.me, assigneeName: myName(), ownerNames: myName() ? [myName()] : [],
       createdBy: state.me, createdByName: myName()
     });
@@ -2531,8 +2553,10 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
     var todo = d.items.filter(function (r) { return r.on && r.title && (!onlyIds || onlyIds.indexOf(r.id) >= 0) && done.indexOf(r.id) < 0; });
     if (!todo.length) return;
     todo.forEach(function (r) {
-      var id = "rt-" + r.id + "-" + week;
-      if (!state.tasks.some(function (t) { return t.id === id; })) store.putTask(routineTaskFor(r, week)).catch(function () {});
+      var ds = daysOf(r);
+      routineTaskIds(r, week).forEach(function (id, k) {
+        if (!state.tasks.some(function (t) { return t.id === id; })) store.putTask(routineTaskFor(r, week, ds.length ? ds[k] : null)).catch(function () {});
+      });
     });
     var patch = {}; patch[week] = done.concat(todo.map(function (r) { return r.id; }));
     saveRoutines(d.items, patch);
@@ -2558,24 +2582,38 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
       var times = el("select", { "aria-label": "Times a week" });
       for (var n = 1; n <= 7; n++) times.appendChild(el("option", { value: String(n), text: n === 1 ? "Once" : n + " times" }));
       times.value = String(r.times || 1);
-      var day = el("select", { "aria-label": "Day" });
-      day.appendChild(el("option", { value: "", text: "Any day" }));
-      DAYS.forEach(function (d, k) { day.appendChild(el("option", { value: String(k), text: d })); });
-      day.value = r.day == null ? "" : String(r.day);
+      var chosen = daysOf(r);
+      var day = el("div", { class: "rt-days", role: "group", "aria-label": "Days for " + r.title });
+      DAYS.forEach(function (d, k) {
+        var b = el("button", { type: "button", title: d, "aria-label": d, "aria-pressed": String(chosen.indexOf(k) >= 0), text: d.charAt(0) });
+        b.disabled = state.readOnly;
+        b.addEventListener("click", function () {
+          b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+          var n = pickedDays().length;
+          if (n) times.value = String(n);
+          times.disabled = state.readOnly || n > 0;
+          times.title = n ? "Set by the days you picked" : "";
+          commit(false);
+        });
+        day.appendChild(b);
+      });
+      if (chosen.length) { times.value = String(chosen.length); times.disabled = true; times.title = "Set by the days you picked"; }
       var prot = el("input", { type: "checkbox", "aria-label": "Protected time: " + r.title }); prot.checked = !!r.protected;
       var del = el("button", { type: "button", class: "rt-del", "aria-label": "Remove " + r.title, text: "×" });
-      [onBox, title, times, day, prot].forEach(function (f) { f.disabled = state.readOnly; });
+      [onBox, title, times, prot].forEach(function (f) { f.disabled = state.readOnly || (f === times && times.disabled); });
       del.disabled = state.readOnly;
       function commit(turnedOn) {
         var next = routineItems().map(function (x) { return Object.assign({}, x); });
-        next[i] = Object.assign({}, next[i], { on: onBox.checked, title: title.value.trim().slice(0, 120) || next[i].title, times: Number(times.value), day: day.value, protected: prot.checked });
+        next[i] = Object.assign({}, next[i], { on: onBox.checked, title: title.value.trim().slice(0, 120) || next[i].title, times: Number(times.value), days: pickedDays(), day: undefined, protected: prot.checked });
+        if (next[i].days.length) next[i].times = next[i].days.length;
         saveRoutines(next).then(function () {
           if (turnedOn && state.week >= THIS_WEEK) setTimeout(function () { seedWeek(state.week, [next[i].id]); }, 0);
           $("rtNote").textContent = turnedOn ? "Added to this week. It will appear in each new week too." : "Saved. Changes apply to new weeks.";
         });
       }
       onBox.addEventListener("change", function () { commit(onBox.checked); });
-      [times, day, prot].forEach(function (f) { f.addEventListener("change", function () { commit(false); }); });
+      function pickedDays() { var out = []; Array.prototype.forEach.call(day.children, function (b, k) { if (b.getAttribute("aria-pressed") === "true") out.push(k); }); return out; }
+      [times, prot].forEach(function (f) { f.addEventListener("change", function () { commit(false); }); });
       title.addEventListener("blur", function () { if (title.value.trim() !== r.title) commit(false); });
       title.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); title.blur(); } });
       del.addEventListener("click", function () {
