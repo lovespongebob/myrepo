@@ -1185,7 +1185,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
         </div>
         <div class="field">
           <label for="f-project">Category</label>
-          <input id="f-project" name="project" list="projectList" placeholder="e.g. Fitness, Home or Errands" autocomplete="off">
+          <input id="f-project" name="project" list="projectList" placeholder="e.g. Home, Errands, Fitness or Work" autocomplete="off">
           <datalist id="projectList"></datalist>
         </div>
         <div class="field">
@@ -1878,7 +1878,7 @@ body { background: linear-gradient(180deg, #FCFCFC 0, #F0F2F2 520px) fixed, #F0F
   }
 
   function renderProjects() {
-    var names = {};
+    var names = { Work: true };   // always offered, even before any Work task exists
     state.tasks.forEach(function (t) { if (t.project) names[t.project] = true; });
     $("projectList").replaceChildren.apply($("projectList"), Object.keys(names).sort().map(function (n) { return el("option", { value: n }); }));
   }
