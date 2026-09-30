@@ -1677,6 +1677,11 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .cal-part > div.today { background: color-mix(in srgb, var(--mint, #A8E6D2) 14%, transparent); }
 .cal-part > div[data-day]:hover { background: color-mix(in srgb, var(--mint, #A8E6D2) 10%, transparent); }
 .cal-part .cal-item { white-space: normal; }
+
+/* ================= Goals for the week on Plan Your Week; next week's goals beside Highlights ================= */
+.goals-panel { display: grid; gap: 12px; }
+@media (min-width: 900px) { #paneplanner .goals-panel .goals3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.whatsnext .ng-suggest { margin-top: 4px; padding-top: 10px; border-top: 1px dashed color-mix(in srgb, var(--mint-deep, #7FD3B8) 60%, transparent); }
 </style>
 
 <div class="wrap">
@@ -1792,6 +1797,20 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="sr" tabindex="-1">
       </div>
     </div>
+    <section class="panel goals-panel" aria-labelledby="msTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="msTitle">Goals for the week</h2>
+          <div class="hint">The three things you most want to get done. Click a number to tick one off.</div>
+        </div>
+        <span class="hint mono" id="msCount"></span>
+      </div>
+      <ol class="top3 goals3" id="goals3">
+        <li><input type="checkbox" id="goal-done-0" aria-label="Goal 1 achieved"><label class="sr" for="goal-0">Goal 1</label><input id="goal-0" maxlength="160" autocomplete="off" placeholder="e.g. Three yoga classes this week"></li>
+        <li><input type="checkbox" id="goal-done-1" aria-label="Goal 2 achieved"><label class="sr" for="goal-1">Goal 2</label><input id="goal-1" maxlength="160" autocomplete="off" placeholder="e.g. Meal plan done by Sunday"></li>
+        <li><input type="checkbox" id="goal-done-2" aria-label="Goal 3 achieved"><label class="sr" for="goal-2">Goal 3</label><input id="goal-2" maxlength="160" autocomplete="off" placeholder="e.g. Book the family trip"></li>
+      </ol>
+    </section>
     <div class="grid">
     <section class="panel entry" aria-labelledby="entryTitle">
       <div class="brand">
@@ -2009,24 +2028,25 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
           <label for="reportOut">Weekly summary text</label><textarea id="reportOut" readonly></textarea>
         </div>
       </section>
-      <section class="panel" aria-labelledby="msTitle">
+      <section class="panel sum-nextgoals" aria-labelledby="ngTitle">
         <div class="panel-head">
           <div>
-            <h2 id="msTitle">Goals for the week</h2>
-            <div class="hint">The three things you most want to get done. Click a number to tick one off.</div>
+            <h2 id="ngTitle">Goals for next week</h2>
+            <div class="hint" id="ngRange">The three things you most want to get done next week.</div>
           </div>
-          <span class="hint mono" id="msCount"></span>
+          <span class="hint mono" id="ngCount"></span>
         </div>
-        <ol class="top3 goals3" id="goals3">
-          <li><input type="checkbox" id="goal-done-0" aria-label="Goal 1 achieved"><label class="sr" for="goal-0">Goal 1</label><input id="goal-0" maxlength="160" autocomplete="off" placeholder="e.g. Three yoga classes this week"></li>
-          <li><input type="checkbox" id="goal-done-1" aria-label="Goal 2 achieved"><label class="sr" for="goal-1">Goal 2</label><input id="goal-1" maxlength="160" autocomplete="off" placeholder="e.g. Meal plan done by Sunday"></li>
-          <li><input type="checkbox" id="goal-done-2" aria-label="Goal 3 achieved"><label class="sr" for="goal-2">Goal 3</label><input id="goal-2" maxlength="160" autocomplete="off" placeholder="e.g. Book the family trip"></li>
+        <ol class="top3 goals-next" id="goalsNext">
+          <li><label class="sr" for="ng-0">Next week’s goal 1</label><input id="ng-0" maxlength="160" autocomplete="off" placeholder="e.g. Three yoga classes"></li>
+          <li><label class="sr" for="ng-1">Next week’s goal 2</label><input id="ng-1" maxlength="160" autocomplete="off" placeholder="e.g. Plan the weekend trip"></li>
+          <li><label class="sr" for="ng-2">Next week’s goal 3</label><input id="ng-2" maxlength="160" autocomplete="off" placeholder="e.g. One chapter of reading notes a day"></li>
         </ol>
         <div class="takeaways whatsnext">
           <span class="tk-arrow" role="img" aria-label="Key takeaways inform what’s next" title="Key takeaways inform what’s next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           <div class="tk-head"><h3>What’s next</h3></div>
           <ol class="tk-list next-list" id="whatsNext"></ol>
           <div class="hint" id="nextSource"></div>
+          <div class="ng-suggest" id="ngSuggest"></div>
         </div>
       </section>
     </div>
@@ -2070,21 +2090,6 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </div>
       </div>
     </section>
-    <section class="panel sum-nextgoals" aria-labelledby="ngTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="ngTitle">Goals for next week</h2>
-            <div class="hint" id="ngRange">The three things you most want to get done next week.</div>
-          </div>
-          <span class="hint mono" id="ngCount"></span>
-        </div>
-        <ol class="top3 goals-next" id="goalsNext">
-          <li><label class="sr" for="ng-0">Next week’s goal 1</label><input id="ng-0" maxlength="160" autocomplete="off" placeholder="e.g. Three yoga classes"></li>
-          <li><label class="sr" for="ng-1">Next week’s goal 2</label><input id="ng-1" maxlength="160" autocomplete="off" placeholder="e.g. Plan the weekend trip"></li>
-          <li><label class="sr" for="ng-2">Next week’s goal 3</label><input id="ng-2" maxlength="160" autocomplete="off" placeholder="e.g. One chapter of reading notes a day"></li>
-        </ol>
-        <div class="ng-suggest" id="ngSuggest"></div>
-      </section>
     <section class="panel checkin" aria-labelledby="ciTitle">
       <div class="panel-head">
         <div>
@@ -3557,7 +3562,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     var have = {}; filled.forEach(function (m) { have[norm(m.text)] = true; });
     var ideas = state.readOnly || filled.length >= 3 ? [] : currentNext().map(goalFromNext).filter(function (s) { return s && !have[norm(s)]; }).slice(0, 3);
     var box = $("ngSuggest");
-    box.replaceChildren.apply(box, ideas.length ? [el("span", { class: "hint", text: "From What’s next:" })].concat(ideas.map(function (s) {
+    box.replaceChildren.apply(box, ideas.length ? [el("span", { class: "hint", text: "Add as a goal:" })].concat(ideas.map(function (s) {
       return el("button", { type: "button", class: "chipbtn ng-idea", title: "Use as a goal for next week", text: "+ " + s, onclick: function () {
         var i = [0, 1, 2].filter(function (k) { return !$("ng-" + k).value.trim(); })[0];
         if (i == null) return;
