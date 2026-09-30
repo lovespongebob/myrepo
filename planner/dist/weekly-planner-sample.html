@@ -1780,6 +1780,79 @@ body { background: var(--bg); }
 .takeaways .next-list li::before { background: none !important; width: auto; height: auto; border-radius: 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .takeaways .hint { color: rgba(255, 255, 255, 0.78); } }
 :root[data-theme="dark"] .takeaways .hint { color: rgba(255, 255, 255, 0.78); }
+
+/* ================= Exact deck colours: teal #2A9C9B, near-black #051016, neutral greys, aqua #45E3E0 ================= */
+:root {
+  --navy-900: #051016; --band: #051016; --cover: #051016;
+  --ink: #0C1216; --muted: #545B5E;
+  --bg: #E4E4E4; --line: #D6D8D8; --line-strong: #C2C5C6; --surface-sunk: #F2F2F2;
+  --mint: #45E3E0; --lime: #45E3E0; --tile: #45E3E0;
+  --teal: #2A9C9B; --accent: #1E7F7E; --accent-soft: #D9EEEE;
+}
+body { background: linear-gradient(180deg, #EDEDED 0, #E1E2E2 560px) fixed, #E1E2E2; }
+.home-cover, .top, .intro > header, .cta {
+  background:
+    radial-gradient(560px 340px at 100% 55%, rgba(69, 227, 224, 0.30), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(69, 227, 224, 0.05) 0 2px, transparent 2px 46px),
+    #051016;
+}
+.sitefoot, .wrap.is-home .sitefoot, .next-ms { background: #051016; }
+.panel > .panel-head:first-child, .panel.entry > .brand, .reportbox > summary { background: linear-gradient(180deg, #F7F7F7 0%, #E6E7E7 100%); border-bottom-color: #D6D8D8; }
+/* Featured cards in the deck's teal, with dark text like the deck */
+.takeaways { background: #2A9C9B; border-color: #2A9C9B; color: #051016; }
+.takeaways h3, .takeaways .tk-list li { color: #051016; }
+.takeaways .hint, .whatsnext .ng-suggest .hint { color: rgba(5, 16, 22, 0.72); }
+.tk-list li::before { background: #051016; }
+.takeaways .next-list li::before { color: #051016; }
+.takeaways .linkbtn { color: #051016; }
+.whatsnext .ng-suggest { border-top-color: rgba(5, 16, 22, 0.25); }
+.ng-idea { background: #FFFFFF; color: #051016; border-color: rgba(5, 16, 22, 0.15); }
+.tk-arrow { background: #051016; color: #45E3E0; }
+#homeView .navtile, #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #FAFAFA 0%, #E6E7E7 100%); }
+#homeView .navtile:hover, #homeView .navtile:focus-visible { background: #2A9C9B; }
+#homeView .navtile:hover .nt-head, #homeView .navtile:hover .nt-desc, #homeView .navtile:focus-visible .nt-head, #homeView .navtile:focus-visible .nt-desc, #homeView .navtile:hover .nt-body svg, #homeView .navtile:focus-visible .nt-body svg { color: #051016; }
+#homeView .navtile:hover .nt-head::before, #homeView .navtile:focus-visible .nt-head::before { border-color: #051016; color: #051016; }
+.goals3 input[type="checkbox"]:checked, .kms input[type="checkbox"]:checked { background: #2A9C9B; border-color: #2A9C9B; }
+.goals3 input[type="checkbox"]:checked::after, .kms input[type="checkbox"]:checked::after { color: #051016; }
+.feat .ic { background: #2A9C9B; color: #051016; }
+.gate::before { background: #2A9C9B; }
+.cal-head > div { background: #F2F2F2; }
+.dn-well { background: #D9EEEE; }
+.intro .story strong { background: #CDEBEA; }
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) { --bg: #030B0F; --surface: #0A161B; --surface-solid: #0A161B; --surface-sunk: #071116; --line: #16272E; --line-strong: #203740; --ink: #E9F0F0; --muted: #9AABB0; --mint: #45E3E0; --accent: #5FE3DF; }
+:root:not([data-theme="light"]) body { background: #030B0F; }
+:root:not([data-theme="light"]) .home-cover, :root:not([data-theme="light"]) .top, :root:not([data-theme="light"]) .intro > header, :root:not([data-theme="light"]) .cta, :root:not([data-theme="light"]) .sitefoot, :root:not([data-theme="light"]) .wrap.is-home .sitefoot, :root:not([data-theme="light"]) .next-ms { background: radial-gradient(560px 340px at 100% 55%, rgba(69, 227, 224, 0.20), transparent 70%), #051016; border-color: #16272E; }
+:root:not([data-theme="light"]) .panel > .panel-head:first-child, :root:not([data-theme="light"]) .panel.entry > .brand, :root:not([data-theme="light"]) .reportbox > summary { background: linear-gradient(180deg, #0F1E24 0%, #0B181D 100%); border-bottom-color: #16272E; }
+:root:not([data-theme="light"]) th, :root:not([data-theme="light"]) .ts-table th, :root:not([data-theme="light"]) .panel th, :root:not([data-theme="light"]) .panel .ts-table th, :root:not([data-theme="light"]) .cal-head > div { background: #0F1E24; }
+:root:not([data-theme="light"]) .takeaways { background: #2A9C9B; border-color: #2A9C9B; }
+:root:not([data-theme="light"]) .takeaways h3, :root:not([data-theme="light"]) .takeaways .tk-list li { color: #051016; }
+:root:not([data-theme="light"]) .takeaways .hint { color: rgba(5, 16, 22, 0.72); }
+:root:not([data-theme="light"]) .tk-list li::before { background: #051016; }
+:root:not([data-theme="light"]) .takeaways .next-list li::before { color: #051016; }
+:root:not([data-theme="light"]) #homeView .navtile, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #0F1E24 0%, #0A161B 100%); border-color: #16272E; }
+:root:not([data-theme="light"]) #homeView .navtile:hover, :root:not([data-theme="light"]) #homeView .navtile:focus-visible { background: #2A9C9B; border-color: #2A9C9B; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head, :root:not([data-theme="light"]) #homeView .navtile:hover .nt-desc, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-desc, :root:not([data-theme="light"]) #homeView .navtile:hover .nt-body svg, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-body svg { color: #051016; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head::before, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head::before { border-color: #051016; color: #051016; }
+:root:not([data-theme="light"]) .dn-well { background: #0F2A2B; }
+:root:not([data-theme="light"]) .dn-day:hover:not(.on) { background: #0F1E24; }
+}
+:root[data-theme="dark"] { --bg: #030B0F; --surface: #0A161B; --surface-solid: #0A161B; --surface-sunk: #071116; --line: #16272E; --line-strong: #203740; --ink: #E9F0F0; --muted: #9AABB0; --mint: #45E3E0; --accent: #5FE3DF; }
+:root[data-theme="dark"] body { background: #030B0F; }
+:root[data-theme="dark"] .home-cover, :root[data-theme="dark"] .top, :root[data-theme="dark"] .intro > header, :root[data-theme="dark"] .cta, :root[data-theme="dark"] .sitefoot, :root[data-theme="dark"] .wrap.is-home .sitefoot, :root[data-theme="dark"] .next-ms { background: radial-gradient(560px 340px at 100% 55%, rgba(69, 227, 224, 0.20), transparent 70%), #051016; border-color: #16272E; }
+:root[data-theme="dark"] .panel > .panel-head:first-child, :root[data-theme="dark"] .panel.entry > .brand, :root[data-theme="dark"] .reportbox > summary { background: linear-gradient(180deg, #0F1E24 0%, #0B181D 100%); border-bottom-color: #16272E; }
+:root[data-theme="dark"] th, :root[data-theme="dark"] .ts-table th, :root[data-theme="dark"] .panel th, :root[data-theme="dark"] .panel .ts-table th, :root[data-theme="dark"] .cal-head > div { background: #0F1E24; }
+:root[data-theme="dark"] .takeaways { background: #2A9C9B; border-color: #2A9C9B; }
+:root[data-theme="dark"] .takeaways h3, :root[data-theme="dark"] .takeaways .tk-list li { color: #051016; }
+:root[data-theme="dark"] .takeaways .hint { color: rgba(5, 16, 22, 0.72); }
+:root[data-theme="dark"] .tk-list li::before { background: #051016; }
+:root[data-theme="dark"] .takeaways .next-list li::before { color: #051016; }
+:root[data-theme="dark"] #homeView .navtile, :root[data-theme="dark"] #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #0F1E24 0%, #0A161B 100%); border-color: #16272E; }
+:root[data-theme="dark"] #homeView .navtile:hover, :root[data-theme="dark"] #homeView .navtile:focus-visible { background: #2A9C9B; border-color: #2A9C9B; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head, :root[data-theme="dark"] #homeView .navtile:hover .nt-desc, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-desc, :root[data-theme="dark"] #homeView .navtile:hover .nt-body svg, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-body svg { color: #051016; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head::before, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head::before { border-color: #051016; color: #051016; }
+:root[data-theme="dark"] .dn-well { background: #0F2A2B; }
+:root[data-theme="dark"] .dn-day:hover:not(.on) { background: #0F1E24; }
 </style>
 
 <div class="wrap">
