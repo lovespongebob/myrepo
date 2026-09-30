@@ -1562,6 +1562,72 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .cal-day.today .cal-note { background: var(--mint, #A8E6D2); color: var(--navy-900, #15202B); }
 @media (max-width: 860px) { .dn-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 520px) { .dn-days { gap: 4px; } .dn-day { padding: 6px 2px; } .dn-day b { font-size: 11px; } .dn-row { grid-template-columns: minmax(0, 1fr); } }
+
+/* ================= Dark mode for the navy and mint theme ================= */
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) .panel > .panel-head:first-child, :root:not([data-theme="light"]) .panel.entry > .brand, :root:not([data-theme="light"]) .reportbox > summary { background: linear-gradient(120deg, #173029 0%, #1D3B33 100%); color: var(--ink); border-bottom-color: #2C4A42; }
+:root:not([data-theme="light"]) .panel > .panel-head:first-child h2, :root:not([data-theme="light"]) .panel.entry > .brand h2, :root:not([data-theme="light"]) .panel > .panel-head:first-child .mono, :root:not([data-theme="light"]) .panel > .panel-head:first-child .count, :root:not([data-theme="light"]) .reportbox > summary { color: var(--ink); }
+:root:not([data-theme="light"]) .panel > .panel-head:first-child .hint, :root:not([data-theme="light"]) .panel.entry > .brand .sub { color: var(--muted); }
+:root:not([data-theme="light"]) th, :root:not([data-theme="light"]) .ts-table th, :root:not([data-theme="light"]) .panel th, :root:not([data-theme="light"]) .panel .ts-table th, :root:not([data-theme="light"]) .cal-head > div { background: #173029; color: var(--ink); }
+:root:not([data-theme="light"]) .cal-day span { color: var(--muted); }
+:root:not([data-theme="light"]) #homeView .navtile, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) { background: var(--surface); border: 1px solid var(--line); }
+:root:not([data-theme="light"]) #homeView .nt-head, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) .nt-head, :root:not([data-theme="light"]) #homeView .nt-desc, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) .nt-desc { color: var(--ink); }
+:root:not([data-theme="light"]) #homeView .nt-body svg, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) .nt-body svg { color: var(--mint); }
+:root:not([data-theme="light"]) #homeView .nt-head::before { border-color: var(--mint); color: var(--mint); }
+:root:not([data-theme="light"]) #homeView .navtile:hover, :root:not([data-theme="light"]) #homeView .navtile:focus-visible { background: var(--mint); border-color: var(--mint); }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head, :root:not([data-theme="light"]) #homeView .navtile:hover .nt-desc, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-desc { color: #15202B; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head::before, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head::before { border-color: #15202B; color: #15202B; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-body svg, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-body svg { color: #15202B; }
+:root:not([data-theme="light"]) .home-cover, :root:not([data-theme="light"]) .top, :root:not([data-theme="light"]) .intro > header, :root:not([data-theme="light"]) .cta, :root:not([data-theme="light"]) .sitefoot, :root:not([data-theme="light"]) .wrap.is-home .sitefoot, :root:not([data-theme="light"]) .next-ms { background: #17222C; border: 1px solid var(--line); box-shadow: none; }
+:root:not([data-theme="light"]) .b-save, :root:not([data-theme="light"]) .exportbtn, :root:not([data-theme="light"]) .savebtn, :root:not([data-theme="light"]) #rtAddBtn, :root:not([data-theme="light"]) .gate a, :root:not([data-theme="light"]) .toast { background: var(--mint); color: #15202B; }
+:root:not([data-theme="light"]) .b-fill, :root:not([data-theme="light"]) .backbtn, :root:not([data-theme="light"]) .gate button { border-color: var(--line-strong); color: var(--ink); background: transparent; }
+:root:not([data-theme="light"]) .backbtn:hover { background: var(--mint); color: #15202B; border-color: var(--mint); }
+:root:not([data-theme="light"]) .seg button[aria-pressed="true"], :root:not([data-theme="light"]) .crumbs button[aria-current="page"], :root:not([data-theme="light"]) #energy button[aria-pressed="true"], :root:not([data-theme="light"]) .dn-day.on, :root:not([data-theme="light"]) .cal-day.today { background: var(--mint); color: #15202B; border-color: var(--mint); }
+:root:not([data-theme="light"]) .cal-day.today span, :root:not([data-theme="light"]) .cal-day.today b { color: #15202B; }
+:root:not([data-theme="light"]) .rt-days button[aria-pressed="true"], :root:not([data-theme="light"]) .rt-part button[aria-pressed="true"] { background: var(--mint); border-color: var(--mint); color: #15202B; }
+:root:not([data-theme="light"]) .dn-day.today:not(.on) { border-color: var(--mint); }
+:root:not([data-theme="light"]) .top3 li::before, :root:not([data-theme="light"]) .check-num { border-color: var(--mint); color: var(--mint); }
+:root:not([data-theme="light"]) .goals3 input[type="checkbox"], :root:not([data-theme="light"]) .kms input[type="checkbox"] { border-color: var(--mint); }
+:root:not([data-theme="light"]) .goals3 input[type="checkbox"]::after, :root:not([data-theme="light"]) .kms input[type="checkbox"]::after { color: var(--mint); }
+:root:not([data-theme="light"]) .goals3 input[type="checkbox"]:checked::after, :root:not([data-theme="light"]) .kms input[type="checkbox"]:checked::after { color: #15202B; }
+:root:not([data-theme="light"]) .tk-list li::before { background: var(--mint); }
+:root:not([data-theme="light"]) .next-list li::before { background: none; color: var(--mint); }
+:root:not([data-theme="light"]) .field input:focus, :root:not([data-theme="light"]) .field select:focus, :root:not([data-theme="light"]) .field textarea:focus, :root:not([data-theme="light"]) .note-area:focus, :root:not([data-theme="light"]) .ms-add input:focus, :root:not([data-theme="light"]) .top3 input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px #24453D; }
+:root:not([data-theme="light"]) .intro .story strong { background: #24453D; color: var(--ink); }
+:root:not([data-theme="light"]) .gate::before { background: var(--mint); }
+:root:not([data-theme="light"]) .check-inline input, :root:not([data-theme="light"]) .t-check, :root:not([data-theme="light"]) .check input, :root:not([data-theme="light"]) .rt-on, :root:not([data-theme="light"]) .dn-form .dn-check input { accent-color: var(--mint); }
+}
+:root[data-theme="dark"] .panel > .panel-head:first-child, :root[data-theme="dark"] .panel.entry > .brand, :root[data-theme="dark"] .reportbox > summary { background: linear-gradient(120deg, #173029 0%, #1D3B33 100%); color: var(--ink); border-bottom-color: #2C4A42; }
+:root[data-theme="dark"] .panel > .panel-head:first-child h2, :root[data-theme="dark"] .panel.entry > .brand h2, :root[data-theme="dark"] .panel > .panel-head:first-child .mono, :root[data-theme="dark"] .panel > .panel-head:first-child .count, :root[data-theme="dark"] .reportbox > summary { color: var(--ink); }
+:root[data-theme="dark"] .panel > .panel-head:first-child .hint, :root[data-theme="dark"] .panel.entry > .brand .sub { color: var(--muted); }
+:root[data-theme="dark"] th, :root[data-theme="dark"] .ts-table th, :root[data-theme="dark"] .panel th, :root[data-theme="dark"] .panel .ts-table th, :root[data-theme="dark"] .cal-head > div { background: #173029; color: var(--ink); }
+:root[data-theme="dark"] .cal-day span { color: var(--muted); }
+:root[data-theme="dark"] #homeView .navtile, :root[data-theme="dark"] #homeView .navtile:nth-child(2) { background: var(--surface); border: 1px solid var(--line); }
+:root[data-theme="dark"] #homeView .nt-head, :root[data-theme="dark"] #homeView .navtile:nth-child(2) .nt-head, :root[data-theme="dark"] #homeView .nt-desc, :root[data-theme="dark"] #homeView .navtile:nth-child(2) .nt-desc { color: var(--ink); }
+:root[data-theme="dark"] #homeView .nt-body svg, :root[data-theme="dark"] #homeView .navtile:nth-child(2) .nt-body svg { color: var(--mint); }
+:root[data-theme="dark"] #homeView .nt-head::before { border-color: var(--mint); color: var(--mint); }
+:root[data-theme="dark"] #homeView .navtile:hover, :root[data-theme="dark"] #homeView .navtile:focus-visible { background: var(--mint); border-color: var(--mint); }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head, :root[data-theme="dark"] #homeView .navtile:hover .nt-desc, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-desc { color: #15202B; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head::before, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head::before { border-color: #15202B; color: #15202B; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-body svg, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-body svg { color: #15202B; }
+:root[data-theme="dark"] .home-cover, :root[data-theme="dark"] .top, :root[data-theme="dark"] .intro > header, :root[data-theme="dark"] .cta, :root[data-theme="dark"] .sitefoot, :root[data-theme="dark"] .wrap.is-home .sitefoot, :root[data-theme="dark"] .next-ms { background: #17222C; border: 1px solid var(--line); box-shadow: none; }
+:root[data-theme="dark"] .b-save, :root[data-theme="dark"] .exportbtn, :root[data-theme="dark"] .savebtn, :root[data-theme="dark"] #rtAddBtn, :root[data-theme="dark"] .gate a, :root[data-theme="dark"] .toast { background: var(--mint); color: #15202B; }
+:root[data-theme="dark"] .b-fill, :root[data-theme="dark"] .backbtn, :root[data-theme="dark"] .gate button { border-color: var(--line-strong); color: var(--ink); background: transparent; }
+:root[data-theme="dark"] .backbtn:hover { background: var(--mint); color: #15202B; border-color: var(--mint); }
+:root[data-theme="dark"] .seg button[aria-pressed="true"], :root[data-theme="dark"] .crumbs button[aria-current="page"], :root[data-theme="dark"] #energy button[aria-pressed="true"], :root[data-theme="dark"] .dn-day.on, :root[data-theme="dark"] .cal-day.today { background: var(--mint); color: #15202B; border-color: var(--mint); }
+:root[data-theme="dark"] .cal-day.today span, :root[data-theme="dark"] .cal-day.today b { color: #15202B; }
+:root[data-theme="dark"] .rt-days button[aria-pressed="true"], :root[data-theme="dark"] .rt-part button[aria-pressed="true"] { background: var(--mint); border-color: var(--mint); color: #15202B; }
+:root[data-theme="dark"] .dn-day.today:not(.on) { border-color: var(--mint); }
+:root[data-theme="dark"] .top3 li::before, :root[data-theme="dark"] .check-num { border-color: var(--mint); color: var(--mint); }
+:root[data-theme="dark"] .goals3 input[type="checkbox"], :root[data-theme="dark"] .kms input[type="checkbox"] { border-color: var(--mint); }
+:root[data-theme="dark"] .goals3 input[type="checkbox"]::after, :root[data-theme="dark"] .kms input[type="checkbox"]::after { color: var(--mint); }
+:root[data-theme="dark"] .goals3 input[type="checkbox"]:checked::after, :root[data-theme="dark"] .kms input[type="checkbox"]:checked::after { color: #15202B; }
+:root[data-theme="dark"] .tk-list li::before { background: var(--mint); }
+:root[data-theme="dark"] .next-list li::before { background: none; color: var(--mint); }
+:root[data-theme="dark"] .field input:focus, :root[data-theme="dark"] .field select:focus, :root[data-theme="dark"] .field textarea:focus, :root[data-theme="dark"] .note-area:focus, :root[data-theme="dark"] .ms-add input:focus, :root[data-theme="dark"] .top3 input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px #24453D; }
+:root[data-theme="dark"] .intro .story strong { background: #24453D; color: var(--ink); }
+:root[data-theme="dark"] .gate::before { background: var(--mint); }
+:root[data-theme="dark"] .check-inline input, :root[data-theme="dark"] .t-check, :root[data-theme="dark"] .check input, :root[data-theme="dark"] .rt-on, :root[data-theme="dark"] .dn-form .dn-check input { accent-color: var(--mint); }
 </style>
 
 <div class="wrap">
