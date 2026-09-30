@@ -1699,6 +1699,87 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .dn-well, .dn-bad { padding: 8px 11px; border-radius: 10px; font-size: 13.5px; line-height: 1.45; overflow-wrap: anywhere; }
 .dn-well { background: var(--mint-soft, var(--accent-soft)); }
 .dn-bad { background: var(--wait-soft); }
+
+/* ================= Colour refresh: deep teal-black, bright aqua, soft greys, teal highlights ================= */
+:root {
+  --navy-900: #061A1F; --navy-800: #0B252B; --navy-700: #12323A;
+  --mint: #4FE0DA; --mint-deep: #C9D2D2; --mint-2: #DDE3E3; --mint-soft: #F1F4F4;
+  --teal: #2A9F9B; --teal-2: #23908C;
+  --bg: #E7EAEA; --line: #D8DFDF; --line-strong: #C3CCCC; --ink: #061A1F; --muted: #52636A;
+  --lime: #4FE0DA; --tile: #4FE0DA; --band: #061A1F; --cover: #061A1F;
+  --accent: #1C8784; --accent-soft: #DCF1F0;
+}
+body { background: var(--bg); }
+.home-cover, .top, .intro > header, .cta {
+  background:
+    radial-gradient(520px 320px at 100% 50%, rgba(79, 224, 218, 0.28), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(79, 224, 218, 0.05) 0 2px, transparent 2px 46px),
+    #061A1F;
+}
+.panel > .panel-head:first-child, .panel.entry > .brand, .reportbox > summary { background: linear-gradient(180deg, #F6F8F8 0%, #E3E8E8 100%); border-bottom-color: #D3DADA; }
+/* Highlight cards: solid teal like the deck's featured card */
+.takeaways { background: linear-gradient(160deg, #22908C 0%, #1A7C79 100%); border-color: #1A7C79; color: #fff; }
+.takeaways h3, .takeaways .tk-list li { color: #fff; }
+.takeaways .hint { color: rgba(255, 255, 255, 0.8); }
+.tk-list li::before { background: #fff; }
+.next-list li::before { color: #061A1F; background: none; }
+.takeaways .linkbtn { color: #fff; }
+.whatsnext .ng-suggest { border-top-color: rgba(255, 255, 255, 0.35); }
+.whatsnext .ng-suggest .hint { color: rgba(255, 255, 255, 0.85); }
+.tk-arrow { background: #061A1F; color: #4FE0DA; }
+/* Home tiles: soft grey cards; teal on hover */
+#homeView .navtile, #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #FFFFFF 0%, #E5EAEA 100%); }
+#homeView .navtile:hover, #homeView .navtile:focus-visible { background: linear-gradient(160deg, #22908C 0%, #1A7C79 100%); }
+#homeView .navtile:hover .nt-body svg, #homeView .navtile:focus-visible .nt-body svg { color: #fff; }
+#homeView .navtile:hover .nt-head, #homeView .navtile:hover .nt-desc, #homeView .navtile:focus-visible .nt-head, #homeView .navtile:focus-visible .nt-desc { color: #fff; }
+/* Accents */
+.dn-well { background: #DCF1F0; }
+.dn-day:hover:not(.on) { background: #EEF4F4; }
+.cal-head > div { background: #EEF2F2; }
+.cal-col.today, .cal-part > div.today { background: rgba(79, 224, 218, 0.12); }
+.intro .story strong { background: #CFF3F1; }
+.feat .ic { background: #2A9F9B; color: #fff; }
+.cta-btn { background: #4FE0DA; color: #061A1F; }
+.gate::before { background: #2A9F9B; }
+.goals3 input[type="checkbox"]:checked, .kms input[type="checkbox"]:checked { background: #2A9F9B; border-color: #2A9F9B; }
+.goals3 input[type="checkbox"]:checked::after, .kms input[type="checkbox"]:checked::after { color: #fff; }
+.eyebrow { border-color: currentColor; }
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) { --bg: #040E11; --surface: #0A1B20; --surface-solid: #0A1B20; --surface-sunk: #071519; --line: #173038; --line-strong: #214049; --ink: #EAF3F3; --muted: #9DB2B7; --mint: #4FE0DA; --accent: #62E3DD; --accent-soft: #10302F; }
+:root:not([data-theme="light"]) .home-cover, :root:not([data-theme="light"]) .top, :root:not([data-theme="light"]) .intro > header, :root:not([data-theme="light"]) .cta, :root:not([data-theme="light"]) .sitefoot, :root:not([data-theme="light"]) .wrap.is-home .sitefoot, :root:not([data-theme="light"]) .next-ms { background: radial-gradient(520px 320px at 100% 50%, rgba(79, 224, 218, 0.20), transparent 70%), #07161A; border-color: #173038; }
+:root:not([data-theme="light"]) .panel > .panel-head:first-child, :root:not([data-theme="light"]) .panel.entry > .brand, :root:not([data-theme="light"]) .reportbox > summary { background: linear-gradient(180deg, #0F272D 0%, #0B1F24 100%); border-bottom-color: #173038; }
+:root:not([data-theme="light"]) th, :root:not([data-theme="light"]) .ts-table th, :root:not([data-theme="light"]) .panel th, :root:not([data-theme="light"]) .panel .ts-table th, :root:not([data-theme="light"]) .cal-head > div { background: #0F272D; }
+:root:not([data-theme="light"]) .takeaways { background: linear-gradient(160deg, #1E8D89 0%, #166C69 100%); border-color: #1E8D89; }
+:root:not([data-theme="light"]) .tk-list li::before { background: #fff; }
+:root:not([data-theme="light"]) .next-list li::before { color: #4FE0DA; }
+:root:not([data-theme="light"]) #homeView .navtile, :root:not([data-theme="light"]) #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #0F262C 0%, #0A1B20 100%); border-color: #173038; }
+:root:not([data-theme="light"]) #homeView .navtile:hover, :root:not([data-theme="light"]) #homeView .navtile:focus-visible { background: linear-gradient(160deg, #22908C 0%, #1A7C79 100%); border-color: #2FA9A5; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head, :root:not([data-theme="light"]) #homeView .navtile:hover .nt-desc, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-desc { color: #fff; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-head::before, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-head::before { border-color: #fff; color: #fff; }
+:root:not([data-theme="light"]) #homeView .navtile:hover .nt-body svg, :root:not([data-theme="light"]) #homeView .navtile:focus-visible .nt-body svg { color: #fff; }
+:root:not([data-theme="light"]) .dn-well { background: #10302F; }
+:root:not([data-theme="light"]) .dn-day:hover:not(.on) { background: #0F272D; }
+:root:not([data-theme="light"]) .intro .story strong { background: #12403F; }
+}
+:root[data-theme="dark"] { --bg: #040E11; --surface: #0A1B20; --surface-solid: #0A1B20; --surface-sunk: #071519; --line: #173038; --line-strong: #214049; --ink: #EAF3F3; --muted: #9DB2B7; --mint: #4FE0DA; --accent: #62E3DD; --accent-soft: #10302F; }
+:root[data-theme="dark"] .home-cover, :root[data-theme="dark"] .top, :root[data-theme="dark"] .intro > header, :root[data-theme="dark"] .cta, :root[data-theme="dark"] .sitefoot, :root[data-theme="dark"] .wrap.is-home .sitefoot, :root[data-theme="dark"] .next-ms { background: radial-gradient(520px 320px at 100% 50%, rgba(79, 224, 218, 0.20), transparent 70%), #07161A; border-color: #173038; }
+:root[data-theme="dark"] .panel > .panel-head:first-child, :root[data-theme="dark"] .panel.entry > .brand, :root[data-theme="dark"] .reportbox > summary { background: linear-gradient(180deg, #0F272D 0%, #0B1F24 100%); border-bottom-color: #173038; }
+:root[data-theme="dark"] th, :root[data-theme="dark"] .ts-table th, :root[data-theme="dark"] .panel th, :root[data-theme="dark"] .panel .ts-table th, :root[data-theme="dark"] .cal-head > div { background: #0F272D; }
+:root[data-theme="dark"] .takeaways { background: linear-gradient(160deg, #1E8D89 0%, #166C69 100%); border-color: #1E8D89; }
+:root[data-theme="dark"] .tk-list li::before { background: #fff; }
+:root[data-theme="dark"] .next-list li::before { color: #4FE0DA; }
+:root[data-theme="dark"] #homeView .navtile, :root[data-theme="dark"] #homeView .navtile:nth-child(2) { background: linear-gradient(170deg, #0F262C 0%, #0A1B20 100%); border-color: #173038; }
+:root[data-theme="dark"] #homeView .navtile:hover, :root[data-theme="dark"] #homeView .navtile:focus-visible { background: linear-gradient(160deg, #22908C 0%, #1A7C79 100%); border-color: #2FA9A5; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head, :root[data-theme="dark"] #homeView .navtile:hover .nt-desc, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-desc { color: #fff; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-head::before, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-head::before { border-color: #fff; color: #fff; }
+:root[data-theme="dark"] #homeView .navtile:hover .nt-body svg, :root[data-theme="dark"] #homeView .navtile:focus-visible .nt-body svg { color: #fff; }
+:root[data-theme="dark"] .dn-well { background: #10302F; }
+:root[data-theme="dark"] .dn-day:hover:not(.on) { background: #0F272D; }
+:root[data-theme="dark"] .intro .story strong { background: #12403F; }
+
+.takeaways .next-list li::before { background: none !important; width: auto; height: auto; border-radius: 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .takeaways .hint { color: rgba(255, 255, 255, 0.78); } }
+:root[data-theme="dark"] .takeaways .hint { color: rgba(255, 255, 255, 0.78); }
 </style>
 
 <div class="wrap">

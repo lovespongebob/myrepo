@@ -96,6 +96,8 @@ The Task summary table is no longer shown. Tasks stay on the calendar and list i
 - *Weekly Summary:* Key takeaways pick up something that went well and notice when things didn't go well on several days. What's next suggests planning around the latest thing that didn't go well. Claude reads the notes when it writes the takeaways, and they are part of the copied summary text.
 Notes are stored in the planner's notes collection as `log~<id>` documents, so the same Editor-only rules apply.
 
+**Colours (teal refresh):** the same layout and fonts, recoloured from a teal deck: deep teal-black title cards with a soft aqua glow and fine vertical lines, bright aqua (#4FE0DA) for rings, highlights and active states, light grey page and card headers, and solid teal (#22908C to #1A7C79) for the Key takeaways and What's next cards and for home tiles on hover. Dark mode uses the same colours on a near-black teal background.
+
 **Design (navy and mint deck style):** every page follows one visual system taken from a navy and mint pitch-deck template.
 - *Slides:* the home title and each section header (Overview, Plan Your Week, Weekly Summary) sit on a deep navy card with a mint ring in the corner. Headlines use Inter Tight in a light, tight weight, with DM Sans for body text.
 - *Tiles:* the three home tiles are matching mint cards, numbered 01 to 03 in outlined circles. A tile turns navy when you point at it or tab to it.
