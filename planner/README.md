@@ -79,6 +79,14 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 
 **Calendar colours:** each item is tinted by its category with a solid stripe on the left, and a legend lists the week's categories. Common categories keep fixed colours (Work blue, Home orange, Fitness teal, Errands yellow, Family pink, Groceries green, Routines violet, Kids red); other categories take any unused colour, and beyond eight they show in grey. Routines are marked ↻, big days ◆, and protected time has a dark outline. The palette was checked for colour-blind separation; every item also shows its name, so colour is never the only cue.
 
+**Day notes (log one thing, look back, change one small thing):** a panel under the calendar in Plan Your Week.
+- *Log one thing:* write what happened, specifically. For example, what you did and where it got stuck, rather than "busy day". Pick the day it happened (past days can be filled in later) and a category.
+- *Planned versus actual time:* optionally note how long you thought it would take and how long it took. The note shows the difference, such as "+15 min".
+- *Next time, I'll…:* one small change to try. Tick "Also add to my plan" to turn it into a task for the next day, or use "Add to plan" on the note later.
+- *Look back:* the calendar shows a ✎ count on days with notes. Clicking a day's header opens that day's notes. The day buttons above the form do the same. The pencil edits a note, for example to add what you'll change next time.
+- *Weekly Summary:* when notes include times, Key takeaways says whether things ran longer than planned and by about how much. "Next time" changes not yet on your plan appear in What's next. Notes are also part of what Claude reads and of the summary text.
+Notes are stored in the planner's notes collection as `log~<id>` documents, so the same Editor-only rules apply.
+
 **Design (navy and mint deck style):** every page follows one visual system taken from a navy and mint pitch-deck template.
 - *Slides:* the home title and each section header (Overview, Plan Your Week, Weekly Summary) sit on a deep navy card with a mint ring in the corner. Headlines use Inter Tight in a light, tight weight, with DM Sans for body text.
 - *Tiles:* the three home tiles are matching mint cards, numbered 01 to 03 in outlined circles. A tile turns navy when you point at it or tab to it.

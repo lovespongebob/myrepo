@@ -1516,6 +1516,52 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .home-cover::before { width: 300px; height: 300px; right: -70px; top: -150px; border-width: 46px; }
 .home-cover::after { width: 400px; height: 400px; right: -120px; top: -200px; }
 @media (max-width: 640px) { .home-cover { padding: 28px 22px 24px; } .home-cover::before { width: 150px; height: 150px; right: -75px; top: -85px; border-width: 24px; } }
+
+/* ================= Day notes ================= */
+.daynotes { display: grid; gap: 14px; }
+.dn-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.dn-day { position: relative; display: grid; justify-items: center; gap: 0; padding: 7px 4px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--surface-solid); color: var(--ink); font: inherit; cursor: pointer; }
+.dn-day b { font-family: var(--display); font-weight: 600; font-size: 12.5px; }
+.dn-day span { font-size: 17px; font-family: var(--display); font-weight: 500; line-height: 1.2; }
+.dn-day.today { border-color: var(--navy-900, var(--ink)); }
+.dn-day.on { background: var(--navy-900, var(--ink)); border-color: var(--navy-900, var(--ink)); color: #fff; }
+.dn-day:hover:not(.on) { background: var(--mint-soft, var(--surface-sunk)); }
+.dn-dot { position: absolute; top: -6px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--mint, #A8E6D2); color: var(--navy-900, #15202B); font-style: normal; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+.dn-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.dn-form { display: grid; gap: 12px; }
+.dn-form textarea { width: 100%; min-height: 84px; resize: vertical; }
+.dn-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.dn-row .field, .dn-form .field { display: grid; gap: 5px; min-width: 0; }
+.dn-form input, .dn-form select, .dn-form textarea { width: 100%; min-width: 0; padding: 9px 11px; font: inherit; font-size: 14px; color: var(--ink); }
+.dn-check { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13.5px; }
+.dn-check { cursor: pointer; }
+.dn-form .dn-check input { width: 18px; height: 18px; padding: 0; margin: 0; flex: none; accent-color: var(--navy-900, var(--ink)); }
+.dn-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.dn-actions .bigbtn { width: auto; padding-inline: 20px; }
+.dn-editing { margin: 0; padding: 8px 12px; border-radius: 10px; background: var(--wait-soft); font-size: 13px; }
+.dn-side { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.dn-side h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 16px; }
+.dn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.dn-item { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-solid); }
+.dn-top { display: flex; align-items: flex-start; gap: 8px; }
+.dn-text { margin: 0; flex: 1; min-width: 0; font-size: 14.5px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+.dn-tools { display: flex; gap: 4px; flex: none; }
+.dn-icon { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface-solid); color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; padding: 0; }
+.dn-icon:hover { border-color: var(--navy-900, var(--ink)); }
+.dn-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 12.5px; color: var(--muted); }
+.dn-cat { display: inline-flex; align-items: center; padding: 1px 9px; border-radius: 999px; color: var(--ink); background: color-mix(in srgb, var(--c) 16%, var(--surface-solid)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--surface-solid)); font-weight: 500; }
+.dn-time.over { color: var(--wait); font-weight: 600; }
+.dn-next { padding: 8px 11px; border-radius: 10px; background: var(--mint-soft, var(--accent-soft)); font-size: 13.5px; overflow-wrap: anywhere; }
+.dn-added { color: var(--muted); font-size: 12.5px; }
+.dn-plan, .dn-addnext { font-size: 13px; padding: 2px 6px; margin-left: 4px; }
+.dn-addnext { justify-self: start; margin-left: 0; }
+.dn-empty { padding: 14px; border: 1px dashed var(--line-strong); border-radius: 14px; color: var(--muted); font-size: 13.5px; }
+.cal-day { cursor: pointer; position: relative; }
+.cal-day:hover b { text-decoration: underline; }
+.cal-note { display: inline-flex; align-items: center; gap: 3px; margin-top: 3px; padding: 0 7px; border-radius: 999px; background: var(--mint, #A8E6D2); color: var(--navy-900, #15202B); font-size: 11px; font-weight: 700; line-height: 18px; }
+.cal-day.today .cal-note { background: var(--mint, #A8E6D2); color: var(--navy-900, #15202B); }
+@media (max-width: 860px) { .dn-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .dn-days { gap: 4px; } .dn-day { padding: 6px 2px; } .dn-day b { font-size: 11px; } .dn-row { grid-template-columns: minmax(0, 1fr); } }
 </style>
 
 <div class="wrap">
@@ -1792,6 +1838,46 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
             <tbody id="rows"></tbody>
           </table>
         </div>
+    </section>
+    <section class="panel daynotes" id="dayNotesPanel" aria-labelledby="dnTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="dnTitle">Day notes</h2>
+          <p class="hint">Log one thing that happened, look back at it, then change one small thing next time.</p>
+        </div>
+        <span class="hint mono" id="dnCount"></span>
+      </div>
+      <div class="dn-days" id="dnDays" role="group" aria-label="Pick a day"></div>
+      <div class="dn-grid">
+        <form class="dn-form" id="dnForm" autocomplete="off">
+          <p class="dn-editing" id="dnEditing" hidden>Editing a note. Add what you'll change next time, then save.</p>
+          <div class="field">
+            <label for="dn-text">What happened</label>
+            <textarea id="dn-text" rows="3" maxlength="1000" placeholder="Be specific: what you did and where it got stuck. e.g. Sorted my reading notes. Kept checking the book, so it ran long."></textarea>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-date">Day it happened</label><input type="date" id="dn-date"></div>
+            <div class="field"><label for="dn-cat">Category</label><input id="dn-cat" list="projectList" maxlength="60" placeholder="e.g. Home, Fitness or Work"></div>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-plan">I thought it would take</label><select id="dn-plan"></select></div>
+            <div class="field"><label for="dn-actual">It actually took</label><select id="dn-actual"></select></div>
+          </div>
+          <div class="field">
+            <label for="dn-next">Next time, I'll…</label>
+            <input id="dn-next" maxlength="200" placeholder="One small change, e.g. Save 40 minutes and do one chapter">
+          </div>
+          <label class="dn-check"><input type="checkbox" id="dn-task"> Also add “next time” to my plan <span class="hint" id="dnTaskDay"></span></label>
+          <div class="dn-actions">
+            <button type="button" class="bigbtn b-fill" id="dnCancel" hidden>Cancel</button>
+            <button type="submit" class="bigbtn b-save" id="dnSave">Save note</button>
+          </div>
+        </form>
+        <div class="dn-side">
+          <h3 id="dnDayTitle">Notes</h3>
+          <ul class="dn-list" id="dnList"></ul>
+        </div>
+      </div>
     </section>
   </section>
 
@@ -2096,6 +2182,9 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       { id: "km2", text: "Ballet shoes bought before the recital", done: true, date: addDays(TODAY, -1), project: "Kids" },
       { id: "km3", text: "Three yoga classes this week", done: false, date: addDays(TODAY, 4), project: "Fitness" }
     ] };
+    var d1 = TODAY >= week && TODAY <= addDays(week, 6) ? TODAY : week;
+    n["log~nsample1"] = { kind: "log", id: "nsample1", date: d1, week: week, text: "Sorted my reading notes. Thought it would take 20 minutes, but it took 35 because I kept checking the book.", category: "Home", planned: 20, actual: 35, next: "Save 40 minutes and do one chapter at a time", by: "sample-sam", name: "Sam", taskId: "", created: Date.now() - 2, updated: Date.now() };
+    n["log~nsample2"] = { kind: "log", id: "nsample2", date: d1, week: week, text: "Weekly grocery run with a list this time. Done in one trip.", category: "Groceries", planned: 60, actual: 45, next: "", by: "sample-alex", name: "Alex", taskId: "", created: Date.now() - 1, updated: Date.now() };
     return n;
   }
 
@@ -2167,6 +2256,10 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       putWeek: function (key, data) {
         state.weeks[key] = data; lsSet(LS_WEEKS, state.weeks); render();
         return Promise.resolve();
+      },
+      removeWeek: function (key) {
+        delete state.weeks[key]; lsSet(LS_WEEKS, state.weeks); render();
+        return Promise.resolve();
       }
     };
   }
@@ -2190,7 +2283,8 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       },
       putTask: function (t) { return db.collection("tasks").doc(t.id).set(t).catch(writeFailed); },
       removeTask: function (id) { return db.collection("tasks").doc(id).delete().catch(writeFailed); },
-      putWeek: function (key, data) { return db.collection("notes").doc(key).set(data).catch(writeFailed); }
+      putWeek: function (key, data) { return db.collection("notes").doc(key).set(data).catch(writeFailed); },
+      removeWeek: function (key) { return db.collection("notes").doc(key).delete().catch(writeFailed); }
     };
   }
 
@@ -2307,6 +2401,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     $("taskTable").hidden = calView; $("calendar").hidden = !calView;
     $("orderSeg").hidden = $("emptySeg").hidden = calView;
     if (calView) renderCalendar(list); else renderRows(tableList);
+    renderDayNotes();
     updateRepeatUI();
     state.reportList = list; state.reportCounts = c;
     renderTaskSummary(list);
@@ -3154,7 +3249,9 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     var last = days[6];
     var cal = el("div", { class: "cal" });
     cal.appendChild(el("div", { class: "cal-head" }, [el("div")].concat(days.map(function (d, k) {
-      return el("div", { class: "cal-day" + (d === TODAY ? " today" : "") }, [el("b", { text: DAYS[k] }), el("span", { text: shortDate(parseYmd(d)) })]);
+      var nn = notesOn(d).length;
+      return el("div", { class: "cal-day" + (d === TODAY ? " today" : ""), title: nn ? "See " + nn + (nn === 1 ? " day note" : " day notes") : "Add a day note", onclick: function () { selectNoteDay(d, true); } },
+        [el("b", { text: DAYS[k] }), el("span", { text: shortDate(parseYmd(d)) }), nn ? el("div", null, [el("span", { class: "cal-note", text: "✎ " + nn })]) : null]);
     }))));
     var cmap = catColorMap();
     var colorOf = function (t) { return cmap[catKey(t.project)] || OTHER_COLOR; };
@@ -3218,6 +3315,126 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       el("span", { class: "cal-tip", text: "Click an empty spot to add a task there." })])));
   }
 
+  // ---------- Day notes: log one thing, look back, change one small thing next time ----------
+  var DN_TIMES = [0, 5, 10, 15, 20, 30, 40, 45, 60, 90, 120, 180, 240];
+  var dn = { day: "", editing: null };
+  function fmtMins(m) { m = Number(m) || 0; var h = Math.floor(m / 60), r = m % 60; return h ? h + " hr" + (r ? " " + r + " min" : "") : r + " min"; }
+  function allDayNotes() { return Object.keys(state.weeks).map(function (k) { return state.weeks[k]; }).filter(function (n) { return n && n.kind === "log" && n.id && n.date; }); }
+  function notesOn(d) { return allDayNotes().filter(function (n) { return n.date === d; }).sort(function (a, b) { return (a.created || 0) - (b.created || 0); }); }
+  function weekDayNotes(week) { var end = addDays(week, 6); return allDayNotes().filter(function (n) { return n.date >= week && n.date <= end; }).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : (a.created || 0) - (b.created || 0); }); }
+  function dnTimeOptions(sel) { sel.replaceChildren.apply(sel, DN_TIMES.map(function (m) { return el("option", { value: m ? String(m) : "", text: m ? fmtMins(m) : "—" }); })); }
+  dnTimeOptions($("dn-plan")); dnTimeOptions($("dn-actual"));
+  function setTimeSelect(sel, m) {
+    m = Number(m) || 0;
+    if (m && !Array.prototype.some.call(sel.options, function (o) { return Number(o.value) === m; })) sel.appendChild(el("option", { value: String(m), text: fmtMins(m) }));
+    sel.value = m ? String(m) : "";
+  }
+  function dnNextTaskDay(d) { var n = addDays(d || TODAY, 1); return n < TODAY ? TODAY : n; }
+  function dnDayInWeek() { var end = addDays(state.week, 6); if (!dn.day || dn.day < state.week || dn.day > end) dn.day = TODAY >= state.week && TODAY <= end ? TODAY : state.week; return dn.day; }
+  function selectNoteDay(d, scroll) {
+    dn.day = d;
+    if (!dn.editing) $("dn-date").value = d;
+    renderDayNotes();
+    if (scroll) $("dayNotesPanel").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+  function dnClearForm() {
+    dn.editing = null;
+    $("dn-text").value = ""; $("dn-cat").value = ""; $("dn-next").value = ""; $("dn-task").checked = false;
+    setTimeSelect($("dn-plan"), 0); setTimeSelect($("dn-actual"), 0);
+    $("dn-date").value = dnDayInWeek();
+    $("dnCancel").hidden = true; $("dnEditing").hidden = true; $("dnSave").textContent = "Save note";
+    dnTaskHint();
+  }
+  function dnTaskHint() { var d = dnNextTaskDay($("dn-date").value); $("dnTaskDay").textContent = "(on " + dayName(d) + ")"; }
+  $("dn-date").addEventListener("change", dnTaskHint);
+  function dnEdit(n) {
+    if (state.readOnly) return;
+    dn.editing = n.id;
+    $("dn-text").value = n.text || ""; $("dn-cat").value = n.category || ""; $("dn-next").value = n.next || ""; $("dn-date").value = n.date;
+    setTimeSelect($("dn-plan"), n.planned); setTimeSelect($("dn-actual"), n.actual);
+    $("dn-task").checked = false;
+    $("dnCancel").hidden = false; $("dnEditing").hidden = false; $("dnSave").textContent = "Save changes";
+    dnTaskHint();
+    $("dn-next").focus();
+  }
+  function dnAddTask(n) {
+    var due = dnNextTaskDay(n.date);
+    var t = cleanTask({
+      id: newId(), week: ymd(mondayOf(parseYmd(due))), title: n.next, status: "not_started", due: due, project: n.category || "",
+      owner: state.me, assigneeName: myName(), ownerNames: myName() ? [myName()] : [], createdBy: state.me, createdByName: myName() || "Me",
+      notes: "From your day note on " + dayName(n.date) + ": " + n.text
+    });
+    return store.putTask(t).then(function () { return t; });
+  }
+  $("dnForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (state.readOnly || !store) return;
+    var text = $("dn-text").value.trim();
+    if (!text) { toast("Write what happened first. One specific thing is enough."); $("dn-text").focus(); return; }
+    var date = /^\d{4}-\d{2}-\d{2}$/.test($("dn-date").value) ? $("dn-date").value : TODAY;
+    var old = dn.editing ? allDayNotes().filter(function (n) { return n.id === dn.editing; })[0] : null;
+    var n = {
+      kind: "log", id: old ? old.id : "n" + newId(), date: date, week: ymd(mondayOf(parseYmd(date))), text: text.slice(0, 1000),
+      category: canonCategory($("dn-cat").value.trim().slice(0, 60)), planned: Number($("dn-plan").value) || 0, actual: Number($("dn-actual").value) || 0,
+      next: $("dn-next").value.trim().slice(0, 200), by: old ? old.by : state.me, name: old ? old.name : myName(),
+      taskId: old && (old.next || "") === $("dn-next").value.trim().slice(0, 200) ? old.taskId || "" : "", created: old ? old.created : Date.now(), updated: Date.now()
+    };
+    var addTask = $("dn-task").checked && n.next && !n.taskId;
+    var go = addTask ? dnAddTask(n).then(function (t) { n.taskId = t.id; }) : Promise.resolve();
+    go.then(function () { return store.putWeek("log~" + n.id, n); }).then(function () {
+      toast((old ? "Note updated" : "Note saved for " + dayName(date)) + (addTask ? ", and “" + n.next + "” is on your plan." : "."));
+      dn.day = date; dnClearForm(); render();
+    }, function () {});
+  });
+  $("dnCancel").addEventListener("click", function () { dnClearForm(); renderDayNotes(); });
+  function dnDelete(n) {
+    if (state.readOnly || !store || !store.removeWeek) return;
+    if (!confirm("Delete this note?")) return;
+    store.removeWeek("log~" + n.id).then(function () { if (dn.editing === n.id) dnClearForm(); toast("Note deleted."); render(); }, function () {});
+  }
+  function dnTimeLine(n) {
+    if (!n.planned && !n.actual) return null;
+    var parts = [];
+    if (n.planned) parts.push("Planned " + fmtMins(n.planned));
+    if (n.actual) parts.push("took " + fmtMins(n.actual));
+    var s = parts.join(" · ");
+    if (n.planned && n.actual && n.actual !== n.planned) s += " (" + (n.actual > n.planned ? "+" : "−") + fmtMins(Math.abs(n.actual - n.planned)) + ")";
+    return el("span", { class: "dn-time" + (n.planned && n.actual > n.planned ? " over" : ""), text: s.charAt(0).toUpperCase() + s.slice(1) });
+  }
+  function renderDayNotes() {
+    if (!$("dayNotesPanel")) return;
+    var day = dnDayInWeek();
+    if (!dn.editing && document.activeElement !== $("dn-date") && !$("dn-text").value) $("dn-date").value = day;
+    var cmap = catColorMap();
+    var days = [0, 1, 2, 3, 4, 5, 6].map(function (k) { return addDays(state.week, k); });
+    $("dnDays").replaceChildren.apply($("dnDays"), days.map(function (d, k) {
+      var c = notesOn(d).length;
+      return el("button", { type: "button", class: "dn-day" + (d === day ? " on" : "") + (d === TODAY ? " today" : ""), "aria-pressed": String(d === day), onclick: function () { selectNoteDay(d); } },
+        [el("b", { text: DAYS[k] }), el("span", { text: String(parseYmd(d).getDate()) }), c ? el("i", { class: "dn-dot", "aria-label": c + (c === 1 ? " note" : " notes"), text: String(c) }) : null]);
+    }));
+    var list = notesOn(day);
+    $("dnDayTitle").textContent = dayName(day) + (list.length ? " · " + list.length + (list.length === 1 ? " note" : " notes") : "");
+    var wk = weekDayNotes(state.week).length;
+    $("dnCount").textContent = wk ? wk + (wk === 1 ? " note this week" : " notes this week") : "no notes yet";
+    var items = list.map(function (n) {
+      var tools = state.readOnly ? null : el("div", { class: "dn-tools" }, [
+        el("button", { type: "button", class: "dn-icon", "aria-label": "Edit this note", title: "Edit, or add what you'll change next time", text: "✎", onclick: function () { dnEdit(n); } }),
+        el("button", { type: "button", class: "dn-icon", "aria-label": "Delete this note", title: "Delete", text: "×", onclick: function () { dnDelete(n); } })]);
+      var meta = el("div", { class: "dn-meta" }, [
+        n.category ? el("span", { class: "dn-cat", style: "--c:" + (cmap[catKey(n.category)] || OTHER_COLOR), text: n.category }) : null,
+        dnTimeLine(n), n.name ? el("span", { class: "dn-by", text: n.name }) : null]);
+      var next = n.next ? el("div", { class: "dn-next" }, [el("b", { text: "Next time: " }), n.next,
+        n.taskId ? el("span", { class: "dn-added", text: " · on your plan" }) : state.readOnly ? null : el("button", { type: "button", class: "linkbtn dn-plan", text: "Add to plan", onclick: function () {
+          dnAddTask(n).then(function (t) { return store.putWeek("log~" + n.id, Object.assign({}, n, { taskId: t.id, updated: Date.now() })).then(function () { toast("“" + n.next + "” is on your plan for " + dayName(t.due) + "."); }); }, function () {});
+        } })]) : state.readOnly ? null : el("button", { type: "button", class: "linkbtn dn-addnext", text: "+ What will you change next time?", onclick: function () { dnEdit(n); } });
+      return el("li", { class: "dn-item" }, [el("div", { class: "dn-top" }, [el("p", { class: "dn-text", text: n.text }), tools]), meta, next]);
+    });
+    if (!items.length) items = [el("li", { class: "dn-empty", text: state.readOnly ? "No notes on this day." : "No notes on this day yet. Log one thing: what you did, and where it got stuck." })];
+    $("dnList").replaceChildren.apply($("dnList"), items);
+    Array.prototype.forEach.call($("dnForm").elements, function (x) { x.disabled = state.readOnly; });
+    dnTaskHint();
+  }
+
   function updateRepeatUI() {}
 
   // ---------- Highlights, key takeaways and what's next ----------
@@ -3261,6 +3478,13 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       if (t.status !== "done" && t.due < TODAY) { out.push("Your protected time, " + lc(t.title) + ", got skipped. Try to guard it next week."); return true; }
       return false;
     });
+    var timed = weekDayNotes(state.week).filter(function (n) { return n.planned && n.actual; });
+    if (timed.length) {
+      var over = timed.filter(function (n) { return n.actual > n.planned; });
+      var extra = over.reduce(function (a, n) { return a + n.actual - n.planned; }, 0);
+      if (over.length) out.push("Things took longer than planned " + (over.length === timed.length ? (timed.length === 1 ? "the time you checked" : "every time you checked") : over.length + " of " + timed.length + " times") + ", about " + fmtMins(Math.round(extra / over.length)) + " more. Leave a little extra room.");
+      else out.push("Everything you timed took as long as you planned or less, so your estimates are working.");
+    }
     var energy = energyOf(state.week), learned = learnedOf(state.week);
     if (energy && energy <= 2) out.push("Energy ran low this week, so plan next week a little lighter.");
     else if (energy >= 4) out.push("Energy stayed high this week. Whatever helped, keep it in your routine.");
@@ -3283,6 +3507,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     list.filter(function (t) { return t.status !== "done" && (t.priority === "iu" || t.priority === "in"); })
       .sort(function (a, b) { return priRank(a) - priRank(b); })
       .forEach(function (t) { out.push("Make time for " + t.title + (t.priority === "iu" ? " early in the week." : ", which is important but not urgent.")); });
+    weekDayNotes(state.week).filter(function (n) { return n.next && !n.taskId; }).forEach(function (n) { out.push("Try your change: " + lc(n.next.replace(/\.$/, "")) + "."); });
     visibleMilestones(state.week).filter(function (m) { return !m.done; }).forEach(function (m) { out.push("Carry the goal “" + m.text + "” into next week."); });
     state.tasks.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY && t.due <= nextEnd; })
       .sort(function (a, b) { return a.due < b.due ? -1 : 1; })
@@ -3307,6 +3532,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       highlights: top3Of(state.week).filter(Boolean),
       energy: energyOf(state.week) ? energyOf(state.week) + " of 5" : "not recorded",
       learned: learnedOf(state.week),
+      dayNotes: weekDayNotes(state.week).slice(0, 20).map(function (n) { return { day: dayName(n.date), category: n.category || "", what: n.text, planned: n.planned ? fmtMins(n.planned) : "", took: n.actual ? fmtMins(n.actual) : "", nextTime: n.next || "" }; }),
       goals: visibleMilestones(state.week).map(function (m) { return { goal: m.text, done: !!m.done }; }),
       tasks: list.slice(0, 60).map(function (t) {
         return { category: canonCategory(t.project), title: t.title, status: STATUS[t.status].en, due: t.due || "no date", bigDay: !!t.milestone,
@@ -3317,7 +3543,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       upcomingBigDays: state.tasks.filter(function (t) { return t.milestone && t.status !== "done" && t.due && t.due >= TODAY && t.due <= addDays(state.week, 13); })
         .map(function (t) { return { title: t.title, due: t.due, next: t.nextStep || "" }; })
     };
-    return "You help with a personal weekly planner (family, errands, classes, home). Read this week's highlights, goals and tasks with their status. " +
+    return "You help with a personal weekly planner (family, errands, classes, home). Read this week's highlights, goals, day notes (what happened, planned versus actual time, what to change next time) and tasks with their status. " +
       "Reply with ONLY a JSON object with two arrays of exactly 3 short strings each, every string at most 18 words:\n" +
       '"takeaways": key insights about the week, drawn from the highlights, which goals were reached, which tasks and routines got done or stalled, the energy level, what was learned, and whether protected time was kept. Patterns and meaning, not a status update: do not restate counts or list tasks one by one.\n' +
       '"next": the three most important things to deal with next week, most important first, as short actions (important tasks first, then unfinished goals, upcoming big days, routines that fell short, overdue or waiting tasks, open next steps; if energy was low, include one way to rest).\n' +
@@ -3371,6 +3597,8 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     if (goals.length) { lines.push("", "Goals for the week:"); goals.forEach(function (m) { lines.push((m.done ? "[x] " : "[ ] ") + m.text); }); }
     if (energyOf(state.week)) lines.push("", "Energy this week: " + energyOf(state.week) + " of 5");
     if (learnedOf(state.week)) lines.push("What I learned: " + learnedOf(state.week));
+    var dns = weekDayNotes(state.week);
+    if (dns.length) { lines.push("", "Day notes:"); dns.forEach(function (n) { lines.push("- " + dayName(n.date) + ": " + n.text + (n.planned && n.actual ? " (planned " + fmtMins(n.planned) + ", took " + fmtMins(n.actual) + ")" : "") + (n.next ? " Next time: " + n.next : "")); }); }
     lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
     lines.push("", "What’s next:"); currentNext().forEach(function (t, i) { lines.push((i + 1) + ". " + t); });
     return lines.join("\n");
