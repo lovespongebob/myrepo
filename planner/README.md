@@ -66,7 +66,7 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 - *Repeat* in The Plan: "Just this week" saves a one-off task for the week you're viewing; "Weekly routine" saves a routine that repeats every week, on the days you pick (or a number of times a week with a counter), and adds this week's copy right away.
 - *Suggested routines*: five, from the body-and-mind part of the weekly system: light workouts (Mon, Wed, Fri, 7am, 20 min), deep reading (every day, 9pm, 30 min), a film with a short reflection (Fri, 7:30pm), one piece of writing (Sun, 10am) and a day in nature (Sat, 9am to 3pm, protected). All start turned off.
 - *Time blocks*: tasks and routines can have a start time and a length. Routines with a time reserve that slot on each chosen day, every week.
-- *Calendar view* (Plan Your Week, Calendar): the week as seven day columns from 6am to 11pm with time blocks, an Anytime row for items with a day but no time, and a "No day yet" list. Overlapping items sit side by side; routines, protected time and big days have their own colours. Click any item to edit it.
+- *Calendar view* (Plan Your Week, Calendar): the week as seven day columns with an AM row, a PM row, an Anytime row for items with a day but no AM or PM, and a "No day yet" list. There is no hourly grid. Tasks with a start time go in the AM or PM row by that time and show it, for example "7pm · Dinner". Routines, protected time and big days keep their markers. Click any item to edit it.
 
 **Plan Your Week layout:** The Plan (left) sits beside Weekly routines (right), with Tasks this week full width underneath. The Plan no longer has a "Related to" field; related notes already saved on tasks still show as tags.
 
@@ -75,7 +75,7 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 **Simpler inputs and the calendar as the main view:**
 - *The Plan* shows only Task, Day, Start time, How long and Category. Who, status, priority, big day, protected time, notes, next step and created by sit under "More options". The Plan adds one-off tasks; repeating things go in Weekly routines.
 - *Weekly routines*: type a name, tap the days, optionally pick AM or PM, and press Add. Each routine is one line (on/off, name, days, AM/PM, remove). There is no exact time or length for routines.
-- *Your week* (bottom of Plan Your Week) opens on the calendar: AM and PM rows for routines, an Anytime row, hourly time blocks for timed tasks, and a "No day yet" list. Click an empty spot to start a task on that day and time. List and Timeline are one click away.
+- *Your week* (bottom of Plan Your Week) opens on the calendar: AM, PM and Anytime rows, and a "No day yet" list. Click an empty AM or PM spot to start a task on that day and half of the day. List and Timeline are one click away.
 
 **Calendar colours:** each item is tinted by its category with a solid stripe on the left, and a legend lists the week's categories. Common categories keep fixed colours (Work blue, Home orange, Fitness teal, Errands yellow, Family pink, Groceries green, Routines violet, Kids red); other categories take any unused colour, and beyond eight they show in grey. Routines are marked ↻, big days ◆, and protected time has a dark outline. The palette was checked for colour-blind separation; every item also shows its name, so colour is never the only cue.
 

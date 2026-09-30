@@ -1663,6 +1663,14 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .ng-suggest:empty { display: none; }
 .ng-idea { font-size: 12.5px; text-align: left; white-space: normal; line-height: 1.35; padding: 6px 12px; }
 #panesummary .sum-row2 > .panel > .panel-head:first-child { min-height: 92px; }
+
+/* ================= Calendar: AM and PM rows, no hours ================= */
+.cal-part > div { min-height: 96px; }
+.cal-anytime > div { min-height: 44px; }
+.cal-part > .cal-label { display: flex; align-items: flex-start; justify-content: flex-end; font-family: var(--display); font-weight: 600; font-size: 12px; color: var(--ink); padding-top: 8px !important; }
+.cal-part > div.today { background: color-mix(in srgb, var(--mint, #A8E6D2) 14%, transparent); }
+.cal-part > div[data-day]:hover { background: color-mix(in srgb, var(--mint, #A8E6D2) 10%, transparent); }
+.cal-part .cal-item { white-space: normal; }
 </style>
 
 <div class="wrap">
@@ -2831,7 +2839,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     $("f-title").focus();
   }
   function clearForm() {
-    state.editingId = null;
+    state.editingId = null; state.newPart = "";
     form.reset();
     $("f-person").value = "Me";
     $("f-creator").value = myName();
@@ -2868,6 +2876,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       priority: $("f-priority").value,
       protected: $("f-protected").checked,
       time: $("f-time").value,
+      part: $("f-time").value ? "" : existing ? existing.part : state.newPart || "",
       duration: $("f-duration").value,
       routineId: existing ? existing.routineId : undefined,
       target: existing ? existing.target : undefined,
@@ -3382,13 +3391,13 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
   function fmtTime(min) { var h = Math.floor(min / 60) % 24, m = min % 60; return (h % 12 || 12) + (m ? ":" + pad(m) : "") + (h >= 12 ? "pm" : "am"); }
   var CAL_START = 6 * 60, CAL_END = 23 * 60, HOUR_PX = 44;
   function calClasses(t) { return (t.routineId ? " routine" : "") + (t.protected ? " protect" : "") + (t.milestone ? " big" : "") + (t.status === "done" ? " done" : ""); }
-  function startTaskAt(d, time) {
+  function startTaskAt(d, time, part) {
     if (state.readOnly) return;
-    clearForm(); render();
+    clearForm(); state.newPart = part || ""; render();
     $("f-due").value = d; $("f-time").value = time;
     $("taskForm").scrollIntoView({ block: "start", behavior: "smooth" });
     setTimeout(function () { $("f-title").focus(); }, 250);
-    toast("New task for " + DAYS[(parseYmd(d).getDay() + 6) % 7] + " " + shortDate(parseYmd(d)) + (time ? " at " + fmtTime(minutesOf(time)) : "") + ". Type what you want to do.");
+    toast("New task for " + DAYS[(parseYmd(d).getDay() + 6) % 7] + " " + shortDate(parseYmd(d)) + (time ? " at " + fmtTime(minutesOf(time)) : part ? " (" + part.toUpperCase() + ")" : "") + ". Type what you want to do.");
   }
   function calOpen(t) { if (state.readOnly) return; loadIntoForm(t); $("taskForm").scrollIntoView({ block: "start", behavior: "smooth" }); }
   function calLabel(t) { return (t.routineId ? "↻ " : "") + (t.milestone ? "◆ " : "") + t.title + (t.target > 1 ? " · " + Math.min(t.doneCount || 0, t.target) + " of " + t.target : ""); }
@@ -3405,53 +3414,19 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     }))));
     var cmap = catColorMap();
     var colorOf = function (t) { return cmap[catKey(t.project)] || OTHER_COLOR; };
-    var item = function (t) { return el("button", { type: "button", class: "cal-item" + calClasses(t), style: "--c:" + colorOf(t), title: calLabel(t) + (t.project ? " · " + canonCategory(t.project) : ""), text: calLabel(t), onclick: function () { calOpen(t); } }); };
-    var untimed = function (t) { return isNaN(minutesOf(t.time)); };
+    var item = function (t) { return el("button", { type: "button", class: "cal-item" + calClasses(t), style: "--c:" + colorOf(t), title: calLabel(t) + (t.project ? " · " + canonCategory(t.project) : ""), text: (isNaN(minutesOf(t.time)) ? "" : fmtTime(minutesOf(t.time)) + " · ") + calLabel(t), onclick: function () { calOpen(t); } }); };
+    // AM, PM and Anytime rows only: timed items go by their start time, untimed ones by AM or PM.
+    var partOf = function (t) { var m = minutesOf(t.time); return isNaN(m) ? (t.part || "") : (m < 720 ? "am" : "pm"); };
+    var byTime = function (a, b) { var x = minutesOf(a.time), y = minutesOf(b.time); x = isNaN(x) ? 9999 : x; y = isNaN(y) ? 9999 : y; return x - y || (a.title < b.title ? -1 : 1); };
     [["am", "AM"], ["pm", "PM"], ["", "Anytime"]].forEach(function (pp) {
-      var at = function (d) { return shown.filter(function (t) { return t.due === d && untimed(t) && (t.part || "") === pp[0]; }); };
-      if (pp[0] && !days.some(function (d) { return at(d).length; })) return;
-      cal.appendChild(el("div", { class: "cal-any" }, [el("div", { class: "cal-label", text: pp[1] })].concat(days.map(function (d) {
-        var cell = el("div", { "data-day": d, title: "Click to add a task on " + shortDate(parseYmd(d)) }, at(d).map(item));
-        cell.addEventListener("click", function (e) { if (e.target === cell) startTaskAt(d, ""); });
+      var at = function (d) { return shown.filter(function (t) { return t.due === d && partOf(t) === pp[0]; }).sort(byTime); };
+      if (!pp[0] && !days.some(function (d) { return at(d).length; })) return;
+      cal.appendChild(el("div", { class: "cal-any cal-part cal-" + (pp[0] || "anytime") }, [el("div", { class: "cal-label", text: pp[1] })].concat(days.map(function (d) {
+        var cell = el("div", { "data-day": d, class: d === TODAY ? "today" : "", title: "Click to add " + (pp[0] ? "an " + pp[1] + " task" : "a task") + " on " + shortDate(parseYmd(d)) }, at(d).map(item));
+        cell.addEventListener("click", function (e) { if (e.target === cell) startTaskAt(d, "", pp[0]); });
         return cell;
       }))));
     });
-    var height = (CAL_END - CAL_START) / 60 * HOUR_PX;
-    var hours = el("div", { class: "cal-hours", style: "height:" + height + "px" });
-    for (var h = CAL_START / 60 + 1; h < CAL_END / 60; h++) hours.appendChild(el("span", { style: "top:" + ((h * 60 - CAL_START) / 60 * HOUR_PX) + "px", text: fmtTime(h * 60) }));
-    var body = el("div", { class: "cal-body" }, [hours]);
-    days.forEach(function (d) {
-      var col = el("div", { class: "cal-col" + (d === TODAY ? " today" : ""), style: "height:" + height + "px", title: "Click an empty spot to add a task" });
-      col.addEventListener("click", function (e) {
-        if (e.target !== col) return;
-        var m = CAL_START + Math.floor(e.offsetY / HOUR_PX * 2) * 30;
-        startTaskAt(d, pad(Math.floor(m / 60)) + ":" + pad(m % 60));
-      });
-      var timed = shown.filter(function (t) { return t.due === d && !isNaN(minutesOf(t.time)); }).map(function (t) {
-        var s = minutesOf(t.time), e = s + (t.duration || 30);
-        return { t: t, s: s, e: e };
-      }).sort(function (a, b) { return a.s - b.s || b.e - a.e; });
-      // side-by-side lanes for items that overlap
-      var groups = [], cur = null;
-      timed.forEach(function (x) {
-        if (!cur || x.s >= cur.end) { cur = { items: [], end: x.e, lanes: [] }; groups.push(cur); }
-        var lane = cur.lanes.findIndex(function (end) { return end <= x.s; });
-        if (lane < 0) { lane = cur.lanes.length; cur.lanes.push(x.e); } else cur.lanes[lane] = x.e;
-        x.lane = lane; cur.items.push(x); cur.end = Math.max(cur.end, x.e);
-      });
-      groups.forEach(function (g) {
-        var n = g.lanes.length;
-        g.items.forEach(function (x) {
-          var top = Math.max(0, Math.min(x.s, CAL_END - 30) - CAL_START) / 60 * HOUR_PX;
-          var h2 = Math.max(22, (Math.min(x.e, CAL_END) - Math.max(x.s, CAL_START)) / 60 * HOUR_PX - 2);
-          col.appendChild(el("button", { type: "button", class: "cal-block" + calClasses(x.t) + (h2 < 40 ? " short" : ""), title: calLabel(x.t) + ", " + fmtTime(x.s) + " to " + fmtTime(x.e),
-            style: "--c:" + colorOf(x.t) + ";top:" + top + "px;height:" + h2 + "px;left:calc(" + (100 / n * x.lane) + "% + 2px);width:calc(" + (100 / n) + "% - 4px)",
-            onclick: function () { calOpen(x.t); } }, [el("b", { text: calLabel(x.t) }), el("span", { text: h2 < 40 ? fmtTime(x.s) : fmtTime(x.s) + "–" + fmtTime(x.e) })]));
-        });
-      });
-      body.appendChild(col);
-    });
-    cal.appendChild(body);
     var noDay = shown.filter(function (t) { return !t.due || t.due < state.week || t.due > last; });
     var nd = el("div", { class: "cal-nodate" }, [el("span", { text: noDay.length ? "No day yet:" : "Everything this week has a day." })].concat(noDay.map(item)));
     var cats = {};
