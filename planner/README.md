@@ -79,6 +79,8 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 
 **Calendar colours:** each item is tinted by its category with a solid stripe on the left, and a legend lists the week's categories. Common categories keep fixed colours (Work blue, Home orange, Fitness teal, Errands yellow, Family pink, Groceries green, Routines violet, Kids red); other categories take any unused colour, and beyond eight they show in grey. Routines are marked ↻, big days ◆, and protected time has a dark outline. The palette was checked for colour-blind separation; every item also shows its name, so colour is never the only cue.
 
+**The Plan, simplified to match Day notes:** the form asks "What do you want to do?" in a larger text box, with Day and Category side by side and Start time and How long below. Everything else stays under More options. Press Enter or Save to add the task; Shift+Enter adds a line break. The only other button is Clear, which appears once you start typing. While you edit a saved task, it becomes Cancel, and Save becomes "Save changes".
+
 **Day notes (log one thing, look back, change one small thing):** a panel under the calendar in Plan Your Week.
 - *Log one thing:* write what happened, specifically. For example, what you did and where it got stuck, rather than "busy day". Pick the day it happened (past days can be filled in later) and a category.
 - *Planned versus actual time:* optionally note how long you thought it would take and how long it took. The note shows the difference, such as "+15 min".
