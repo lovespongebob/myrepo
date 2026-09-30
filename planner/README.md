@@ -80,7 +80,7 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 **Calendar colours:** each item is tinted by its category with a solid stripe on the left, and a legend lists the week's categories. Common categories keep fixed colours (Work blue, Home orange, Fitness teal, Errands yellow, Family pink, Groceries green, Routines violet, Kids red); other categories take any unused colour, and beyond eight they show in grey. Routines are marked ↻, big days ◆, and protected time has a dark outline. The palette was checked for colour-blind separation; every item also shows its name, so colour is never the only cue.
 
 **Weekly Summary, reading the week back:** the summary shows, in order:
-1. Day notes: pick a day to read, add or edit its notes, each with its category, planned and actual time, and "next time" change.
+1. Day notes: pick a day, then write what happened, what went well, and what didn't go well.
 2. Highlights of the week with Key takeaways, beside Goals for next week with What's next. The goals are three fields saved as the following week's goals. What's next items can be added as a goal with one click.
 3. The weekly check-in, then Status.
 Goals for the week (three fields; click a number to tick one off) sit at the top of Plan Your Week, above The Plan and Weekly routines.
@@ -90,12 +90,10 @@ The Task summary table is no longer shown. Tasks stay on the calendar and list i
 
 **The Plan, simplified to match Day notes:** the form asks "What do you want to do?" in a larger text box, with Day and Category side by side and Start time and How long below. Everything else stays under More options. Press Enter or Save to add the task; Shift+Enter adds a line break. The only other button is Clear, which appears once you start typing. While you edit a saved task, it becomes Cancel, and Save becomes "Save changes".
 
-**Day notes (log one thing, look back, change one small thing):** a panel in the Weekly Summary, under Highlights and Goals. Plan Your Week keeps only The Plan, Weekly routines and the calendar.
-- *Log one thing:* write what happened, specifically. For example, what you did and where it got stuck, rather than "busy day". Pick the day it happened (past days can be filled in later) and a category.
-- *Planned versus actual time:* optionally note how long you thought it would take and how long it took. The note shows the difference, such as "+15 min".
-- *Next time, I'll…:* one small change to try. Tick "Also add to my plan" to turn it into a task for the next day, or use "Add to plan" on the note later.
-- *Look back:* the calendar in Plan Your Week shows a ✎ count on days with notes. Clicking a day's header opens that day's notes in the Weekly Summary. The day buttons above the form do the same. The pencil edits a note, for example to add what you'll change next time.
-- *Weekly Summary:* when notes include times, Key takeaways says whether things ran longer than planned and by about how much. "Next time" changes not yet on your plan appear in What's next. Notes are also part of what Claude reads and of the summary text.
+**Day notes (what happened, what went well, what didn't):** the first section of the Weekly Summary. Plan Your Week keeps only Goals for the week, The Plan, Weekly routines and the calendar.
+- *Pick a day* with the day buttons (today is chosen by default; a small count shows days that have notes), then answer three questions: What happened, What went well, and What didn't go well. Save note adds it to that day. The pencil edits a note and × deletes it.
+- *Look back:* the calendar in Plan Your Week shows a ✎ count on days with notes. Clicking a day's header opens that day's notes in the Weekly Summary.
+- *Weekly Summary:* Key takeaways pick up something that went well and notice when things didn't go well on several days. What's next suggests planning around the latest thing that didn't go well. Claude reads the notes when it writes the takeaways, and they are part of the copied summary text.
 Notes are stored in the planner's notes collection as `log~<id>` documents, so the same Editor-only rules apply.
 
 **Design (navy and mint deck style):** every page follows one visual system taken from a navy and mint pitch-deck template.
