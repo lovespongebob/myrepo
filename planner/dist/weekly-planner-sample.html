@@ -1640,6 +1640,17 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .plan-actions .bigbtn svg, .plan-actions .chev { display: none; }
 .panel.entry .editing-note { margin: 0 0 4px; padding: 8px 12px; border-radius: 10px; background: var(--wait-soft); color: var(--ink); font-size: 13px; font-weight: 500; }
 @media (max-width: 380px) { .plan-row { grid-template-columns: minmax(0, 1fr); } }
+
+/* ================= Weekly Summary: day notes and next week's goals ================= */
+.sum-row2 { margin-top: 0; }
+.sn-list { display: grid; gap: 14px; }
+.sn-day { display: grid; gap: 8px; }
+.sn-day h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 14.5px; color: var(--muted); }
+.sn-go { justify-self: start; }
+.ng-suggest { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.ng-suggest:empty { display: none; }
+.ng-idea { font-size: 12.5px; text-align: left; white-space: normal; line-height: 1.35; padding: 6px 12px; }
+#panesummary .sum-row2 > .panel > .panel-head:first-child { min-height: 92px; }
 </style>
 
 <div class="wrap">
@@ -2026,6 +2037,34 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </div>
       </section>
     </div>
+    <div class="grid-summary sum-row2">
+      <section class="panel sum-notes" aria-labelledby="snTitle">
+        <div class="panel-head">
+          <div>
+            <h2 id="snTitle">Day notes this week</h2>
+            <div class="hint">What happened each day, and what you’ll change next time.</div>
+          </div>
+          <span class="hint mono" id="snCount"></span>
+        </div>
+        <div class="sn-list" id="sumNotes"></div>
+        <button type="button" class="linkbtn sn-go" id="snGo">Add a day note in Plan Your Week →</button>
+      </section>
+      <section class="panel sum-nextgoals" aria-labelledby="ngTitle">
+        <div class="panel-head">
+          <div>
+            <h2 id="ngTitle">Goals for next week</h2>
+            <div class="hint" id="ngRange">The three things you most want to get done next week.</div>
+          </div>
+          <span class="hint mono" id="ngCount"></span>
+        </div>
+        <ol class="top3 goals-next" id="goalsNext">
+          <li><label class="sr" for="ng-0">Next week’s goal 1</label><input id="ng-0" maxlength="160" autocomplete="off" placeholder="e.g. Three yoga classes"></li>
+          <li><label class="sr" for="ng-1">Next week’s goal 2</label><input id="ng-1" maxlength="160" autocomplete="off" placeholder="e.g. Plan the weekend trip"></li>
+          <li><label class="sr" for="ng-2">Next week’s goal 3</label><input id="ng-2" maxlength="160" autocomplete="off" placeholder="e.g. One chapter of reading notes a day"></li>
+        </ol>
+        <div class="ng-suggest" id="ngSuggest"></div>
+      </section>
+    </div>
     <section class="panel checkin" aria-labelledby="ciTitle">
       <div class="panel-head">
         <div>
@@ -2062,7 +2101,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
           <div class="stat s-todo"><div class="top-line"><span class="swatch"></span>Not started<span class="num" id="nTodo">0</span></div><div class="bar"><i id="bTodo" style="width:0"></i></div></div>
         </div>
       </section>
-    <section class="panel" aria-labelledby="tsTitle">
+    <section class="panel" aria-labelledby="tsTitle" hidden>
       <div class="panel-head">
         <div>
           <h2 id="tsTitle">Task summary</h2>
@@ -2490,6 +2529,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     renderRoutines();
     renderTakeaways();
     renderMilestones(whoFilter, projectFilter);
+    renderSumNotes(); renderNextGoals();
     renderReport(list, c);
 
     var note = $("weekNote");
@@ -3269,7 +3309,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     { t: "Review this week", d: "See what got done and what stood out.", go: function () { goWeek(THIS_WEEK); setTab("summary"); } },
     { t: "Add highlights, energy and what you learned", d: "Your three best moments and a quick check-in.", go: function () { goWeek(THIS_WEEK); setTab("summary"); setTimeout(function () { $("top3-0").focus(); }, 50); } },
     { t: "Carry unfinished tasks into next week", d: "Bring over what’s still open instead of retyping it.", go: function () { goWeek(addDays(THIS_WEEK, 7)); setTab("planner"); } },
-    { t: "Set three goals for next week", d: "The few things that matter most.", go: function () { goWeek(addDays(THIS_WEEK, 7)); setTab("summary"); setTimeout(function () { $("goal-0").focus(); }, 50); } },
+    { t: "Set three goals for next week", d: "The few things that matter most.", go: function () { goWeek(THIS_WEEK); setTab("summary"); setTimeout(function () { $("ng-0").focus(); $("ng-0").scrollIntoView({ block: "center", behavior: "smooth" }); }, 50); } },
     { t: "Check next week’s routines", d: "Workouts, reading, time blocks and protected time.", go: function () { goWeek(addDays(THIS_WEEK, 7)); setTab("planner"); $("routinesPanel").open = true; setTimeout(function () { $("routinesPanel").scrollIntoView({ block: "start" }); }, 50); } }
   ];
   function resetDone() { var r = (prefs.reset || {})[THIS_WEEK]; return Array.isArray(r) ? r : []; }
@@ -3524,6 +3564,65 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     dnTaskHint();
   }
 
+
+  // ---------- Weekly Summary: day notes this week and goals for next week ----------
+  function renderSumNotes() {
+    var notes = weekDayNotes(state.week), cmap = catColorMap(), groups = {}, order = [];
+    notes.forEach(function (n) { if (!groups[n.date]) { groups[n.date] = []; order.push(n.date); } groups[n.date].push(n); });
+    $("snCount").textContent = notes.length ? notes.length + (notes.length === 1 ? " note" : " notes") : "";
+    var out = order.map(function (d) {
+      return el("div", { class: "sn-day" }, [el("h3", { text: dayName(d) }), el("ul", { class: "dn-list" }, groups[d].map(function (n) {
+        return el("li", { class: "dn-item" }, [el("p", { class: "dn-text", text: n.text }),
+          el("div", { class: "dn-meta" }, [n.category ? el("span", { class: "dn-cat", style: "--c:" + (cmap[catKey(n.category)] || OTHER_COLOR), text: n.category }) : null, dnTimeLine(n), n.name ? el("span", { class: "dn-by", text: n.name }) : null]),
+          n.next ? el("div", { class: "dn-next" }, [el("b", { text: "Next time: " }), n.next]) : null]);
+      }))]);
+    });
+    if (!out.length) out = [el("p", { class: "dn-empty", text: "No day notes this week yet. Log one thing that happened in Plan Your Week, and it shows up here." })];
+    $("sumNotes").replaceChildren.apply($("sumNotes"), out);
+    $("snGo").hidden = state.readOnly;
+  }
+  $("snGo").addEventListener("click", function () { setTab("planner"); setTimeout(function () { selectNoteDay(dnDayInWeek(), true); $("dn-text").focus(); }, 60); });
+  // Turn a "What's next" line into plain goal wording.
+  function goalFromNext(s) {
+    s = String(s || "").trim();
+    var m = s.match(/^Carry the goal “(.+)” into next week\.?$/);
+    if (m) return m[1];
+    s = s.replace(/^Try your change:\s*/, "").replace(/\.$/, "");
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+  function nextWeekKey() { return addDays(state.week, 7); }
+  function renderNextGoals() {
+    var nk = nextWeekKey(), items = keyMilestones(nk), filled = items.filter(function (m) { return m && m.text; });
+    $("ngRange").textContent = "The three things you most want to get done " + (state.week === THIS_WEEK ? "next week" : "the week after") + ", " + weekRangeText(nk) + ".";
+    $("ngCount").textContent = filled.length ? filled.length + " of 3 set" : "";
+    [0, 1, 2].forEach(function (i) { var f = $("ng-" + i); if (document.activeElement !== f) f.value = (items[i] && items[i].text) || ""; f.disabled = state.readOnly; });
+    var have = {}; filled.forEach(function (m) { have[norm(m.text)] = true; });
+    var ideas = state.readOnly || filled.length >= 3 ? [] : currentNext().map(goalFromNext).filter(function (s) { return s && !have[norm(s)]; }).slice(0, 3);
+    var box = $("ngSuggest");
+    box.replaceChildren.apply(box, ideas.length ? [el("span", { class: "hint", text: "From What’s next:" })].concat(ideas.map(function (s) {
+      return el("button", { type: "button", class: "chipbtn ng-idea", title: "Use as a goal for next week", text: "+ " + s, onclick: function () {
+        var i = [0, 1, 2].filter(function (k) { return !$("ng-" + k).value.trim(); })[0];
+        if (i == null) return;
+        $("ng-" + i).value = s.slice(0, 160); saveNextGoals();
+      } });
+    })) : []);
+  }
+  function saveNextGoals() {
+    if (state.readOnly || !store) return;
+    var nk = nextWeekKey(), cur = keyMilestones(nk);
+    var items = [0, 1, 2].map(function (i) {
+      var old = cur[i] || {}, text = $("ng-" + i).value.trim().slice(0, 160);
+      return { id: old.id || "g" + i, text: text, done: text && text === old.text ? !!old.done : false, date: "", project: "" };
+    });
+    if (items.every(function (m, i) { return ((cur[i] || {}).text || "") === m.text; })) return;
+    store.putWeek(msKey(nk), { week: nk, kind: "key-milestones", items: items.concat(cur.slice(3)), updated: Date.now() }).then(function () { toast("Goals for next week saved. They’ll show as that week’s goals."); }, function () {});
+  }
+  [0, 1, 2].forEach(function (i) {
+    var f = $("ng-" + i);
+    f.addEventListener("blur", saveNextGoals);
+    f.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (i < 2) $("ng-" + (i + 1)).focus(); else f.blur(); } });
+  });
+
   function updateRepeatUI() {}
 
   // ---------- Highlights, key takeaways and what's next ----------
@@ -3690,6 +3789,8 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     if (dns.length) { lines.push("", "Day notes:"); dns.forEach(function (n) { lines.push("- " + dayName(n.date) + ": " + n.text + (n.planned && n.actual ? " (planned " + fmtMins(n.planned) + ", took " + fmtMins(n.actual) + ")" : "") + (n.next ? " Next time: " + n.next : "")); }); }
     lines.push("", "Key takeaways:"); currentTakeaways().forEach(function (t) { lines.push("- " + t); });
     lines.push("", "What’s next:"); currentNext().forEach(function (t, i) { lines.push((i + 1) + ". " + t); });
+    var ng = visibleMilestones(addDays(state.week, 7));
+    if (ng.length) { lines.push("", "Goals for next week:"); ng.forEach(function (m, i) { lines.push((i + 1) + ". " + m.text); }); }
     return lines.join("\n");
   }
 
