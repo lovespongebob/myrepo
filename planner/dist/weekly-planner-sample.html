@@ -1938,46 +1938,6 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
           </table>
         </div>
     </section>
-    <section class="panel daynotes" id="dayNotesPanel" aria-labelledby="dnTitle">
-      <div class="panel-head">
-        <div>
-          <h2 id="dnTitle">Day notes</h2>
-          <p class="hint">Log one thing that happened, look back at it, then change one small thing next time.</p>
-        </div>
-        <span class="hint mono" id="dnCount"></span>
-      </div>
-      <div class="dn-days" id="dnDays" role="group" aria-label="Pick a day"></div>
-      <div class="dn-grid">
-        <form class="dn-form" id="dnForm" autocomplete="off">
-          <p class="dn-editing" id="dnEditing" hidden>Editing a note. Add what you'll change next time, then save.</p>
-          <div class="field">
-            <label for="dn-text">What happened</label>
-            <textarea id="dn-text" rows="3" maxlength="1000" placeholder="Be specific: what you did and where it got stuck. e.g. Sorted my reading notes. Kept checking the book, so it ran long."></textarea>
-          </div>
-          <div class="dn-row">
-            <div class="field"><label for="dn-date">Day it happened</label><input type="date" id="dn-date"></div>
-            <div class="field"><label for="dn-cat">Category</label><input id="dn-cat" list="projectList" maxlength="60" placeholder="e.g. Home, Fitness or Work"></div>
-          </div>
-          <div class="dn-row">
-            <div class="field"><label for="dn-plan">I thought it would take</label><select id="dn-plan"></select></div>
-            <div class="field"><label for="dn-actual">It actually took</label><select id="dn-actual"></select></div>
-          </div>
-          <div class="field">
-            <label for="dn-next">Next time, I'll…</label>
-            <input id="dn-next" maxlength="200" placeholder="One small change, e.g. Save 40 minutes and do one chapter">
-          </div>
-          <label class="dn-check"><input type="checkbox" id="dn-task"> Also add “next time” to my plan <span class="hint" id="dnTaskDay"></span></label>
-          <div class="dn-actions">
-            <button type="button" class="bigbtn b-fill" id="dnCancel" hidden>Cancel</button>
-            <button type="submit" class="bigbtn b-save" id="dnSave">Save note</button>
-          </div>
-        </form>
-        <div class="dn-side">
-          <h3 id="dnDayTitle">Notes</h3>
-          <ul class="dn-list" id="dnList"></ul>
-        </div>
-      </div>
-    </section>
   </section>
 
   <!-- 2. Weekly summary -->
@@ -2045,19 +2005,47 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </div>
       </section>
     </div>
-    <div class="grid-summary sum-row2">
-      <section class="panel sum-notes" aria-labelledby="snTitle">
-        <div class="panel-head">
-          <div>
-            <h2 id="snTitle">Day notes this week</h2>
-            <div class="hint">What happened each day, and what you’ll change next time.</div>
-          </div>
-          <span class="hint mono" id="snCount"></span>
+    <section class="panel daynotes" id="dayNotesPanel" aria-labelledby="dnTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="dnTitle">Day notes</h2>
+          <p class="hint">What happened each day this week, and one small thing to change next time.</p>
         </div>
-        <div class="sn-list" id="sumNotes"></div>
-        <button type="button" class="linkbtn sn-go" id="snGo">Add a day note in Plan Your Week →</button>
-      </section>
-      <section class="panel sum-nextgoals" aria-labelledby="ngTitle">
+        <span class="hint mono" id="dnCount"></span>
+      </div>
+      <div class="dn-days" id="dnDays" role="group" aria-label="Pick a day"></div>
+      <div class="dn-grid">
+        <form class="dn-form" id="dnForm" autocomplete="off">
+          <p class="dn-editing" id="dnEditing" hidden>Editing a note. Add what you'll change next time, then save.</p>
+          <div class="field">
+            <label for="dn-text">What happened</label>
+            <textarea id="dn-text" rows="3" maxlength="1000" placeholder="Be specific: what you did and where it got stuck. e.g. Sorted my reading notes. Kept checking the book, so it ran long."></textarea>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-date">Day it happened</label><input type="date" id="dn-date"></div>
+            <div class="field"><label for="dn-cat">Category</label><input id="dn-cat" list="projectList" maxlength="60" placeholder="e.g. Home, Fitness or Work"></div>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-plan">I thought it would take</label><select id="dn-plan"></select></div>
+            <div class="field"><label for="dn-actual">It actually took</label><select id="dn-actual"></select></div>
+          </div>
+          <div class="field">
+            <label for="dn-next">Next time, I'll…</label>
+            <input id="dn-next" maxlength="200" placeholder="One small change, e.g. Save 40 minutes and do one chapter">
+          </div>
+          <label class="dn-check"><input type="checkbox" id="dn-task"> Also add “next time” to my plan <span class="hint" id="dnTaskDay"></span></label>
+          <div class="dn-actions">
+            <button type="button" class="bigbtn b-fill" id="dnCancel" hidden>Cancel</button>
+            <button type="submit" class="bigbtn b-save" id="dnSave">Save note</button>
+          </div>
+        </form>
+        <div class="dn-side">
+          <h3 id="dnDayTitle">Notes</h3>
+          <ul class="dn-list" id="dnList"></ul>
+        </div>
+      </div>
+    </section>
+    <section class="panel sum-nextgoals" aria-labelledby="ngTitle">
         <div class="panel-head">
           <div>
             <h2 id="ngTitle">Goals for next week</h2>
@@ -2072,7 +2060,6 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </ol>
         <div class="ng-suggest" id="ngSuggest"></div>
       </section>
-    </div>
     <section class="panel checkin" aria-labelledby="ciTitle">
       <div class="panel-head">
         <div>
@@ -2537,7 +2524,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     renderRoutines();
     renderTakeaways();
     renderMilestones(whoFilter, projectFilter);
-    renderSumNotes(); renderNextGoals();
+    renderNextGoals();
     renderReport(list, c);
 
     var note = $("weekNote");
@@ -3388,7 +3375,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     var cal = el("div", { class: "cal" });
     cal.appendChild(el("div", { class: "cal-head" }, [el("div")].concat(days.map(function (d, k) {
       var nn = notesOn(d).length;
-      return el("div", { class: "cal-day" + (d === TODAY ? " today" : ""), title: nn ? "See " + nn + (nn === 1 ? " day note" : " day notes") : "Add a day note", onclick: function () { selectNoteDay(d, true); } },
+      return el("div", { class: "cal-day" + (d === TODAY ? " today" : ""), title: nn ? "See " + nn + (nn === 1 ? " day note" : " day notes") + " in the Weekly Summary" : "Add a day note in the Weekly Summary", onclick: function () { if (state.locked) return; setTab("summary"); setTimeout(function () { selectNoteDay(d, true); }, 60); } },
         [el("b", { text: DAYS[k] }), el("span", { text: shortDate(parseYmd(d)) }), nn ? el("div", null, [el("span", { class: "cal-note", text: "✎ " + nn })]) : null]);
     }))));
     var cmap = catColorMap();
@@ -3541,22 +3528,6 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 
 
   // ---------- Weekly Summary: day notes this week and goals for next week ----------
-  function renderSumNotes() {
-    var notes = weekDayNotes(state.week), cmap = catColorMap(), groups = {}, order = [];
-    notes.forEach(function (n) { if (!groups[n.date]) { groups[n.date] = []; order.push(n.date); } groups[n.date].push(n); });
-    $("snCount").textContent = notes.length ? notes.length + (notes.length === 1 ? " note" : " notes") : "";
-    var out = order.map(function (d) {
-      return el("div", { class: "sn-day" }, [el("h3", { text: dayName(d) }), el("ul", { class: "dn-list" }, groups[d].map(function (n) {
-        return el("li", { class: "dn-item" }, [el("p", { class: "dn-text", text: n.text }),
-          el("div", { class: "dn-meta" }, [n.category ? el("span", { class: "dn-cat", style: "--c:" + (cmap[catKey(n.category)] || OTHER_COLOR), text: n.category }) : null, dnTimeLine(n), n.name ? el("span", { class: "dn-by", text: n.name }) : null]),
-          n.next ? el("div", { class: "dn-next" }, [el("b", { text: "Next time: " }), n.next]) : null]);
-      }))]);
-    });
-    if (!out.length) out = [el("p", { class: "dn-empty", text: "No day notes this week yet. Log one thing that happened in Plan Your Week, and it shows up here." })];
-    $("sumNotes").replaceChildren.apply($("sumNotes"), out);
-    $("snGo").hidden = state.readOnly;
-  }
-  $("snGo").addEventListener("click", function () { setTab("planner"); setTimeout(function () { selectNoteDay(dnDayInWeek(), true); $("dn-text").focus(); }, 60); });
   // Turn a "What's next" line into plain goal wording.
   function goalFromNext(s) {
     s = String(s || "").trim();
