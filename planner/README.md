@@ -86,6 +86,8 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 Goals for the week (three fields; click a number to tick one off) sit at the top of Plan Your Week, above The Plan and Weekly routines.
 The Task summary table is no longer shown. Tasks stay on the calendar and list in Plan Your Week, and in the Word, PowerPoint and PDF downloads.
 
+**Fold any section:** every section on Plan Your Week and the Weekly Summary has a small arrow at the right of its header. Click it to fold the section down to its header, and click the arrow or the header again to open it. Each viewer's choice is remembered in their own browser. It only changes what that person sees, never the planner's data.
+
 **The Plan, simplified to match Day notes:** the form asks "What do you want to do?" in a larger text box, with Day and Category side by side and Start time and How long below. Everything else stays under More options. Press Enter or Save to add the task; Shift+Enter adds a line break. The only other button is Clear, which appears once you start typing. While you edit a saved task, it becomes Cancel, and Save becomes "Save changes".
 
 **Day notes (log one thing, look back, change one small thing):** a panel in the Weekly Summary, under Highlights and Goals. Plan Your Week keeps only The Plan, Weekly routines and the calendar.

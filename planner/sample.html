@@ -1676,6 +1676,24 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 .goals-panel { display: grid; gap: 12px; }
 @media (min-width: 900px) { #paneplanner .goals-panel .goals3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .whatsnext .ng-suggest { margin-top: 4px; padding-top: 10px; border-top: 1px dashed color-mix(in srgb, var(--mint-deep, #7FD3B8) 60%, transparent); }
+
+/* ================= Fold sections with a little arrow ================= */
+.panel > .panel-head, .panel.entry > .brand { position: relative; }
+.fold-btn { flex: none; margin-left: 10px; width: 30px; height: 30px; padding: 0; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; cursor: pointer; align-self: center; }
+.fold-btn:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+.fold-btn svg { width: 16px; height: 16px; transition: transform 0.18s ease; }
+.panel.folded .fold-btn svg { transform: rotate(-90deg); }
+.panel.entry > .brand { display: flex; align-items: center; }
+.panel.entry > .brand > div:not(.tiles) { flex: 1; min-width: 0; }
+.panel.folded > :not(.panel-head):not(.brand) { display: none !important; }
+.panel.folded > .panel-head:first-child, .panel.folded > .brand { margin-bottom: -22px !important; border-bottom: 0; cursor: pointer; }
+.panel.folded { align-self: start; gap: 0; }
+#panesummary .grid-summary > .panel.folded { align-self: start; }
+@media (prefers-reduced-motion: reduce) { .fold-btn svg { transition: none; } }
+
+.panel > .panel-head:first-child > :first-child { margin-right: auto; }
+.panel > .panel-head:first-child { gap: 10px; }
+.grid-summary:has(> .panel.folded) .tk-arrow { display: none; }
 </style>
 
 <div class="wrap">
@@ -3594,6 +3612,33 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
     f.addEventListener("blur", saveNextGoals);
     f.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (i < 2) $("ng-" + (i + 1)).focus(); else f.blur(); } });
   });
+
+
+  // ---------- Fold any section down to its header with the little arrow; each viewer's choice is remembered ----------
+  (function () {
+    var KEY = "weeklyPlanner.folded", folded = {};
+    try { folded = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { folded = {}; }
+    function remember() { try { localStorage.setItem(KEY, JSON.stringify(folded)); } catch (e) { /* storage unavailable */ } }
+    var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+    Array.prototype.forEach.call(document.querySelectorAll("#paneplanner .panel, #panesummary .panel"), function (panel) {
+      var head = panel.querySelector(":scope > .panel-head, :scope > .brand");
+      var id = panel.getAttribute("aria-labelledby") || panel.id;
+      if (!head || !id) return;
+      var title = function () { return ((document.getElementById(id) || {}).textContent || "section").trim(); };
+      var btn = el("button", { type: "button", class: "fold-btn", "aria-expanded": "true", "aria-label": "Hide " + title(), title: "Hide or show" });
+      btn.innerHTML = ARROW;
+      head.appendChild(btn);
+      function set(closed, save) {
+        panel.classList.toggle("folded", closed);
+        btn.setAttribute("aria-expanded", String(!closed));
+        btn.setAttribute("aria-label", (closed ? "Show " : "Hide ") + title());
+        if (save) { if (closed) folded[id] = 1; else delete folded[id]; remember(); }
+      }
+      btn.addEventListener("click", function (e) { e.stopPropagation(); set(!panel.classList.contains("folded"), true); });
+      head.addEventListener("click", function (e) { if (panel.classList.contains("folded") && !e.target.closest("button, a, input, select, textarea, label")) set(false, true); });
+      set(!!folded[id], false);
+    });
+  })();
 
   function updateRepeatUI() {}
 
