@@ -1679,9 +1679,19 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 #panesummary .grid-summary > .panel.folded { align-self: start; }
 @media (prefers-reduced-motion: reduce) { .fold-btn svg { transition: none; } }
 
-.panel > .panel-head:first-child > :first-child { margin-right: auto; }
+.panel > .panel-head:first-child > :nth-child(2) { margin-right: auto; }
 .panel > .panel-head:first-child { gap: 10px; }
 .grid-summary:has(> .panel.folded) .tk-arrow { display: none; }
+
+/* Arrow sits before the section title */
+.fold-btn { margin: 0 12px 0 0; order: -1; }
+.panel > .panel-head:first-child { justify-content: flex-start; }
+.panel.entry > .brand > .fold-btn { margin-right: 12px; }
+
+.fold-btn { margin-right: 2px; }
+.panel > .panel-head:first-child { flex-direction: row !important; flex-wrap: wrap; align-items: center !important; }
+.panel > .panel-head:first-child > :nth-child(2) { flex: 1 1 0; min-width: 0; }
+@media (max-width: 640px) { .panel > .panel-head:first-child > .mono, .panel > .panel-head:first-child > .count { flex-basis: 100%; padding-left: 42px; } }
 </style>
 
 <div class="wrap">
@@ -1994,6 +2004,46 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </details>
       </div>
     </div>
+    <section class="panel daynotes" id="dayNotesPanel" aria-labelledby="dnTitle">
+      <div class="panel-head">
+        <div>
+          <h2 id="dnTitle">Day notes</h2>
+          <p class="hint">What happened each day this week, and one small thing to change next time.</p>
+        </div>
+        <span class="hint mono" id="dnCount"></span>
+      </div>
+      <div class="dn-days" id="dnDays" role="group" aria-label="Pick a day"></div>
+      <div class="dn-grid">
+        <form class="dn-form" id="dnForm" autocomplete="off">
+          <p class="dn-editing" id="dnEditing" hidden>Editing a note. Add what you'll change next time, then save.</p>
+          <div class="field">
+            <label for="dn-text">What happened</label>
+            <textarea id="dn-text" rows="3" maxlength="1000" placeholder="Be specific: what you did and where it got stuck. e.g. Sorted my reading notes. Kept checking the book, so it ran long."></textarea>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-date">Day it happened</label><input type="date" id="dn-date"></div>
+            <div class="field"><label for="dn-cat">Category</label><input id="dn-cat" list="projectList" maxlength="60" placeholder="e.g. Home, Fitness or Work"></div>
+          </div>
+          <div class="dn-row">
+            <div class="field"><label for="dn-plan">I thought it would take</label><select id="dn-plan"></select></div>
+            <div class="field"><label for="dn-actual">It actually took</label><select id="dn-actual"></select></div>
+          </div>
+          <div class="field">
+            <label for="dn-next">Next time, I'll…</label>
+            <input id="dn-next" maxlength="200" placeholder="One small change, e.g. Save 40 minutes and do one chapter">
+          </div>
+          <label class="dn-check"><input type="checkbox" id="dn-task"> Also add “next time” to my plan <span class="hint" id="dnTaskDay"></span></label>
+          <div class="dn-actions">
+            <button type="button" class="bigbtn b-fill" id="dnCancel" hidden>Cancel</button>
+            <button type="submit" class="bigbtn b-save" id="dnSave">Save note</button>
+          </div>
+        </form>
+        <div class="dn-side">
+          <h3 id="dnDayTitle">Notes</h3>
+          <ul class="dn-list" id="dnList"></ul>
+        </div>
+      </div>
+    </section>
     <div class="grid-summary">
       <section class="panel top3-panel" aria-labelledby="top3Title">
         <div class="panel-head">
@@ -2043,46 +2093,6 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
         </div>
       </section>
     </div>
-    <section class="panel daynotes" id="dayNotesPanel" aria-labelledby="dnTitle">
-      <div class="panel-head">
-        <div>
-          <h2 id="dnTitle">Day notes</h2>
-          <p class="hint">What happened each day this week, and one small thing to change next time.</p>
-        </div>
-        <span class="hint mono" id="dnCount"></span>
-      </div>
-      <div class="dn-days" id="dnDays" role="group" aria-label="Pick a day"></div>
-      <div class="dn-grid">
-        <form class="dn-form" id="dnForm" autocomplete="off">
-          <p class="dn-editing" id="dnEditing" hidden>Editing a note. Add what you'll change next time, then save.</p>
-          <div class="field">
-            <label for="dn-text">What happened</label>
-            <textarea id="dn-text" rows="3" maxlength="1000" placeholder="Be specific: what you did and where it got stuck. e.g. Sorted my reading notes. Kept checking the book, so it ran long."></textarea>
-          </div>
-          <div class="dn-row">
-            <div class="field"><label for="dn-date">Day it happened</label><input type="date" id="dn-date"></div>
-            <div class="field"><label for="dn-cat">Category</label><input id="dn-cat" list="projectList" maxlength="60" placeholder="e.g. Home, Fitness or Work"></div>
-          </div>
-          <div class="dn-row">
-            <div class="field"><label for="dn-plan">I thought it would take</label><select id="dn-plan"></select></div>
-            <div class="field"><label for="dn-actual">It actually took</label><select id="dn-actual"></select></div>
-          </div>
-          <div class="field">
-            <label for="dn-next">Next time, I'll…</label>
-            <input id="dn-next" maxlength="200" placeholder="One small change, e.g. Save 40 minutes and do one chapter">
-          </div>
-          <label class="dn-check"><input type="checkbox" id="dn-task"> Also add “next time” to my plan <span class="hint" id="dnTaskDay"></span></label>
-          <div class="dn-actions">
-            <button type="button" class="bigbtn b-fill" id="dnCancel" hidden>Cancel</button>
-            <button type="submit" class="bigbtn b-save" id="dnSave">Save note</button>
-          </div>
-        </form>
-        <div class="dn-side">
-          <h3 id="dnDayTitle">Notes</h3>
-          <ul class="dn-list" id="dnList"></ul>
-        </div>
-      </div>
-    </section>
     <section class="panel checkin" aria-labelledby="ciTitle">
       <div class="panel-head">
         <div>
@@ -3606,7 +3616,7 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
       var title = function () { return ((document.getElementById(id) || {}).textContent || "section").trim(); };
       var btn = el("button", { type: "button", class: "fold-btn", "aria-expanded": "true", "aria-label": "Hide " + title(), title: "Hide or show" });
       btn.innerHTML = ARROW;
-      head.appendChild(btn);
+      head.insertBefore(btn, head.firstChild);
       function set(closed, save) {
         panel.classList.toggle("folded", closed);
         btn.setAttribute("aria-expanded", String(!closed));

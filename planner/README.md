@@ -80,13 +80,13 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 **Calendar colours:** each item is tinted by its category with a solid stripe on the left, and a legend lists the week's categories. Common categories keep fixed colours (Work blue, Home orange, Fitness teal, Errands yellow, Family pink, Groceries green, Routines violet, Kids red); other categories take any unused colour, and beyond eight they show in grey. Routines are marked ↻, big days ◆, and protected time has a dark outline. The palette was checked for colour-blind separation; every item also shows its name, so colour is never the only cue.
 
 **Weekly Summary, reading the week back:** the summary shows, in order:
-1. Highlights of the week with Key takeaways, beside Goals for next week with What's next. The goals are three fields saved as the following week's goals. What's next items can be added as a goal with one click.
-2. Day notes: pick a day to read, add or edit its notes, each with its category, planned and actual time, and "next time" change.
+1. Day notes: pick a day to read, add or edit its notes, each with its category, planned and actual time, and "next time" change.
+2. Highlights of the week with Key takeaways, beside Goals for next week with What's next. The goals are three fields saved as the following week's goals. What's next items can be added as a goal with one click.
 3. The weekly check-in, then Status.
 Goals for the week (three fields; click a number to tick one off) sit at the top of Plan Your Week, above The Plan and Weekly routines.
 The Task summary table is no longer shown. Tasks stay on the calendar and list in Plan Your Week, and in the Word, PowerPoint and PDF downloads.
 
-**Fold any section:** every section on Plan Your Week and the Weekly Summary has a small arrow at the right of its header. Click it to fold the section down to its header, and click the arrow or the header again to open it. Each viewer's choice is remembered in their own browser. It only changes what that person sees, never the planner's data.
+**Fold any section:** every section on Plan Your Week and the Weekly Summary has a small arrow at the start of its header, before the title. Click it to fold the section down to its header, and click the arrow or the header again to open it. Each viewer's choice is remembered in their own browser. It only changes what that person sees, never the planner's data.
 
 **The Plan, simplified to match Day notes:** the form asks "What do you want to do?" in a larger text box, with Day and Category side by side and Start time and How long below. Everything else stays under More options. Press Enter or Save to add the task; Shift+Enter adds a line break. The only other button is Clear, which appears once you start typing. While you edit a saved task, it becomes Cancel, and Save becomes "Save changes".
 
