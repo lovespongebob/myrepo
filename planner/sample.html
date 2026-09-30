@@ -1510,6 +1510,15 @@ th, .ts-table th, .panel th, .panel .ts-table th { background: var(--mint-soft);
 }
 .home-cover::before, .home-cover::after, .top::before, .top::after, .intro > header::before, .intro > header::after, .cta::before { box-sizing: border-box; display: block; }
 @media (max-width: 640px) { .home-cover::before { width: 170px; height: 170px; right: -90px; top: -100px; border-width: 26px; } .home-cover .eyebrow { letter-spacing: 0.2em; } }
+
+/* Home tiles: all three match; navy appears only on hover, as a clear 'you are here' cue */
+#homeView .navtile:nth-child(2) { background: linear-gradient(160deg, var(--mint-soft) 0%, var(--mint-2) 100%); }
+#homeView .navtile:nth-child(2) .nt-head, #homeView .navtile:nth-child(2) .nt-desc { color: var(--navy-900); }
+#homeView .navtile:nth-child(2) .nt-body svg { color: var(--navy-900); }
+#homeView .navtile { transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+#homeView .navtile:hover, #homeView .navtile:focus-visible { background: var(--navy-900); }
+#homeView .navtile:hover .nt-head, #homeView .navtile:hover .nt-desc, #homeView .navtile:focus-visible .nt-head, #homeView .navtile:focus-visible .nt-desc { color: #fff; }
+#homeView .navtile:hover .nt-body svg, #homeView .navtile:focus-visible .nt-body svg { color: var(--mint); }
 </style>
 
 <div class="wrap">

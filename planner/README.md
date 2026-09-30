@@ -81,7 +81,7 @@ Word, PowerPoint and PDF exports load their libraries from jsDelivr, so they nee
 
 **Design (navy and mint deck style):** every page follows one visual system taken from a navy and mint pitch-deck template.
 - *Slides:* the home title and each section header (Overview, Plan Your Week, Weekly Summary) sit on a deep navy card with a mint ring in the corner. Headlines use Inter Tight in a light, tight weight, with DM Sans for body text.
-- *Tiles:* the three home tiles are numbered 01 to 03 in outlined circles, alternating mint, navy and mint.
+- *Tiles:* the three home tiles are matching mint cards, numbered 01 to 03 in outlined circles. A tile turns navy when you point at it or tab to it.
 - *Cards:* panels are white with rounded corners and a soft mint header band. Key takeaways and What's next use a mint card joined by a mint arrow.
 - *Controls:* buttons, filters and date pickers are pill shaped. Navy is the main action and mint is the highlight. Numbered inputs use outlined circles, like the deck's 01 and 02 markers.
 - *Footer and notices:* the footer, the next big day and "See how it works" use the navy band.
